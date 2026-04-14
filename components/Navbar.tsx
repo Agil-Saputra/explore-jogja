@@ -209,7 +209,9 @@ export default function Navbar() {
         <nav className="flex items-center bg-white/50 backdrop-blur-2xl rounded-full px-4 md:px-6 py-2 md:py-2.5 shadow-sm border border-white/20">
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="flex items-center gap-2.5 text-gray-800 hover:text-black transition-colors font-medium text-[15px] whitespace-nowrap"
+            onMouseEnter={() => setIsCollapsed(false)}
+            onMouseLeave={() => setIsCollapsed(true)}
+            className="flex items-center gap-2.5 text-gray-800 hover:text-black transition-colors font-medium text-[15px] whitespace-nowrap "
           >
             <svg width="18" height="18" viewBox="0 0 35 31" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="5" cy="5" r="5" fill="black" />
@@ -217,7 +219,6 @@ export default function Navbar() {
               <circle cx="30" cy="5" r="5" fill="black" />
               <circle cx="30" cy="26" r="5" fill="black" />
             </svg>
-
             Menu
           </button>
 
@@ -240,11 +241,10 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 ref={(el) => { inlineLinkRefs.current[index] = el; }}
-                className={`relative z-10 transition-colors duration-300 font-medium text-[15px] whitespace-nowrap rounded-full px-3.5 py-1.5 ${
-                  pathname === item.href
+                className={`relative z-10 transition-colors duration-300 font-medium text-[15px] whitespace-nowrap rounded-full px-3.5 py-1.5 ${pathname === item.href
                     ? "text-white"
                     : "text-gray-800 hover:bg-black/5 hover:text-black"
-                }`}
+                  }`}
               >
                 {item.label}
               </Link>
@@ -275,19 +275,17 @@ export default function Navbar() {
 
       {/* Menu Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/20 backdrop-blur-sm z-45 transition-opacity duration-500 ${
-          isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 bg-black/20 backdrop-blur-sm z-45 transition-opacity duration-500 ${isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
         onClick={() => setIsMenuOpen(false)}
       />
 
       {/* Dropdown Menu Panel */}
       <div
-        className={`fixed top-4 left-4 right-4 md:top-6 md:left-8 md:right-8 z-50 bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top ${
-          isMenuOpen
+        className={`fixed top-4 left-4 right-4 md:top-6 md:left-8 md:right-8 z-50 bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top ${isMenuOpen
             ? "opacity-100 pointer-events-auto translate-y-0 scale-100"
             : "opacity-0 pointer-events-none -translate-y-4 scale-[0.97]"
-        }`}
+          }`}
         style={{ maxHeight: "calc(100vh - 2rem)" }}
       >
         {/* Panel Header — close button at top right */}
@@ -319,11 +317,10 @@ export default function Navbar() {
               href={item.href}
               ref={(el) => { overlayLinkRefs.current[index] = el; }}
               onClick={() => setIsMenuOpen(false)}
-              className={`relative z-10 text-2xl md:text-[2rem] font-semibold transition-colors py-3 md:py-4 rounded-xl px-3 -mx-3 ${
-                pathname === item.href
+              className={`relative z-10 text-2xl md:text-[2rem] font-semibold transition-colors py-3 md:py-4 rounded-xl px-3 -mx-3 ${pathname === item.href
                   ? "text-black"
                   : "text-gray-800 hover:text-gray-500"
-              }`}
+                }`}
             >
               {item.label}
             </Link>

@@ -1,11 +1,12 @@
-import CategoryPage from "@/components/CategoryPage";
-import { beachesItems } from "@/data/categoryData";
+import beachesData from "@/data/beaches.js";
+import BeachesListingClient from "./BeachesListingClient";
 
 export const metadata = {
   title: "Beaches | Discover Yogyakarta",
-  description: "Explore Yogyakarta's stunning south coast beaches — Parangtritis, Indrayanti, Timang, and hidden gems.",
+  description:
+    "Explore Yogyakarta's stunning south coast beaches — Parangtritis, Indrayanti, Timang, and hidden gems.",
 };
 
 export default function BeachesPage() {
-  return <CategoryPage title="Beaches" items={beachesItems} />;
+  return <BeachesListingClient beaches={beachesData} />;
 }

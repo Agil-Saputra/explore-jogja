@@ -139,8 +139,8 @@ export default function PlanYourVisit() {
           </div>
         </section>
 
-        <Footer />
       </ScrollReveal>
+        <Footer />
     </main>
   );
 }

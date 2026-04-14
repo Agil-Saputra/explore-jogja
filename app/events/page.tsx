@@ -155,8 +155,8 @@ export default function EventsPage() {
         </form>
       </section>
 
-      <Footer/>
       </ScrollReveal>
+      <Footer/>
     </main>
   );
 }

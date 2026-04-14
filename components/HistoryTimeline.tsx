@@ -182,7 +182,7 @@ export default function HistoryTimeline() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-[#F5F1E5] overflow-hidden py-10"
+      className="relative w-full bg-cream overflow-hidden py-10"
     >
       {/* Background S-Curve SVG */}
       <div className="absolute top-0 bottom-0 left-0 right-0 z-0 pointer-events-none">

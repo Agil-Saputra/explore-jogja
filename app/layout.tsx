@@ -39,10 +39,10 @@ export default function RootLayout({
       className={`${jakarta.variable} ${playfair.variable} ${caveatBrush.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-black text-white">
-        <SmoothScrolling>
+        {/* <SmoothScrolling> */}
           <ConditionalNavbar />
           {children}
-        </SmoothScrolling>
+        {/* </SmoothScrolling> */}
       </body>
     </html>
   );

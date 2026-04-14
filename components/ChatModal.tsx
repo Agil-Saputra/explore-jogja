@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   X,
   Send,
@@ -76,6 +78,68 @@ function formatTimeAgo(timestamp: number): string {
     day: "numeric",
   });
 }
+
+/* ─── Markdown components styling ─── */
+const markdownComponents = {
+  h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h1 className="text-xl font-bold mt-4 mb-2 text-gray-900" {...props}>{children}</h1>
+  ),
+  h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2 className="text-lg font-bold mt-3 mb-2 text-gray-900" {...props}>{children}</h2>
+  ),
+  h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h3 className="text-base font-semibold mt-3 mb-1 text-gray-900" {...props}>{children}</h3>
+  ),
+  p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p className="mb-2 last:mb-0 leading-relaxed" {...props}>{children}</p>
+  ),
+  ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul className="list-disc list-inside mb-2 space-y-1 pl-1" {...props}>{children}</ul>
+  ),
+  ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
+    <ol className="list-decimal list-inside mb-2 space-y-1 pl-1" {...props}>{children}</ol>
+  ),
+  li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
+    <li className="leading-relaxed" {...props}>{children}</li>
+  ),
+  strong: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <strong className="font-semibold" {...props}>{children}</strong>
+  ),
+  em: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <em className="italic" {...props}>{children}</em>
+  ),
+  code: ({ children, className, ...props }: React.HTMLAttributes<HTMLElement>) => {
+    const isInline = !className;
+    return isInline ? (
+      <code className="bg-black/10 px-1.5 py-0.5 rounded text-[13px] font-mono" {...props}>{children}</code>
+    ) : (
+      <code className={`${className} block bg-gray-900 text-gray-100 p-3 rounded-lg text-[13px] font-mono overflow-x-auto my-2`} {...props}>{children}</code>
+    );
+  },
+  pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto my-2 text-[13px]" {...props}>{children}</pre>
+  ),
+  blockquote: ({ children, ...props }: React.HTMLAttributes<HTMLQuoteElement>) => (
+    <blockquote className="border-l-3 border-gray-300 pl-3 my-2 text-gray-600 italic" {...props}>{children}</blockquote>
+  ),
+  a: ({ children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a className="text-sky-600 underline hover:text-sky-700 transition-colors" target="_blank" rel="noopener noreferrer" {...props}>{children}</a>
+  ),
+  table: ({ children, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
+    <div className="overflow-x-auto my-2">
+      <table className="min-w-full text-sm border-collapse" {...props}>{children}</table>
+    </div>
+  ),
+  th: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
+    <th className="border border-gray-200 px-3 py-1.5 bg-gray-50 font-semibold text-left" {...props}>{children}</th>
+  ),
+  td: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
+    <td className="border border-gray-200 px-3 py-1.5" {...props}>{children}</td>
+  ),
+  hr: (props: React.HTMLAttributes<HTMLHRElement>) => (
+    <hr className="my-3 border-gray-200" {...props} />
+  ),
+};
 
 /* ─── Component ─── */
 export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
@@ -257,12 +321,12 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
   return (
     <>
-      {/* Full-screen Modal */}
+      {/* Half-width Modal (right-aligned) */}
       <div
-        className={`fixed inset-0 z-[100] bg-white flex transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`fixed inset-y-0 right-0 z-[100] w-full md:w-1/2 bg-white flex flex-col shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isOpen
-            ? "opacity-100 pointer-events-auto translate-y-0"
-            : "opacity-0 pointer-events-none translate-y-4"
+            ? "opacity-100 pointer-events-auto translate-x-0"
+            : "opacity-0 pointer-events-none translate-x-full"
         }`}
       >
         {/* ─── Sidebar ─── */}
@@ -278,7 +342,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
         {/* Sidebar panel */}
         <div
-          className={`fixed md:relative z-[103] md:z-auto top-0 left-0 h-full bg-gray-50 border-r border-gray-100 flex flex-col transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`fixed md:absolute z-[103] md:z-[103] top-0 left-0 h-full bg-gray-50 border-r border-gray-100 flex flex-col transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             sidebarOpen
               ? "w-[280px] translate-x-0"
               : "w-0 -translate-x-full md:translate-x-0 md:w-0"
@@ -367,7 +431,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
         </div>
 
         {/* ─── Main Chat Area ─── */}
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between px-5 md:px-8 py-4 border-b border-gray-100 bg-cream flex-shrink-0">
             <div className="flex items-center gap-3">
@@ -400,8 +464,8 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
             </div>
           </div>
 
-          {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto scroll-smooth">
+          {/* Messages Area - scrollable */}
+          <div className="flex-1 overflow-y-scroll scroll-smooth" style={{ overscrollBehavior: 'contain' }}>
             <div className="max-w-3xl mx-auto px-5 md:px-8 py-6 space-y-5 min-h-full flex flex-col">
               {messages.length === 0 ? (
                 /* Empty State */
@@ -449,7 +513,18 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
                             : "bg-gray-50 text-gray-800 border border-gray-100 rounded-bl-md"
                         }`}
                       >
-                        <div className="whitespace-pre-wrap">{msg.content}</div>
+                        {msg.role === "user" ? (
+                          <div className="whitespace-pre-wrap">{msg.content}</div>
+                        ) : (
+                          <div className="prose-chat">
+                            <ReactMarkdown
+                              remarkPlugins={[remarkGfm]}
+                              components={markdownComponents}
+                            >
+                              {msg.content}
+                            </ReactMarkdown>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -517,6 +592,16 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
           </div>
         </div>
       </div>
+
+      {/* Backdrop overlay for half-width modal */}
+      <div
+        className={`fixed inset-0 z-[99] bg-black/40 backdrop-blur-sm transition-opacity duration-500 ${
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onClose}
+      />
     </>
   );
 }

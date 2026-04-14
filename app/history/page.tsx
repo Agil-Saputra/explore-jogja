@@ -40,9 +40,9 @@ export default function HistoryPage() {
           </div>
         </section>
 
-        <Footer />
         <HistoryMusicPlayer />
       </ScrollReveal>
+        <Footer />
     </main>
   );
 }

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import {
   ArrowLeft, ArrowRight, Check, ChevronLeft, ChevronRight,
-  MapPin, Clock, Lightbulb, Loader2, Sparkles, ChevronDown
+  MapPin, Clock, Lightbulb, Loader2, Sparkles, ChevronDown, RefreshCw
 } from 'lucide-react';
 import type { Itinerary } from '@/components/ItineraryMap';
 
@@ -747,7 +747,6 @@ export default function CreatePlanPage() {
                   <div className="relative w-24 h-24">
                     <div className="absolute inset-0 rounded-full border-4 border-gray-100" />
                     <div className="absolute inset-0 rounded-full border-4 border-t-black border-r-transparent border-b-transparent border-l-transparent animate-spin" />
-                    <div className="absolute inset-3 rounded-full border-4 border-t-transparent border-r-[#8B5CF6] border-b-transparent border-l-transparent animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Sparkles size={24} className="text-black animate-pulse" />
                     </div>
@@ -758,25 +757,6 @@ export default function CreatePlanPage() {
                     <p className="text-gray-500 animate-pulse-soft transition-all duration-500">
                       {LOADING_MESSAGES[loadingMsgIndex]}
                     </p>
-                  </div>
-
-                  {/* Skeleton cards */}
-                  <div className="w-full max-w-sm space-y-3 mt-4">
-                    {[1, 2, 3].map((i) => (
-                      <div
-                        key={i}
-                        className="bg-gray-50 rounded-xl p-4 border border-gray-100 animate-pulse"
-                        style={{ animationDelay: `${i * 0.2}s` }}
-                      >
-                        <div className="flex gap-3">
-                          <div className="w-10 h-10 rounded-full bg-gray-200" />
-                          <div className="flex-1 space-y-2">
-                            <div className="h-4 bg-gray-200 rounded w-3/4" />
-                            <div className="h-3 bg-gray-200 rounded w-1/2" />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 </div>
               </div>
@@ -814,7 +794,7 @@ export default function CreatePlanPage() {
               <div className="flex flex-col h-screen">
                 {/* Results Header */}
                 <div className="flex-shrink-0 border-b border-gray-100 bg-white/80 backdrop-blur-md z-10">
-                  <div className="px-6 md:px-10 py-5">
+                  <div className="px-6 py-5">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <Link
@@ -986,6 +966,67 @@ export default function CreatePlanPage() {
                             </div>
                           );
                         })}
+
+                        {/* Google Maps Route Link */}
+                        {currentDayData.destinations.length >= 2 && (() => {
+                          const waypoints = currentDayData.destinations
+                            .map((d) => `${d.lat},${d.lng}`)
+                            .join('/');
+                          const mapsUrl = `https://www.google.com/maps/dir/${waypoints}`;
+                          const color = DAY_COLORS[(activeDay - 1) % DAY_COLORS.length];
+                          return (
+                            <a
+                              href={mapsUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-3 mt-4 px-4 py-3.5 rounded-2xl border-2 border-dashed transition-all duration-300 hover:shadow-md group"
+                              style={{ borderColor: `${color}40`, background: `${color}06` }}
+                            >
+                              <div
+                                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                                style={{ background: `${color}15` }}
+                              >
+                                <MapPin size={18} style={{ color }} />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <span className="text-sm font-semibold text-gray-900 block">
+                                  Day {activeDay} Route Map
+                                </span>
+                                <span className="text-xs text-gray-400 block truncate">
+                                  {currentDayData.destinations.map((d) => d.name).join(' → ')}
+                                </span>
+                              </div>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="text-gray-400 group-hover:text-gray-600 flex-shrink-0 transition-colors"
+                              >
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                <polyline points="15 3 21 3 21 9" />
+                                <line x1="10" y1="14" x2="21" y2="3" />
+                              </svg>
+                            </a>
+                          );
+                        })()}
+
+                        {/* Regenerate button */}
+                        <div className="pt-4 mt-2 border-t border-gray-100">
+                          <button
+                            onClick={generateItinerary}
+                            disabled={isGenerating}
+                            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl border-2 border-dashed border-gray-200 text-gray-500 font-semibold text-sm hover:border-black hover:text-black hover:bg-gray-50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
+                          >
+                            <RefreshCw size={16} className="transition-transform duration-500 group-hover:rotate-180" />
+                            {isGenerating ? 'Regenerating…' : 'Regenerate Itinerary'}
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>

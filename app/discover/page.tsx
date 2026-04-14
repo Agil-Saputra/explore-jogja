@@ -76,8 +76,8 @@ export default function DiscoverPage() {
 
         {/* Things to do  */}
         <ThingsToDo />
-        <Footer />
       </ScrollReveal>
+        <Footer />
     </main>
   );
 }

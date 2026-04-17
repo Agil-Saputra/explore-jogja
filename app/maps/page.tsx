@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState, useMemo, useCallback } from "react"
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 // Import data
 import accomodationData from "@/data/accomodation";
@@ -75,7 +74,6 @@ export default function MapsPage() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const userMarkerRef = useRef<mapboxgl.Marker | null>(null);
-  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>("All");
   
   // Near Me state
@@ -378,7 +376,7 @@ export default function MapsPage() {
 
         const coordinates = (features[0].geometry as GeoJSON.Point).coordinates.slice() as number[];
         const props = features[0].properties as { name: string; type: string; image: string; rating: string; category?: string; address?: string; phone?: string; website?: string; };
-        const { name, type, image, rating, category, address, phone, website } = props;
+        const { name, type, image, rating, address, phone } = props;
 
         // Ensure proper popup placement when zoomed out
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {

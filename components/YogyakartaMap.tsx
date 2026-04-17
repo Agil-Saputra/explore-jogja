@@ -251,7 +251,7 @@ export default function YogyakartaMap() {
       <div className="flex gap-8 mx-auto items-center flex-col ">
 
           <SimpleOpacityReveal className="text-lg md:text-2xl text-center text-gray-600 font-medium md:mb-12">
-            Yogyakarta comprises five distinct areas, anchored by the historic and cultural heart of Kota Yogyakarta. To the north, Sleman boasts majestic landmarks like Prambanan and Mt. Merapi, while Gunungkidul thrills with rugged beaches and Jomblang Cave. The southern coast of Bantul serves as the region's artistic soul, perfectly complementing the tranquil, nature-focused eco-tourism of Kulon Progo in the west.
+            Yogyakarta comprises five distinct areas, anchored by the historic and cultural heart of Kota Yogyakarta. To the north, Sleman boasts majestic landmarks like Prambanan and Mt. Merapi, while Gunungkidul thrills with rugged beaches and Jomblang Cave. The southern coast of Bantul serves as the region&apos;s artistic soul, perfectly complementing the tranquil, nature-focused eco-tourism of Kulon Progo in the west.
           </SimpleOpacityReveal>
 
         {/* Map */}

@@ -15,7 +15,7 @@ export default function PlanYourVisit() {
             <div>
               <h1 className="text-5xl md:text-7xl font-bold mb-10 tracking-tight font-jakarta"> Plan Your Visit</h1>
                  <p className="text-[17px] text-gray-700 leading-relaxed max-w-[56ch]">
-                  Not sure where to go in Jogja? Leave it to us. Click one button and get an instantly awesome vacation itinerary. From rich cultural spots and hit culinary destinations to local hidden gems, we've got it all sorted for you.
+                  Not sure where to go in Jogja? Leave it to us. Click one button and get an instantly awesome vacation itinerary. From rich cultural spots and hit culinary destinations to local hidden gems, we&apos;ve got it all sorted for you.
             </p>
             </div>
             <div className='flex flex-col items-center justify-center'>
@@ -126,7 +126,7 @@ export default function PlanYourVisit() {
           {/* Right Column (Text) */}
           <div className="flex flex-col order-1 lg:order-2 pl-0 lg:pl-12">
             <h2 className="text-[2.5rem] md:text-[3rem] font-bold tracking-tight mb-6 leading-[1.1]">
-              It's all about<br />getting here
+              It&apos;s all about<br />getting here
             </h2>
             <p className="text-[17px] text-gray-700 leading-relaxed mb-8 max-w-[38ch]">
               There are many ways to get to Yogyakarta. By renting a car, taking a train or flying, or on a guided tour. Check out our recommendations.

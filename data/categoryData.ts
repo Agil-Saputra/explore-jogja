@@ -6,7 +6,7 @@ export interface CategoryItem {
   contact?: string;
   mapLink?: string;
   website?: string;
-  averageRating?: Number;
+  averageRating?: number;
 }
 
 // ─── Accommodation ──────────────────────────────────────────────────────────────

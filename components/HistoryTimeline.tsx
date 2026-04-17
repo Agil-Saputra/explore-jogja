@@ -154,7 +154,7 @@ export default function HistoryTimeline() {
   const viewBox = `0 0 1000 ${viewBoxHeight}`;
 
   useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       // 3. Pop in the checkpoint dots when the line reaches them
       dotRefs.current.forEach((dot) => {
         if (!dot) return;

@@ -16,7 +16,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     setProgress(0);
     setIsLoading(true);
 
-    let interval = setInterval(() => {
+    const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);

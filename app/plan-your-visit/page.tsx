@@ -20,7 +20,7 @@ export default function PlanYourVisit() {
             </div>
             <div className='flex flex-col items-center justify-center'>
               <div className="flex flex-col items-center justify-center mb-16 relative px-4 absolute -bottom-10 right-0">
-                <p className="font-caveat text-4xl max-w-lg text-center uppercase leading-snug font-semibold text-gray-800">
+                <p className="font-caveat text-3xl max-w-lg text-center uppercase leading-snug font-semibold text-gray-800">
                   Planning a Trip to Yogyakarta has never been easier
                 </p>
                 {/* Custom Arrow */}

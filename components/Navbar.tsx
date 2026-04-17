@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { MessageCircle } from "lucide-react";
+import { MapIcon, MessageCircle } from "lucide-react";
 import ChatModal from "./ChatModal";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -14,7 +14,8 @@ const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/discover", label: "Discover" },
   { href: "/plan-your-visit", label: "Plan Your Visit" },
-  { href: "/events", label: "Events" },
+  { href: "/maps", label: "Map" },
+  { href: "/articles", label: "Articles" },
   { href: "/history", label: "History" },
 ];
 
@@ -256,7 +257,6 @@ export default function Navbar() {
           className={`hidden md:flex items-center gap-3 transition-opacity duration-500 ease-in-out ${isCollapsed ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
             }`}
         >
-          {/* Map Pill */}
           <button
             onClick={() => setIsChatOpen(true)}
             className="flex items-center gap-2.5 bg-white/70 backdrop-blur-md rounded-full px-5 py-2.5 shadow-sm border border-white/20 text-gray-800 hover:text-black hover:bg-white/80 transition-all font-medium text-[15px]"
@@ -264,6 +264,7 @@ export default function Navbar() {
             <span>Ask Anything</span>
             <MessageCircle size={18} />
           </button>
+
 
           {/* Language Selector Pill */}
           <button className="flex items-center gap-2 bg-white/70 backdrop-blur-md rounded-full pl-5 pr-4 py-2.5 shadow-sm border border-white/20 text-gray-800 hover:text-black hover:bg-white/80 transition-all font-medium text-[15px]">

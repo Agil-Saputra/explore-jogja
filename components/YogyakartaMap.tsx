@@ -255,7 +255,7 @@ export default function YogyakartaMap() {
           </SimpleOpacityReveal>
 
         {/* Map */}
-        <div className="rounded-3xl overflow-hidden border md:w-[70%] lg:w-[50%] w-full">
+        <div className="rounded-3xl overflow-hidden border md:w-[70%] lg:w-[60%] w-full">
           <ComposableMap
             projection="geoMercator"
             projectionConfig={projectionConfig}

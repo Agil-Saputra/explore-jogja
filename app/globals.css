@@ -1,6 +1,5 @@
 @import "tailwindcss";
-@import "leaflet/dist/leaflet.css";
-
+@import "mapbox-gl/dist/mapbox-gl.css";
 @theme {
   --font-jakarta: var(--font-jakarta);
   --font-serif: var(--font-playfair);
@@ -59,20 +58,26 @@
   }
 }
 
-/* ── Leaflet marker overrides ── */
-.itinerary-marker {
-  background: none !important;
-  border: none !important;
-}
-
-.leaflet-popup-content-wrapper {
+/* ── Mapbox popup overrides ── */
+.itinerary-mapbox-popup .mapboxgl-popup-content {
   border-radius: 16px !important;
-  padding: 4px !important;
+  padding: 12px !important;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
 }
 
-.leaflet-popup-tip {
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.1) !important;
+.itinerary-mapbox-popup .mapboxgl-popup-tip {
+  border-top-color: white !important;
+}
+
+.itinerary-mapbox-popup .mapboxgl-popup-close-button {
+  font-size: 18px;
+  padding: 4px 8px;
+  color: #999;
+}
+
+.itinerary-mapbox-popup .mapboxgl-popup-close-button:hover {
+  color: #333;
+  background: transparent;
 }
 
 /* ── Itinerary result animations ── */

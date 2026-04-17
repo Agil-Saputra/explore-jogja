@@ -24,6 +24,9 @@ export default function HeroSection() {
   const quoteRef = useRef<HTMLHeadingElement>(null);
   const quoteRef2 = useRef<HTMLHeadingElement>(null);
   const quoteRef3 = useRef<HTMLHeadingElement>(null);
+  const quoteRef4 = useRef<HTMLHeadingElement>(null);
+  const parallaxBannerRef = useRef<HTMLDivElement>(null);
+  const parallaxBgRef = useRef<HTMLDivElement>(null);
 
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -156,6 +159,25 @@ export default function HeroSection() {
         );
       }
 
+      if (quoteRef4.current) {
+        const words4 = gsap.utils.toArray(quoteRef4.current.querySelectorAll('.word')) as HTMLElement[];
+        gsap.fromTo(
+          words4,
+          { opacity: 0.1, },
+          {
+            opacity: 1,
+            stagger: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: quoteRef4.current,
+              start: "top 85%",
+              end: "bottom 35%",
+              scrub: true,
+            },
+          }
+        );
+      }
+
       // Create a GSAP Timeline attached to ScrollTrigger
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -233,6 +255,22 @@ export default function HeroSection() {
     },
     { scope: containerRef }
   );
+
+  // Parallax effect for the banner section
+  useGSAP(() => {
+    if (parallaxBannerRef.current && parallaxBgRef.current) {
+      gsap.to(parallaxBgRef.current, {
+        yPercent: 35,
+        ease: "none",
+        scrollTrigger: {
+          trigger: parallaxBannerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+  });
 
   return (
     <>
@@ -442,37 +480,126 @@ export default function HeroSection() {
         </div>
       </section>
 
+      {/* Culinary Section */}
+      <section id="culinary-section" className="relative w-full py-16 lg:py-32 bg-white z-20 overflow-hidden">
+        <div className="px-8 max-w-screen-2xl mx-auto">
+          {/* Section Header */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 lg:mb-20">
+            <div className="w-full">
+              <h2 ref={quoteRef4} className="relative z-90 text-3xl md:text-6xl lg:text-7xl text-left font-bold text-gray-800 font-jakarta max-w-[30ch] flex flex-wrap gap-x-2 md:gap-x-3 gap-y-1 md:gap-y-2">
+                {"A Feast for the Senses Awaits in Every Corner of Yogyakarta."
+                  .split(" ")
+                  .map((word, index) => (
+                    <span key={index} className="word inline-block">{word}</span>
+                  ))}
+              </h2>
+            </div>
+          </div>
+
+          {/* Image Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mb-12 lg:mb-20">
+            {/* Large Featured Image */}
+            <div className="md:col-span-7 h-[300px] md:h-[500px]">
+              <SlidingImageReveal className="w-full h-full rounded-2xl overflow-hidden">
+                <Image
+                  src="/assets/culinary-gudeg.png"
+                  alt="Traditional Jogja Gudeg - Signature Javanese jackfruit stew"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 60vw"
+                />
+              </SlidingImageReveal>
+            </div>
+
+            {/* Stacked Right Images */}
+            <div className="md:col-span-5 flex flex-col gap-4 md:gap-6">
+              <div className="h-[200px] md:h-[240px]">
+                <SlidingImageReveal className="w-full h-full rounded-2xl overflow-hidden">
+                  <Image
+                    src="/assets/culinary-street.png"
+                    alt="Yogyakarta street food - Sate, Bakpia, Es Dawet, Wedang Ronde"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                  />
+                </SlidingImageReveal>
+              </div>
+              <div className="h-[200px] md:h-[240px]">
+                <SlidingImageReveal className="w-full h-full rounded-2xl overflow-hidden">
+                  <Image
+                    src="/assets/culinary-ambience.png"
+                    alt="Traditional Javanese restaurant ambience in Yogyakarta"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                  />
+                </SlidingImageReveal>
+              </div>
+            </div>
+          </div>
+
+            {/* Description & CTA */}
+            <div className="flex-1 flex flex-col gap-6">
+              <SimpleOpacityReveal className="text-base md:text-xl text-gray-600 font-medium leading-relaxed">
+                Yogyakarta is not just a feast for the eyes — it&#39;s a paradise for food lovers. The city&#39;s culinary heritage is deeply intertwined with its royal past, from the sweet, aromatic gudeg born in the Sultan&#39;s kitchen to the smoky sate klatak grilled over iron skewers. Wander through angkringan stalls at midnight, sip a bold kopi joss infused with burning charcoal, or savor centuries-old recipes at iconic restaurants. Every meal in Jogja tells a story.
+              </SimpleOpacityReveal>
+              <a
+                href="/discover"
+                className="w-fit bg-[#2C2C2C] hover:bg-black text-white px-8 py-3 rounded-full font-medium transition-colors font-jakarta"
+              >
+                Explore Culinary Map
+              </a>
+            </div>
+   
+        </div>
+      </section>
+
       {/* Jogjakarta Map */}
       <YogyakartaMap />
 
-
-      <section className="relative bg-cream flex md:flex-row flex-col items-center w-full px-8 py-28 md:gap-20 ">
-        <div className="flex-1 w-full mb-8 md:min-h-[400px]">
+      {/* Parallax Banner Section */}
+      <div
+        ref={parallaxBannerRef}
+        className="relative w-full px-24 overflow-hidden"
+        style={{ height: "520px" }}
+      >
+        {/* Parallax Background */}
+        <div
+          ref={parallaxBgRef}
+          className="absolute inset-0 w-full"
+          style={{ top: "-45%", height: "130%" }}
+        >
           <Image
             src="/assets/candi-prambanan.webp"
-            alt="Church at night"
-            width={800} height={600}
-            className="w-full h-full object-cover rounded-xl"
+            alt="Parallax Banner Background"
+            fill
+            className="object-cover object-center"
+            quality={90}
           />
+          {/* Dark overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60" />
         </div>
 
-        <div className="flex-1">
-          <h2 ref={quoteRef3} className="relative text-3xl md:text-7xl text-left font-bold text-gray-800 font-jakarta max-w-[30ch] flex flex-wrap gap-x-2 md:gap-x-4 gap-y-1 md:gap-y-2 ">
+        {/* Banner Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
+          <h2 ref={quoteRef3} className="relative text-3xl md:text-7xl text-center justify-center font-bold text-white/80 font-jakarta max-w-[30ch] flex flex-wrap gap-x-2 md:gap-x-4 gap-y-1 md:gap-y-2 ">
             {"Planning a trip to Yogyakarta has never been easier."
                 .split(" ")
                 .map((word, index) => (
                   <span key={index} className="word inline-block">{word}</span>
                 ))}
           </h2>
-
-          <SimpleOpacityReveal className="text-lg md:text-2xl my-12  text-gray-600 font-medium mb-8">Our travel planning guide offers diverse accommodations, essential travel info, suggested itineraries, and seasonal tips. Explore local tours, tropical weather updates, and practical info—all in one place.</SimpleOpacityReveal>
-
-          <button className="w-fit bg-[#2C2C2C] hover:bg-black text-white px-8 py-3 rounded-full font-medium transition-colors">
+          <p className="text-white/80 text-base md:text-lg mt-4 font-medium">
+            Our all-in-one AI travel guide for accommodations, itineraries, local tours, and essential seasonal tips.
+          </p>
+          <a
+            href="/quiz"
+            className="my-12 w-fit bg-white hover:bg-white/80 text-gray-900 px-8 py-3 rounded-full font-medium transition-colors"
+          >
             Plan Your Visit
-          </button>
-
+          </a>
         </div>
-      </section>
+      </div>
 
 
     <Footer/>

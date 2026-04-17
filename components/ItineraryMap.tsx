@@ -1,27 +1,8 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-} from "react-leaflet";
-import L from "leaflet";
-import "leaflet-routing-machine";
-
-/* ─── Fix default marker icons ─── */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-});
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 /* ─── Types ─── */
 export interface Destination {
@@ -84,109 +65,86 @@ const CATEGORY_EMOJI: Record<string, string> = {
   village: "🏘️",
 };
 
-/* ─── Custom numbered marker icon ─── */
-function createNumberedIcon(num: number, color: string) {
-  return L.divIcon({
-    className: "itinerary-marker",
-    html: `<div style="
-      background: ${color};
-      color: white;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 14px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      box-shadow: 0 4px 12px ${color}55, 0 2px 4px rgba(0,0,0,0.15);
-      border: 2.5px solid white;
-      position: relative;
-      z-index: 10;
-    ">${num}</div>`,
-    iconSize: [32, 32],
-    iconAnchor: [16, 16],
-    popupAnchor: [0, -18],
+/* ─── Mapbox access token ─── */
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
+
+/* ─── Create numbered marker DOM element ─── */
+function createMarkerElement(num: number, color: string): HTMLDivElement {
+  const container = document.createElement("div");
+  container.style.cursor = "pointer";
+
+  const el = document.createElement("div");
+  el.style.cssText = `
+    background: ${color};
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    box-shadow: 0 4px 12px ${color}55, 0 2px 4px rgba(0,0,0,0.15);
+    border: 2.5px solid white;
+    transition: transform 0.2s ease;
+  `;
+  el.textContent = String(num);
+
+  container.appendChild(el);
+
+  container.addEventListener("mouseenter", () => {
+    el.style.transform = "scale(1.15)";
   });
+  container.addEventListener("mouseleave", () => {
+    el.style.transform = "scale(1)";
+  });
+  return container;
 }
 
-function RoutingMachine({
-  destinations,
-  color,
-}: {
-  destinations: Destination[];
-  color: string;
-}) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (!map || destinations.length < 2) return;
-
-    const waypoints = destinations.map((d) => L.latLng(d.lat, d.lng));
-
-    const routingControl = L.Routing.control({
-      waypoints,
-      lineOptions: {
-        styles: [
-          { color: color, opacity: 0.85, weight: 4 }, // main line
-        ],
-        extendToWaypoints: true,
-        missingRouteTolerance: 0,
-      },
-      show: false, // hide instructions panel
-      addWaypoints: false,
-      routeWhileDragging: false,
-      fitSelectedRoutes: false,
-      showAlternatives: false,
-      // @ts-expect-error createMarker is passed to the default L.Routing.Plan
-      createMarker: () => null, // hide default markers from routing machine
-    });
-
-    routingControl.addTo(map);
-
-    return () => {
-      if (map && routingControl) {
-        map.removeControl(routingControl);
-      }
-    };
-  }, [map, destinations, color]);
-
-  return null;
+/* ─── Create popup HTML content ─── */
+function createPopupHTML(dest: Destination, color: string): string {
+  const emoji = CATEGORY_EMOJI[dest.category] || "📍";
+  return `
+    <div style="min-width:200px;font-family:'Plus Jakarta Sans',sans-serif;padding:4px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <span style="font-size:18px">${emoji}</span>
+        <strong style="font-size:14px;color:#1a1a1a">${dest.name}</strong>
+      </div>
+      <p style="font-size:12px;color:#666;margin:4px 0 6px;line-height:1.4">
+        ${dest.description}
+      </p>
+      <div style="display:flex;gap:8px;font-size:11px;color:#888">
+        <span>🕐 ${dest.time} – ${dest.endTime}</span>
+        <span>⏱ ${dest.duration}</span>
+      </div>
+      ${dest.tips ? `<p style="font-size:11px;color:${color};margin-top:6px;font-style:italic">💡 ${dest.tips}</p>` : ""}
+    </div>
+  `;
 }
 
-/* ─── Auto-fit bounds ─── */
-function FitBounds({
-  destinations,
-  activeDestinationIndex,
-}: {
-  destinations: Destination[];
-  activeDestinationIndex?: number | null;
-}) {
-  const map = useMap();
+/* ─── Fetch route geometry from Mapbox Directions API ─── */
+async function fetchRouteGeometry(
+  destinations: Destination[],
+  token: string
+): Promise<GeoJSON.LineString | null> {
+  if (destinations.length < 2 || !token) return null;
 
-  useEffect(() => {
-    if (destinations.length === 0) return;
+  const coords = destinations
+    .map((d) => `${d.lng},${d.lat}`)
+    .join(";");
 
-    // If a specific destination is active, fly to it
-    if (
-      activeDestinationIndex !== null &&
-      activeDestinationIndex !== undefined &&
-      destinations[activeDestinationIndex]
-    ) {
-      const d = destinations[activeDestinationIndex];
-      map.flyTo([d.lat, d.lng], 15, { duration: 0.8 });
-      return;
-    }
-
-    // Otherwise fit all destinations
-    const bounds = L.latLngBounds(
-      destinations.map((d) => [d.lat, d.lng] as [number, number])
+  try {
+    const res = await fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${coords}?geometries=geojson&overview=full&access_token=${token}`
     );
-    map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14, animate: true });
-  }, [destinations, activeDestinationIndex, map]);
-
-  return null;
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.routes?.[0]?.geometry || null;
+  } catch {
+    return null;
+  }
 }
 
 /* ─── Component ─── */
@@ -195,7 +153,10 @@ export default function ItineraryMap({
   activeDay,
   activeDestinationIndex,
 }: ItineraryMapProps) {
-  const mapRef = useRef<L.Map | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const markersRef = useRef<mapboxgl.Marker[]>([]);
+  const popupsRef = useRef<mapboxgl.Popup[]>([]);
 
   const day = useMemo(
     () => itinerary.days.find((d) => d.dayNumber === activeDay),
@@ -207,92 +168,246 @@ export default function ItineraryMap({
 
   const center: [number, number] =
     destinations.length > 0
-      ? [destinations[0].lat, destinations[0].lng]
-      : [-7.797, 110.365];
+      ? [destinations[0].lng, destinations[0].lat]
+      : [110.365, -7.797]; // Mapbox uses [lng, lat]
+
+  /* ─── Initialize map ─── */
+  useEffect(() => {
+    if (!mapContainerRef.current || mapRef.current) return;
+
+    mapboxgl.accessToken = MAPBOX_TOKEN;
+
+    const map = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: center,
+      zoom: 12,
+      attributionControl: false,
+    });
+
+    map.addControl(
+      new mapboxgl.AttributionControl({ compact: true }),
+      "bottom-right"
+    );
+
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* ─── Update markers, popups, and route when day changes ─── */
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    // Wait for map style to load
+    const updateMap = async () => {
+      // Clear existing markers & popups
+      markersRef.current.forEach((m) => m.remove());
+      markersRef.current = [];
+      popupsRef.current.forEach((p) => p.remove());
+      popupsRef.current = [];
+
+      // Remove existing route layer & source
+      if (map.getLayer("route-line")) map.removeLayer("route-line");
+      if (map.getLayer("route-line-border")) map.removeLayer("route-line-border");
+      if (map.getSource("route")) map.removeSource("route");
+
+      if (destinations.length === 0) return;
+
+      // Add markers
+      destinations.forEach((dest, idx) => {
+        const el = createMarkerElement(idx + 1, color);
+
+        const popup = new mapboxgl.Popup({
+          offset: 20,
+          closeButton: true,
+          closeOnClick: false,
+          maxWidth: "280px",
+          focusAfterOpen: false,
+          className: "itinerary-mapbox-popup",
+        }).setHTML(createPopupHTML(dest, color));
+
+        const marker = new mapboxgl.Marker({ element: el })
+          .setLngLat([dest.lng, dest.lat])
+          .setPopup(popup)
+          .addTo(map);
+
+        markersRef.current.push(marker);
+        popupsRef.current.push(popup);
+      });
+
+      // Fit bounds to all destinations
+      if (destinations.length === 1) {
+        map.flyTo({
+          center: [destinations[0].lng, destinations[0].lat],
+          zoom: 15,
+          duration: 800,
+        });
+      } else {
+        const bounds = new mapboxgl.LngLatBounds();
+        destinations.forEach((d) => bounds.extend([d.lng, d.lat]));
+        map.fitBounds(bounds, {
+          padding: 60,
+          maxZoom: 14,
+          duration: 800,
+        });
+      }
+
+      // Fetch and draw route
+      const geometry = await fetchRouteGeometry(destinations, MAPBOX_TOKEN);
+
+      if (geometry && map.getSource("route") === undefined) {
+        map.addSource("route", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry,
+          },
+        });
+
+        // Border (wider, darker line underneath)
+        map.addLayer({
+          id: "route-line-border",
+          type: "line",
+          source: "route",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": color,
+            "line-width": 6,
+            "line-opacity": 0.25,
+          },
+        });
+
+        // Main route line
+        map.addLayer({
+          id: "route-line",
+          type: "line",
+          source: "route",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": color,
+            "line-width": 3,
+            "line-opacity": 0.85,
+          },
+        });
+      } else if (!geometry && destinations.length >= 2) {
+        // Fallback: draw straight lines if Directions API fails
+        const coordinates = destinations.map((d) => [d.lng, d.lat] as [number, number]);
+
+        map.addSource("route", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates,
+            },
+          },
+        });
+
+        map.addLayer({
+          id: "route-line-border",
+          type: "line",
+          source: "route",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": color,
+            "line-width": 6,
+            "line-opacity": 0.25,
+          },
+        });
+
+        map.addLayer({
+          id: "route-line",
+          type: "line",
+          source: "route",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": color,
+            "line-width": 3,
+            "line-opacity": 0.85,
+            "line-dasharray": [2, 2],
+          },
+        });
+      }
+    };
+
+    if (map.isStyleLoaded()) {
+      updateMap();
+    } else {
+      map.on("load", updateMap);
+    }
+  }, [destinations, activeDay, color]);
+
+  /* ─── Fly to active destination ─── */
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || destinations.length === 0) return;
+
+    if (
+      activeDestinationIndex !== null &&
+      activeDestinationIndex !== undefined &&
+      destinations[activeDestinationIndex]
+    ) {
+      const d = destinations[activeDestinationIndex];
+      map.flyTo({
+        center: [d.lng, d.lat],
+        zoom: 15,
+        duration: 800,
+      });
+
+      // Open popup for active destination
+      const marker = markersRef.current[activeDestinationIndex];
+      if (marker) {
+        // Close all other popups first
+        markersRef.current.forEach((m, i) => {
+          if (i !== activeDestinationIndex) {
+            const p = m.getPopup();
+            if (p?.isOpen()) p.remove();
+          }
+        });
+        // Toggle this popup
+        const popup = marker.getPopup();
+        if (popup && !popup.isOpen()) marker.togglePopup();
+      }
+    } else if (activeDestinationIndex === null && destinations.length > 1) {
+      // Reset to fit all destinations
+      const bounds = new mapboxgl.LngLatBounds();
+      destinations.forEach((d) => bounds.extend([d.lng, d.lat]));
+      map.fitBounds(bounds, {
+        padding: 60,
+        maxZoom: 14,
+        duration: 800,
+      });
+    }
+  }, [activeDestinationIndex, destinations]);
 
   return (
-    <>
-      <style>{`
-        .leaflet-routing-container {
-          display: none !important;
-        }
-      `}</style>
-      <MapContainer
-        center={center}
-        zoom={12}
-        ref={mapRef}
-        className="w-full h-full rounded-2xl"
-        style={{ minHeight: "400px", zIndex: 0 }}
-        zoomControl={false}
-      >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/">OSM</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-
-      {/* Leaflet Routing Machine for Roads */}
-      <RoutingMachine destinations={destinations} color={color} />
-
-      {/* Destination markers */}
-      {destinations.map((dest, idx) => (
-        <Marker
-          key={`${activeDay}-${idx}`}
-          position={[dest.lat, dest.lng]}
-          icon={createNumberedIcon(idx + 1, color)}
-        >
-          <Popup>
-            <div style={{ minWidth: 200, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                <span style={{ fontSize: 18 }}>
-                  {CATEGORY_EMOJI[dest.category] || "📍"}
-                </span>
-                <strong style={{ fontSize: 14, color: "#1a1a1a" }}>
-                  {dest.name}
-                </strong>
-              </div>
-              <p
-                style={{
-                  fontSize: 12,
-                  color: "#666",
-                  margin: "4px 0 6px",
-                  lineHeight: 1.4,
-                }}
-              >
-                {dest.description}
-              </p>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 8,
-                  fontSize: 11,
-                  color: "#888",
-                }}
-              >
-                <span>🕐 {dest.time} – {dest.endTime}</span>
-                <span>⏱ {dest.duration}</span>
-              </div>
-              {dest.tips && (
-                <p
-                  style={{
-                    fontSize: 11,
-                    color: color,
-                    marginTop: 6,
-                    fontStyle: "italic",
-                  }}
-                >
-                  💡 {dest.tips}
-                </p>
-              )}
-            </div>
-          </Popup>
-        </Marker>
-      ))}
-
-      <FitBounds
-        destinations={destinations}
-        activeDestinationIndex={activeDestinationIndex}
-      />
-    </MapContainer>
-    </>
+    <div
+      ref={mapContainerRef}
+      className="w-full h-full rounded-2xl"
+      style={{ minHeight: "400px" }}
+    />
   );
 }

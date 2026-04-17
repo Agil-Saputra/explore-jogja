@@ -6,11 +6,13 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import {
   ArrowLeft, ArrowRight, Check, ChevronLeft, ChevronRight,
-  MapPin, Clock, Lightbulb, Loader2, Sparkles, ChevronDown, RefreshCw
+  MapPin, Clock, Lightbulb, Loader2, Sparkles, ChevronDown, RefreshCw,
+  Landmark, Leaf, UtensilsCrossed, Palette, Flower2, Music2, ShoppingBag, Camera,
+  type LucideIcon
 } from 'lucide-react';
 import type { Itinerary } from '@/components/ItineraryMap';
 
-/* ─── Dynamic import for Leaflet (no SSR) ─── */
+/* ─── Dynamic import for Mapbox GL JS (no SSR) ─── */
 const ItineraryMap = dynamic(() => import('@/components/ItineraryMap'), {
   ssr: false,
   loading: () => (
@@ -87,15 +89,15 @@ const COMPANIONS = [
   { id: 'friends', label: 'My friends', image: '/assets/plan-my-friends.png' },
 ];
 
-const INTERESTS = [
-  { id: 'culture', label: 'Culture & Heritage', emoji: '🏛️' },
-  { id: 'nature', label: 'Nature & Adventure', emoji: '🌿' },
-  { id: 'culinary', label: 'Food & Culinary', emoji: '🍜' },
-  { id: 'art', label: 'Art & Craft', emoji: '🎨' },
-  { id: 'spiritual', label: 'Spiritual & Wellness', emoji: '🧘' },
-  { id: 'nightlife', label: 'Nightlife & Entertainment', emoji: '🎶' },
-  { id: 'shopping', label: 'Shopping & Markets', emoji: '🛍️' },
-  { id: 'photography', label: 'Photography Spots', emoji: '📸' },
+const INTERESTS: { id: string; label: string; icon: LucideIcon }[] = [
+  { id: 'culture', label: 'Culture & Heritage', icon: Landmark },
+  { id: 'nature', label: 'Nature & Adventure', icon: Leaf },
+  { id: 'culinary', label: 'Food & Culinary', icon: UtensilsCrossed },
+  { id: 'art', label: 'Art & Craft', icon: Palette },
+  { id: 'spiritual', label: 'Spiritual & Wellness', icon: Flower2 },
+  { id: 'nightlife', label: 'Nightlife & Entertainment', icon: Music2 },
+  { id: 'shopping', label: 'Shopping & Markets', icon: ShoppingBag },
+  { id: 'photography', label: 'Photography Spots', icon: Camera },
 ];
 
 
@@ -640,7 +642,7 @@ export default function CreatePlanPage() {
                         ${selectedInterests.includes(int.id) ? 'border-black bg-gray-50 shadow-md ring-2 ring-black/10' : 'border-gray-200 hover:border-gray-400 bg-white'}
                       `}
                     >
-                      <span className="text-3xl">{int.emoji}</span>
+                      <int.icon size={28} strokeWidth={1.5} />
                       <span className="text-sm font-medium text-center leading-tight">
                         {int.label}
                       </span>
@@ -701,9 +703,9 @@ export default function CreatePlanPage() {
                         return (
                           <span
                             key={id}
-                            className="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm font-medium"
+                            className="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm font-medium flex items-center gap-1.5"
                           >
-                            {int?.emoji} {int?.label}
+                            {int && <int.icon size={14} strokeWidth={1.75} />} {int?.label}
                           </span>
                         );
                       })}

@@ -163,7 +163,7 @@ export default function ItineraryMap({
     [itinerary, activeDay]
   );
 
-  const destinations = day?.destinations || [];
+  const destinations = useMemo(() => day?.destinations || [], [day]);
   const color = DAY_COLORS[(activeDay - 1) % DAY_COLORS.length];
 
   const center: [number, number] =

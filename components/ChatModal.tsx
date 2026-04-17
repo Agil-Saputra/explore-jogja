@@ -8,12 +8,10 @@ import {
   Send,
   MessageCircle,
   Loader2,
-  Sparkles,
   SquarePen,
   PanelLeftOpen,
   PanelLeftClose,
   Trash2,
-  Clock,
 } from "lucide-react";
 
 /* ─── Types ─── */

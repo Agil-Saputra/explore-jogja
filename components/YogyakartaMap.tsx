@@ -18,7 +18,7 @@ if (typeof window !== "undefined") {
 
 const GEO_URL = "/yogyakarta-districts.geojson";
 
-const mapColor = "#F5F1E5";
+const mapColor = "#FAF9F6";
 
 /** Metadata for each kabupaten/kota in DIY */
 const DISTRICT_DATA: Record<
@@ -248,14 +248,47 @@ export default function YogyakartaMap() {
         </p>
       </div>
 
-      <div className="flex gap-8 mx-auto items-center flex-col ">
+      <div className="flex gap-8 mx-auto items-start flex-col md:flex-row">
 
-          <SimpleOpacityReveal className="text-lg md:text-2xl text-center text-gray-600 font-medium md:mb-12">
-            Yogyakarta comprises five distinct areas, anchored by the historic and cultural heart of Kota Yogyakarta. To the north, Sleman boasts majestic landmarks like Prambanan and Mt. Merapi, while Gunungkidul thrills with rugged beaches and Jomblang Cave. The southern coast of Bantul serves as the region&apos;s artistic soul, perfectly complementing the tranquil, nature-focused eco-tourism of Kulon Progo in the west.
+        <div className="flex-1 flex flex-col gap-4">
+          <SimpleOpacityReveal className="text-lg md:text-2xl text-gray-600 font-medium md:mb-12">
+            Yogyakarta comprises five distinct areas, anchored by the historic and cultural heart of Kota Yogyakarta. To the north, Sleman boasts majestic landmarks like Prambanan and Mt. Merapi, while Gunungkidul thrills with rugged beaches and Jomblang Cave. The southern coast of Bantul serves as the region's artistic soul, perfectly complementing the tranquil, nature-focused eco-tourism of Kulon Progo in the west.
           </SimpleOpacityReveal>
 
+          <div ref={districtListRef} className="grid md:grid-cols-2 gap-4">
+          {Object.entries(DISTRICT_DATA).map(([key, data]) => (
+            <div
+              key={key}
+              className={`district-card flex md:flex-row flex-col items-center gap-5 p-2 rounded-2xl border transition-all duration-300 cursor-pointer ${hoveredId === key
+                ? "bg-[#E0DDCE] border-gray-200 shadow-md scale-[1.01]"
+                : "bg-cream border-gray-100 hover:bg-slate-400 hover:border-gray-200 hover:shadow-sm"
+                }`}
+              onMouseEnter={() => setHoveredId(key)}
+              onMouseLeave={() => setHoveredId(null)}
+              onClick={() => handleDistrictClick(key)}
+            >
+              <Image
+                src={data.image}
+                alt={data.displayName}
+                width={100}
+                height={100}
+                className="md:w-[70px] md:h-[70px] h-[140px] w-full object-cover rounded-sm shrink-0"
+              />
+              <div className="flex flex-col gap-0.5">
+                <h3 className="text-lg md:text-xl font-bold text-gray-900 font-jakarta">
+                  {data.displayName}
+                </h3>
+                <p className="text-[12px] text-gray-500">
+                  {data.description}
+                </p>
+              </div>
+            </div>
+          ))}
+          </div>
+        </div>
+
         {/* Map */}
-        <div className="rounded-3xl overflow-hidden border md:w-[70%] lg:w-[60%] w-full">
+        <div className="flex-1 rounded-3xl overflow-hidden border">
           <ComposableMap
             projection="geoMercator"
             projectionConfig={projectionConfig}

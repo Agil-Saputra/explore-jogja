@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Playfair_Display, Caveat_Brush } from "next/font/google";
 import "./globals.css";
 import ConditionalNavbar from "@/components/ConditionalNavbar";
-import SmoothScrolling from "@/components/SmoothScrolling";
+
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -26,7 +26,7 @@ const caveatBrush = Caveat_Brush({
 export const metadata: Metadata = {
   // 1. Core SEO
   title: {
-    default: "explorejogja.id | Your Ultimate Travel Guide to Yogyakarta",
+    default: "Explore Jogja - Explore Yogyakarta",
     template: "%s | Explore Jogja", // Automatically adds the brand name to child pages
   },
   description:

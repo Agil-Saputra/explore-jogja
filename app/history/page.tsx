@@ -1,6 +1,4 @@
 import React from "react";
-import Image from "next/image";
-import { Clock, Crown, Landmark, BookOpen, Scroll, MapPin } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Footer } from "../components/Footer";
 import HistoryTimeline from "@/components/HistoryTimeline";

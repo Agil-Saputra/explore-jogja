@@ -19,7 +19,7 @@ export default function HistoryMusicPlayer() {
           .then(() => {
             setIsPlaying(true);
           })
-          .catch((error) => {
+          .catch(() => {
             // Auto-play was prevented by browser
             console.log("Auto-play prevented by browser. User interaction needed.");
             setIsPlaying(false);

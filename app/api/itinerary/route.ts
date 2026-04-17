@@ -154,7 +154,7 @@ Respond with ONLY the JSON object. Keep descriptions very short (one sentence). 
     const raw = completion.choices[0]?.message?.content || "{}";
 
     // Strip potential markdown code fences
-    let cleaned = raw
+    const cleaned = raw
       .replace(/```json\s*/gi, "")
       .replace(/```\s*/g, "")
       .trim();

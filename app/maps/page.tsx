@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 // Import data
@@ -10,7 +11,6 @@ import accomodationData from "@/data/accomodation";
 import cafesData from "@/data/cafes";
 import beachesData from "@/data/beaches";
 import restaurantData from "@/data/restaurant";
-import wisataData from "@/data/wisata";
 import { MapPin, Navigation, Compass, Coffee, Utensils, Waves, Bed, LocateFixed, X, ChevronUp, ChevronDown, Loader2, Star, ArrowRight, Navigation2 } from "lucide-react";
 
 // Mapbox Token
@@ -18,7 +18,8 @@ import { MapPin, Navigation, Compass, Coffee, Utensils, Waves, Bed, LocateFixed,
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
 
 // Category icons mapping
-const ICONS: Record<string, any> = {
+type IconComponent = React.ComponentType<{ size?: number; className?: string }>;
+const ICONS: Record<string, IconComponent> = {
   Accommodation: Bed,
   Cafe: Coffee,
   Restaurant: Utensils,
@@ -33,6 +34,21 @@ const CATEGORY_COLORS: Record<string, string> = {
   Beach: "#0EA5E9", // sky
   Wisata: "#10B981", // emerald
 };
+
+// Map featureType to discover route path
+const CATEGORY_PATH: Record<string, string> = {
+  Accommodation: "/discover/accommodation",
+  Cafe: "/discover/aesthetic-cafes",
+  Restaurant: "/discover/food-and-drink",
+  Beach: "/discover/beaches",
+};
+
+function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 // Haversine formula to calculate distance between two coordinates in km
 function getDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -73,12 +89,25 @@ export default function MapsPage() {
 
   // Aggregate Data
   const allFeatures = useMemo(() => {
-    const rawData = [
-      ...((accomodationData || []) as any[]).map((d) => ({ ...d, featureType: "Accommodation" })),
-      ...((cafesData || []) as any[]).map((d) => ({ ...d, featureType: "Cafe" })),
-      ...((restaurantData || []) as any[]).map((d) => ({ ...d, featureType: "Restaurant" })),
-      ...((beachesData || []) as any[]).map((d) => ({ ...d, featureType: "Beach" })),
-      ...((wisataData || []) as any[]).map((d) => ({ ...d, featureType: "Wisata" })),
+    interface RawItem {
+      Longitude?: number;
+      Latitude?: number;
+      Name?: string;
+      featureType: string;
+      "Main Image"?: string;
+      MainImage?: string;
+      Categories?: string;
+      "Average Rating"?: string;
+      Fulladdress?: string;
+      Address?: string;
+      Phone?: string;
+      Website?: string;
+    }
+    const rawData: RawItem[] = [
+      ...(accomodationData || []).map((d) => ({ ...(d as object), featureType: "Accommodation" } as RawItem)),
+      ...(cafesData || []).map((d) => ({ ...(d as object), featureType: "Cafe" } as RawItem)),
+      ...(restaurantData || []).map((d) => ({ ...(d as object), featureType: "Restaurant" } as RawItem)),
+      ...(beachesData || []).map((d) => ({ ...(d as object), featureType: "Beach" } as RawItem)),
     ];
 
     // Build GeoJSON features
@@ -88,7 +117,7 @@ export default function MapsPage() {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [item.Longitude, item.Latitude],
+          coordinates: [item.Longitude as number, item.Latitude as number],
         },
         properties: {
           id: index,
@@ -96,7 +125,10 @@ export default function MapsPage() {
           type: item.featureType,
           image: item["Main Image"] || item.MainImage || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80",
           category: item.Categories || "",
-          rating: item["Average Rating"] || "N/A"
+          rating: item["Average Rating"] || "N/A",
+          address: item.Fulladdress || item.Address || "",
+          phone: item.Phone || "",
+          website: item.Website || ""
         },
       }));
   }, []);
@@ -209,7 +241,7 @@ export default function MapsPage() {
   }, [userLocation, calculateNearby]);
 
   // Fly to a destination from the nearby panel
-  const flyToDestination = useCallback((coords: [number, number], name: string) => {
+  const flyToDestination = useCallback((coords: [number, number]) => {
     mapRef.current?.flyTo({
       center: coords,
       zoom: 16,
@@ -246,7 +278,7 @@ export default function MapsPage() {
         type: "geojson",
         data: {
           type: "FeatureCollection",
-          features: allFeatures as any,
+          features: allFeatures as GeoJSON.Feature[],
         },
         cluster: true,
         clusterMaxZoom: 14,
@@ -333,8 +365,8 @@ export default function MapsPage() {
         source.getClusterExpansionZoom(clusterId, (err, zoom) => {
           if (err) return;
           map.easeTo({
-            center: (features[0].geometry as any).coordinates,
-            zoom: zoom,
+            center: (features[0].geometry as GeoJSON.Point).coordinates as [number, number],
+            zoom: zoom ?? 14,
           });
         });
       });
@@ -344,8 +376,9 @@ export default function MapsPage() {
         const features = e.features;
         if (!features || features.length === 0) return;
 
-        const coordinates = (features[0].geometry as any).coordinates.slice();
-        const { name, type, image, category, rating } = features[0].properties as any;
+        const coordinates = (features[0].geometry as GeoJSON.Point).coordinates.slice() as number[];
+        const props = features[0].properties as { name: string; type: string; image: string; rating: string; category?: string; address?: string; phone?: string; website?: string; };
+        const { name, type, image, rating, category, address, phone, website } = props;
 
         // Ensure proper popup placement when zoomed out
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -354,6 +387,7 @@ export default function MapsPage() {
 
         // HTML Content for Popup
         const popupContent = document.createElement("div");
+        const basePath = CATEGORY_PATH[type];
         popupContent.className = "flex flex-col gap-2 min-w-[200px] cursor-pointer group";
         popupContent.innerHTML = `
           <div class="w-full h-32 rounded-lg overflow-hidden mb-1 relative shadow-sm">
@@ -364,19 +398,19 @@ export default function MapsPage() {
                 <h3 class="text-sm font-bold leading-tight truncate">${name}</h3>
              </div>
           </div>
-          <div class="flex items-center justify-between px-1">
+          <div class="px-1 py-1 flex flex-col gap-1">
+             ${address ? `<p class="text-[10px] text-gray-500 truncate" title="${address}"><span class="font-semibold text-gray-700">Address:</span> ${address}</p>` : ''}
+             ${phone ? `<p class="text-[10px] text-gray-500 truncate"><span class="font-semibold text-gray-700">Phone:</span> ${phone}</p>` : ''}
+          </div>
+          <div class="flex items-center justify-between px-1 mt-1 border-t border-gray-100 pt-1.5 border-dashed">
              <div class="flex items-center gap-1.5 text-xs text-gray-600">
                <span class="text-amber-500">★</span> 
                <span class="font-medium">${rating}</span>
              </div>
-             <span class="text-xs font-semibold text-blue-600 group-hover:text-blue-700">View Detail &rarr;</span>
+             <a href="${basePath}/${slugify(name)}" target="_blank" class="text-xs font-semibold text-blue-600 group-hover:text-blue-700">View Detail &rarr;</a>
           </div>
         `;
 
-        // Action when popup is clicked
-        popupContent.addEventListener("click", () => {
-          router.push("/discover");
-        });
 
         new mapboxgl.Popup({
           closeButton: true,
@@ -385,7 +419,7 @@ export default function MapsPage() {
           offset: 10,
           maxWidth: "280px"
         })
-          .setLngLat(coordinates)
+          .setLngLat(coordinates as [number, number])
           .setDOMContent(popupContent)
           .addTo(map);
       });
@@ -408,6 +442,7 @@ export default function MapsPage() {
         mapRef.current = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Filter functionality
@@ -420,13 +455,13 @@ export default function MapsPage() {
       if (activeCategory === "All") {
         source.setData({
           type: "FeatureCollection",
-          features: allFeatures as any,
+          features: allFeatures as GeoJSON.Feature[],
         });
       } else {
         const filtered = allFeatures.filter((f) => f.properties.type === activeCategory);
         source.setData({
           type: "FeatureCollection",
-          features: filtered as any,
+          features: filtered as GeoJSON.Feature[],
         });
       }
       
@@ -456,7 +491,7 @@ export default function MapsPage() {
 
       {/* OVERLAY UI - Filter Glassmorphism Panel */}
       <div className="absolute top-28 left-6 z-10 hidden md:flex flex-col gap-4">
-        <div className="bg-white/70 rounded-2xl p-5 border border-white/50 w-72">
+        <div className="bg-white/70 rounded-2xl p-5 border border-white/50 w-72 backdrop-blur-md">
           <h2 className="text-xl font-jakarta font-bold text-gray-900 mb-1">Explore Jogja</h2>
           <p className="text-xs text-gray-500 mb-5 leading-relaxed">
             Discover thousands of beautiful destinations right on the map. Click a point to see details.
@@ -494,7 +529,7 @@ export default function MapsPage() {
           id="near-me-btn"
           onClick={handleNearMe}
           disabled={isLocating}
-          className={`group backdrop-blur-md shadow-lg rounded-2xl px-5 py-3.5 flex items-center gap-3 border transition-all text-sm font-semibold hover:shadow-xl hover:-translate-y-0.5 bg-white/80 hover:bg-white text-gray-800 border-white/50`}
+          className={`group backdrop-blur-md shadow-lg bg-white/70 rounded-xl px-5 py-3.5 flex items-center gap-3 border transition-all text-sm font-semibold hover:shadow-xl hover:-translate-y-0.5 hover:bg-white text-gray-800 border-white/50`}
         >
           {isLocating ? (
             <Loader2 size={18} className="animate-spin" />
@@ -511,7 +546,7 @@ export default function MapsPage() {
               setShowNearbyPanel(false);
               mapRef.current?.flyTo({ center: [110.3695, -7.7956], zoom: 12, duration: 2000 });
            }}
-           className="bg-white/80 hover:bg-white backdrop-blur-md shadow-lg rounded-full px-5 py-3 flex items-center gap-2 border border-white/50 text-gray-800 transition-all text-sm font-semibold hover:shadow-xl hover:-translate-y-1"
+           className="bg-white/70 hover:bg-white backdrop-blur-md shadow-lg rounded-xl px-5 py-3 flex items-center gap-2 border border-white/50 text-gray-800 transition-all text-sm font-semibold hover:shadow-xl hover:-translate-y-1"
         >
            <LocateFixed size={18} className="text-gray-600"/>
            Recenter Map
@@ -655,14 +690,13 @@ export default function MapsPage() {
                         >
                           {/* Image */}
                           <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 relative">
-                            <img
+                            <Image
                               src={dest.image}
                               alt={dest.name}
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src =
-                                  "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80";
-                              }}
+                              fill
+                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                              onError={undefined}
+                              unoptimized
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                           </div>

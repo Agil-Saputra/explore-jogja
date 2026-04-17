@@ -260,9 +260,7 @@ export default function PlaceDetailLayout({
     Boolean,
   ) as string[];
   const reviews = item.reviews ?? [];
-  const tags = item.categories
-    ? item.categories.split(",").map((c) => c.trim())
-    : [];
+
   const rating = item.averageRating
     ? parseFloat(item.averageRating.replace(",", "."))
     : null;

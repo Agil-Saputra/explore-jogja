@@ -13,7 +13,7 @@ export default function EventsPage() {
         </h1>
         <div className="text-[15px] leading-relaxed text-gray-800">
           <p className="mb-4">
-            Here is an overview of upcoming events in Yogyakarta and the surrounding areas. You can submit an event announcement using the dedicated registration form at the bottom of the page, or by selecting "Event registration" from the dropdown menu in the main navigation.
+            Here is an overview of upcoming events in Yogyakarta and the surrounding areas. You can submit an event announcement using the dedicated registration form at the bottom of the page, or by selecting &quot;Event registration&quot; from the dropdown menu in the main navigation.
           </p>
           <p>
             Please note that the board of Visit Jogja reserves the right to assess whether events are relevant to the website or not.

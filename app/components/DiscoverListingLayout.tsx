@@ -97,7 +97,8 @@ export default function DiscoverListingLayout({
 
   // Reset visible count when filter changes
   useEffect(() => {
-    setVisibleCount(INITIAL_COUNT);
+    const t = setTimeout(() => setVisibleCount(INITIAL_COUNT), 0);
+    return () => clearTimeout(t);
   }, [activeFilter]);
 
   // Items currently visible on screen

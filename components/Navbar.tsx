@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { MapIcon, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import ChatModal from "./ChatModal";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";

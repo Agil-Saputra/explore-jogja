@@ -33,8 +33,7 @@ export default function HeroSection() {
   const loadingScreenRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    interval = setInterval(() => {
+    const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
@@ -55,7 +54,8 @@ export default function HeroSection() {
     };
 
     if (document.readyState === 'complete') {
-      setProgress(100);
+      // Defer to avoid synchronous setState inside effect
+      setTimeout(() => setProgress(100), 0);
       clearInterval(interval);
     } else {
       window.addEventListener('load', handleLoad);
@@ -430,7 +430,7 @@ export default function HeroSection() {
             </SlidingImageReveal>
 
           </div>
-          <SimpleOpacityReveal className="text-lg md:text-2xl text-gray-600 font-medium mb-8">There is always something happening in Jogja. Here you’ll find a dynamic events where traditional dance, modern music, indie art, and cultural festivals blend seamlessly into the city’s everyday life. Whether you’re looking for family-friendly workshops, outdoor concerts at the temples, batik exhibitions, or festivals that capture the unique "Jogja Istimewa" spirit. Stay tuned!</SimpleOpacityReveal>
+          <SimpleOpacityReveal className="text-lg md:text-2xl text-gray-600 font-medium mb-8">There is always something happening in Jogja. Here you’ll find a dynamic events where traditional dance, modern music, indie art, and cultural festivals blend seamlessly into the city’s everyday life. Whether you’re looking for family-friendly workshops, outdoor concerts at the temples, batik exhibitions, or festivals that capture the unique &quot;Jogja Istimewa&quot; spirit. Stay tuned!</SimpleOpacityReveal>
         </div>
       </section>
 
@@ -482,7 +482,7 @@ export default function HeroSection() {
 
       {/* Culinary Section */}
       <section id="culinary-section" className="relative w-full py-16 lg:py-32 bg-white z-20 overflow-hidden">
-        <div className="px-8 max-w-screen-2xl mx-auto">
+        <div className="px-8">
           {/* Section Header */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 lg:mb-20">
             <div className="w-full">
@@ -516,7 +516,7 @@ export default function HeroSection() {
               <div className="h-[200px] md:h-[240px]">
                 <SlidingImageReveal className="w-full h-full rounded-2xl overflow-hidden">
                   <Image
-                    src="/assets/culinary-street.png"
+                    src="/assets/bakpia.webp"
                     alt="Yogyakarta street food - Sate, Bakpia, Es Dawet, Wedang Ronde"
                     fill
                     className="object-cover"
@@ -527,7 +527,7 @@ export default function HeroSection() {
               <div className="h-[200px] md:h-[240px]">
                 <SlidingImageReveal className="w-full h-full rounded-2xl overflow-hidden">
                   <Image
-                    src="/assets/culinary-ambience.png"
+                    src="/assets/sate-klathak-jogja.jpg"
                     alt="Traditional Javanese restaurant ambience in Yogyakarta"
                     fill
                     className="object-cover"
@@ -561,7 +561,7 @@ export default function HeroSection() {
       <div
         ref={parallaxBannerRef}
         className="relative w-full px-24 overflow-hidden"
-        style={{ height: "520px" }}
+        style={{ height: "720px" }}
       >
         {/* Parallax Background */}
         <div

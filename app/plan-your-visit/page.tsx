@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Home, Sun, Bus, Map as MapIcon, Binoculars, Tent } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
 import { Footer } from '../components/Footer';
 
@@ -142,14 +141,5 @@ export default function PlanYourVisit() {
       </ScrollReveal>
         <Footer />
     </main>
-  );
-}
-
-function PillButton({ icon, text }: { icon: React.ReactNode, text: string }) {
-  return (
-    <button className="flex items-center gap-2 bg-[#E1DFDB]/50 backdrop-blur-sm hover:bg-[#D5D3CF] transition-colors rounded-xl px-4 py-2.5 shadow-sm border border-transparent">
-      <span className="text-[#3B3A38]">{icon}</span>
-      <span className="text-[15px] font-medium text-[#2E2D2B] pr-1">{text}</span>
-    </button>
   );
 }

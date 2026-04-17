@@ -1,4 +1,4 @@
-const beaches = [
+module.exports = [
   {
     Name: "Pantai Pok Tunggal",
     Fulladdress: "Daerah Istimewa Yogyakarta",
@@ -734,4 +734,3 @@ const beaches = [
       "A beautiful, deeply shaded beach flanked by rocky hills that provide spectacular views from above. It's a highly recommended spot for camping with tent rentals available, though visitors should be prepared for a very challenging, uneven, and narrow access road best navigated by motorcycle.",
   },
 ];
-export default beaches;

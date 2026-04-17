@@ -1,1 +1,2 @@
-export default [];
+const wisata = [];
+export default wisata;

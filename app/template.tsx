@@ -12,9 +12,12 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (pathname === "/") return;
-    
-    setProgress(0);
-    setIsLoading(true);
+
+    // Use setTimeout to avoid synchronous setState inside effect
+    const initTimer = setTimeout(() => {
+      setProgress(0);
+      setIsLoading(true);
+    }, 0);
 
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -27,6 +30,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     }, 50);
 
     return () => {
+      clearTimeout(initTimer);
       clearInterval(interval);
     };
   }, [pathname]);

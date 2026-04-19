@@ -56,7 +56,7 @@ export default function PlanYourVisit() {
               }}
             >
               <Image
-                src="/assets/Yogyakarta_Indonesia_Tugu-Yogyakarta-01.jpg"
+                src="/assets/tamansari.jpg"
                 alt="Tugu Yogyakarta aerial view"
                 fill
                 className="object-cover"
@@ -92,7 +92,7 @@ export default function PlanYourVisit() {
                 aspectRatio: '4/3',
                 bottom: '2%',
                 left: '5%',
-                transform: 'rotate(-4deg)',
+                transform: 'rotate(4deg)',
                 zIndex: 3,
               }}
             >

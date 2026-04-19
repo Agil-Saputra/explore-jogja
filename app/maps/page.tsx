@@ -683,7 +683,7 @@ export default function MapsPage() {
                       return (
                         <button
                           key={`${dest.name}-${idx}`}
-                          onClick={() => flyToDestination(dest.coordinates, dest.name)}
+                          onClick={() => flyToDestination(dest.coordinates)}
                           className="w-full group flex items-start gap-3 p-3 rounded-xl hover:bg-white bg-white/50 transition-all duration-200 hover:shadow-md text-left border border-transparent hover:border-gray-100"
                         >
                           {/* Image */}

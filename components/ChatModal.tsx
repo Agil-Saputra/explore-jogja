@@ -13,6 +13,7 @@ import {
   PanelLeftClose,
   Trash2,
 } from "lucide-react";
+import { useLocale } from "@/components/LocaleContext";
 
 /* ─── Types ─── */
 interface Message {
@@ -80,59 +81,123 @@ function formatTimeAgo(timestamp: number): string {
 /* ─── Markdown components styling ─── */
 const markdownComponents = {
   h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="text-xl font-bold mt-4 mb-2 text-gray-900" {...props}>{children}</h1>
+    <h1 className="text-xl font-bold mt-4 mb-2 text-gray-900" {...props}>
+      {children}
+    </h1>
   ),
   h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="text-lg font-bold mt-3 mb-2 text-gray-900" {...props}>{children}</h2>
+    <h2 className="text-lg font-bold mt-3 mb-2 text-gray-900" {...props}>
+      {children}
+    </h2>
   ),
   h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="text-base font-semibold mt-3 mb-1 text-gray-900" {...props}>{children}</h3>
+    <h3 className="text-base font-semibold mt-3 mb-1 text-gray-900" {...props}>
+      {children}
+    </h3>
   ),
   p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="mb-2 last:mb-0 leading-relaxed" {...props}>{children}</p>
+    <p className="mb-2 last:mb-0 leading-relaxed" {...props}>
+      {children}
+    </p>
   ),
   ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className="list-disc list-inside mb-2 space-y-1 pl-1" {...props}>{children}</ul>
+    <ul className="list-disc list-inside mb-2 space-y-1 pl-1" {...props}>
+      {children}
+    </ul>
   ),
   ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className="list-decimal list-inside mb-2 space-y-1 pl-1" {...props}>{children}</ol>
+    <ol className="list-decimal list-inside mb-2 space-y-1 pl-1" {...props}>
+      {children}
+    </ol>
   ),
   li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
-    <li className="leading-relaxed" {...props}>{children}</li>
+    <li className="leading-relaxed" {...props}>
+      {children}
+    </li>
   ),
   strong: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <strong className="font-semibold" {...props}>{children}</strong>
+    <strong className="font-semibold" {...props}>
+      {children}
+    </strong>
   ),
   em: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <em className="italic" {...props}>{children}</em>
+    <em className="italic" {...props}>
+      {children}
+    </em>
   ),
-  code: ({ children, className, ...props }: React.HTMLAttributes<HTMLElement>) => {
+  code: ({
+    children,
+    className,
+    ...props
+  }: React.HTMLAttributes<HTMLElement>) => {
     const isInline = !className;
     return isInline ? (
-      <code className="bg-black/10 px-1.5 py-0.5 rounded text-[13px] font-mono" {...props}>{children}</code>
+      <code
+        className="bg-black/10 px-1.5 py-0.5 rounded text-[13px] font-mono"
+        {...props}
+      >
+        {children}
+      </code>
     ) : (
-      <code className={`${className} block bg-gray-900 text-gray-100 p-3 rounded-lg text-[13px] font-mono overflow-x-auto my-2`} {...props}>{children}</code>
+      <code
+        className={`${className} block bg-gray-900 text-gray-100 p-3 rounded-lg text-[13px] font-mono overflow-x-auto my-2`}
+        {...props}
+      >
+        {children}
+      </code>
     );
   },
   pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto my-2 text-[13px]" {...props}>{children}</pre>
+    <pre
+      className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto my-2 text-[13px]"
+      {...props}
+    >
+      {children}
+    </pre>
   ),
-  blockquote: ({ children, ...props }: React.HTMLAttributes<HTMLQuoteElement>) => (
-    <blockquote className="border-l-3 border-gray-300 pl-3 my-2 text-gray-600 italic" {...props}>{children}</blockquote>
+  blockquote: ({
+    children,
+    ...props
+  }: React.HTMLAttributes<HTMLQuoteElement>) => (
+    <blockquote
+      className="border-l-3 border-gray-300 pl-3 my-2 text-gray-600 italic"
+      {...props}
+    >
+      {children}
+    </blockquote>
   ),
-  a: ({ children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a className="text-sky-600 underline hover:text-sky-700 transition-colors" target="_blank" rel="noopener noreferrer" {...props}>{children}</a>
+  a: ({
+    children,
+    ...props
+  }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a
+      className="text-sky-600 underline hover:text-sky-700 transition-colors"
+      target="_blank"
+      rel="noopener noreferrer"
+      {...props}
+    >
+      {children}
+    </a>
   ),
   table: ({ children, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
     <div className="overflow-x-auto my-2">
-      <table className="min-w-full text-sm border-collapse" {...props}>{children}</table>
+      <table className="min-w-full text-sm border-collapse" {...props}>
+        {children}
+      </table>
     </div>
   ),
   th: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
-    <th className="border border-gray-200 px-3 py-1.5 bg-gray-50 font-semibold text-left" {...props}>{children}</th>
+    <th
+      className="border border-gray-200 px-3 py-1.5 bg-gray-50 font-semibold text-left"
+      {...props}
+    >
+      {children}
+    </th>
   ),
   td: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
-    <td className="border border-gray-200 px-3 py-1.5" {...props}>{children}</td>
+    <td className="border border-gray-200 px-3 py-1.5" {...props}>
+      {children}
+    </td>
   ),
   hr: (props: React.HTMLAttributes<HTMLHRElement>) => (
     <hr className="my-3 border-gray-200" {...props} />
@@ -150,6 +215,8 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const { t } = useLocale();
 
   /* Load sessions from localStorage on mount */
   useEffect(() => {
@@ -307,14 +374,14 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
         setInput("");
       }
     },
-    [activeSessionId]
+    [activeSessionId],
   );
 
   const suggestions = [
-    "What are the must-visit temples?",
-    "Best local food in Yogyakarta?",
-    "Tell me about Kraton Palace",
-    "Hidden gems to explore",
+    t("chat.suggestions.0"),
+    t("chat.suggestions.1"),
+    t("chat.suggestions.2"),
+    t("chat.suggestions.3"),
   ];
 
   return (
@@ -350,7 +417,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
           <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 flex-shrink-0">
             <div className="flex items-center gap-2">
               <span className="text-[13px] font-semibold uppercase tracking-wider text-gray-400">
-                History
+                {t("chat.history")}
               </span>
             </div>
             <button
@@ -368,7 +435,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
               className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-[#2C2C2C] text-white text-[14px] font-medium hover:bg-black transition-all duration-200 shadow-sm"
             >
               <SquarePen size={15} strokeWidth={2} />
-              <span>New Chat</span>
+              <span>{t("chat.newChat")}</span>
             </button>
           </div>
 
@@ -382,9 +449,9 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
                   strokeWidth={1.5}
                 />
                 <p className="text-[13px] text-gray-400 leading-relaxed">
-                  No conversations yet.
+                  {t("chat.noConversations")}
                   <br />
-                  Start a new chat!
+                  {t("chat.startNewChat")}
                 </p>
               </div>
             ) : (
@@ -394,7 +461,9 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
                   role="button"
                   tabIndex={0}
                   onClick={() => switchToSession(session)}
-                  onKeyDown={(e) => { if (e.key === "Enter") switchToSession(session); }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") switchToSession(session);
+                  }}
                   className={`w-full text-left px-3.5 py-3 rounded-xl transition-all duration-200 group relative cursor-pointer ${
                     activeSessionId === session.id
                       ? "bg-sky-50 border border-sky-200/60"
@@ -411,7 +480,9 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
                     {session.title}
                   </p>
                   <p className="text-[12px] text-gray-400 mt-1 flex items-center gap-1.5">
-                    <span>{session.messages.length} messages</span>
+                    <span>
+                      {session.messages.length} {t("chat.messages")}
+                    </span>
                     <span className="text-gray-300">·</span>
                     <span>{formatTimeAgo(session.updatedAt)}</span>
                   </p>
@@ -449,7 +520,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
                 className="flex items-center gap-2 px-4 py-2.5 rounded-2xl text-[14px] font-medium transition-all duration-200 bg-[#2C2C2C] text-white hover:bg-black border border-[#2C2C2C]"
               >
                 <SquarePen size={16} strokeWidth={1.5} />
-                <span className="hidden sm:inline">New Chat</span>
+                <span className="hidden sm:inline">{t("chat.newChat")}</span>
               </button>
               {/* Close Button */}
               <button
@@ -463,17 +534,19 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
           </div>
 
           {/* Messages Area - scrollable */}
-          <div className="flex-1 overflow-y-scroll scroll-smooth" style={{ overscrollBehavior: 'contain' }}>
+          <div
+            className="flex-1 overflow-y-scroll scroll-smooth"
+            style={{ overscrollBehavior: "contain" }}
+          >
             <div className="max-w-3xl mx-auto px-5 md:px-8 py-6 space-y-5 min-h-full flex flex-col">
               {messages.length === 0 ? (
                 /* Empty State */
                 <div className="flex flex-col items-center justify-center flex-1 text-center">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    Selamat datang! 👋
+                    {t("chat.welcome")}
                   </h3>
                   <p className="text-gray-500 text-[15px] max-w-sm mb-8 leading-relaxed">
-                    I&apos;m your personal guide to Yogyakarta&apos;s rich
-                    heritage, culture, and hidden treasures. How can I help?
+                    {t("chat.welcomeDesc")}
                   </p>
 
                   {/* Suggestion Chips */}
@@ -512,7 +585,9 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
                         }`}
                       >
                         {msg.role === "user" ? (
-                          <div className="whitespace-pre-wrap">{msg.content}</div>
+                          <div className="whitespace-pre-wrap">
+                            {msg.content}
+                          </div>
                         ) : (
                           <div className="prose-chat">
                             <ReactMarkdown
@@ -535,7 +610,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
                   <div className="bg-gray-50 border border-gray-100 rounded-2xl rounded-bl-md px-5 py-4">
                     <div className="flex items-center gap-2 text-gray-400">
                       <Loader2 size={16} className="animate-spin" />
-                      <span className="text-[14px]">Thinking...</span>
+                      <span className="text-[14px]">{t("chat.thinking")}</span>
                     </div>
                   </div>
                 </div>
@@ -555,7 +630,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Ask about Yogyakarta..."
+                  placeholder={t("chat.placeholder")}
                   rows={1}
                   className="flex-1 bg-transparent border-none outline-none resize-none text-[15px] text-gray-800 placeholder:text-gray-400 py-2 max-h-32 leading-relaxed"
                   style={{
@@ -584,7 +659,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
                 </button>
               </div>
               <p className="text-center text-[11px] text-gray-400 mt-2">
-                Powered by AI · Responses may not always be accurate
+                {t("chat.poweredBy")}
               </p>
             </div>
           </div>

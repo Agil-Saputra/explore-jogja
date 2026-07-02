@@ -1,0 +1,306 @@
+{
+  "navbar": {
+    "menu": "Menu",
+    "askAnything": "Tanya Apa Saja",
+    "languageName": "Indonesia",
+    "nav": {
+      "home": "Beranda",
+      "discover": "Jelajahi",
+      "planYourVisit": "Rencanakan Kunjungan",
+      "map": "Peta",
+      "articles": "Artikel",
+      "history": "Sejarah"
+    },
+    "footer": {
+      "title": "Kunjungi Yogyakarta",
+      "email": "info@visityogyakarta.id"
+    }
+  },
+  "home": {
+    "heroTitle": "Ibu Kota Kebudayaan Indonesia",
+    "heroSubtitle": "Temukan jantung budaya Jawa, di mana tradisi kuno berpadu dengan kehidupan modern yang dinamis.",
+    "quote1": "Dari festival Jawa dan pameran seni kontemporer hingga pertemuan komunitas yang meriah, temukan apa yang sedang terjadi di Kota ini dan bergabunglah bersama kami.",
+    "quote1Annotation": "Jangan lewatkan pengalaman istimewa!",
+    "quote1Desc": "Selalu ada sesuatu yang terjadi di Jogja. Di sini Anda akan menemukan acara dinamis di mana tari tradisional, musik modern, seni indie, dan festival budaya berpadu sempurna dengan kehidupan sehari-hari kota. Baik Anda mencari workshop ramah keluarga, konser outdoor di candi, pameran batik, atau festival yang menangkap semangat unik \"Jogja Istimewa\". Nantikan!",
+    "quote2": "Yogyakarta adalah Jantung Lingkaran Budaya. Jelajahi candi kuno, lanskap Merapi, keraton megah, dan pantai eksotis — semuanya hanya berjarak tempuh singkat.",
+    "learnMore": "Selengkapnya",
+    "quote2Annotation": "Nikmati kualitas, keindahan, dan keramahan Jogja!",
+    "quote2Desc": "Temukan pesona kota warisan dengan pemandangan keraton yang megah, seni jalanan yang hidup, dan suasana yang menenangkan jiwa. Yogyakarta adalah surga bagi pencinta budaya, menawarkan koleksi tradisi Jawa dan keajaiban kuno terkaya. Juga basis sempurna untuk Lingkaran Budaya. Setelah seharian di jalan — kembalilah ke hal yang benar-benar penting: cita rasa autentik, keramahan yang hangat, dan kenyamanan sejati.",
+    "culinaryQuote": "Pesta untuk Indra Menanti di Setiap Sudut Yogyakarta.",
+    "culinaryDesc": "Yogyakarta bukan hanya memanjakan mata — ini adalah surga bagi pecinta kuliner. Warisan kuliner kota ini sangat erat dengan masa lalu kerajaannya, dari gudeg manis yang aromatis lahir dari dapur Sultan hingga sate klatak yang diasap di tusuk besi. Jelajahi angkringan di tengah malam, nikmati kopi joss yang berani dengan arang menyala, atau cicipi resep berusia berabad-abad di restoran legendaris. Setiap hidangan di Jogja menyimpan cerita.",
+    "exploreCulinary": "Jelajahi Peta Kuliner",
+    "planQuote": "Merencanakan perjalanan ke Yogyakarta tidak pernah semudah ini.",
+    "planDesc": "Panduan wisata AI lengkap untuk akomodasi, itinerari, tur lokal, dan tips musiman penting.",
+    "planVisitBtn": "Rencanakan Kunjungan"
+  },
+  "footer": {
+    "title": "Kunjungi Yogyakarta",
+    "address": "Kunjungi Yogyakarta — 640 Yogyakarta — INDONESIA",
+    "email": "info@visitjogja.id",
+    "newsletterPlaceholder": "Daftar untuk buletin kami"
+  },
+  "discover": {
+    "title": "Jelajahi Yogyakarta",
+    "heroText": "Warisan kuno, keajaiban alam yang menakjubkan, atau jajanan tradisional. Jogja memungkinkan Anda melihat semuanya.",
+    "categories": {
+      "accommodation": "Akomodasi",
+      "activities": "Aktivitas",
+      "topAttractions": "Atraksi Utama",
+      "events": "Acara",
+      "foodAndDrink": "Makanan & Minuman",
+      "gettingAround": "Transportasi",
+      "trekkingAndHiking": "Trekking dan Hiking",
+      "beaches": "Pantai",
+      "aestheticCafes": "Kafe Estetik"
+    }
+  },
+  "attractionsSlider": {
+    "title": "Atraksi & Landmark",
+    "viewAll": "Lihat Semua",
+    "tabs": {
+      "attractions": "Atraksi",
+      "landmarks": "Landmark"
+    },
+    "decorativeText": "Lihat semua atraksi dan landmark yang kami tawarkan"
+  },
+  "thingsToDo": {
+    "title": "Aktivitas Seru",
+    "subtitle": "Temukan permata tersembunyi di Yogyakarta",
+    "description": "Dari penemuan spontan hingga petualangan terencana, tidak ada kekurangan hal untuk menarik perhatian dan meregangkan imajinasi Anda di Yogyakarta. Jelajahi sejarah yang kaya dan lanskap menakjubkan yang mendefinisikan kota indah ini, dari Malioboro yang ikonik hingga pantai selatan yang sensasional dan segala hal di antaranya yang membuat pengunjung kembali berkali-kali.",
+    "viewDetails": "Lihat Detail"
+  },
+  "yogyakartaMap": {
+    "sectionTitle": "Lima distrik unik, masing-masing dengan karakter mereka sendiri",
+    "description": "Yogyakarta terdiri dari lima wilayah berbeda, bertumpu pada jantung budaya dan sejarah Kota Yogyakarta. Di utara, Sleman memiliki landmark megah seperti Prambanan dan Gunung Merapi, sementara Gunungkidul menawarkan pantai berbatu dan Gua Jomblang. Pantai selatan Bantul menjadi jiwa artistik kawasan, melengkapi ekowisata alam Kulon Progo yang tenang di barat.",
+    "tooltipLabels": {
+      "capital": "Ibu Kota",
+      "population": "Populasi",
+      "area": "Luas"
+    },
+    "close": "Tutup",
+    "districts": {
+      "Bantul": {
+        "description": "Terkenal dengan pantai selatan yang memukau dan desa kerajinan batik tradisional."
+      },
+      "GunungKidul": {
+        "description": "Rumah bagi lanskap karst dramatis, pantai tersembunyi, dan sistem gua kuno."
+      },
+      "KotaYogyakarta": {
+        "description": "Jantung kerajaan budaya Jawa — rumah bagi Keraton dan Jalan Malioboro."
+      },
+      "KulonProgo": {
+        "description": "Permata yang sedang naik dengan Perbukitan Menoreh, perkebunan teh, dan bandara internasional baru."
+      },
+      "Sleman": {
+        "description": "Gerbang menuju Gunung Merapi yang megah dan rumah bagi universitas-universitas terkemuka."
+      }
+    }
+  },
+  "articles": {
+    "title": "Semua Tentang Yogyakarta",
+    "subtitle": "Panduan Anda tentang budaya kaya Yogyakarta, lanskap menakjubkan, dan pengalaman tak terlupakan.",
+    "description": "Jelajahi pilihan artikel tentang warisan budaya, kelezatan kuliner, keajaiban alam, dan panduan wisata Yogyakarta.",
+    "searchPlaceholder": "Cari artikel...",
+    "filter": "Filter",
+    "all": "Semua",
+    "loadMore": "Muat Lebih Banyak",
+    "categories": {
+      "Culture": "Budaya",
+      "Heritage": "Warisan",
+      "Food & Drink": "Makanan & Minuman",
+      "Nature": "Alam",
+      "Travel Guide": "Panduan Wisata",
+      "Adventure": "Petualangan",
+      "Lifestyle": "Gaya Hidup",
+      "Events": "Acara"
+    }
+  },
+  "events": {
+    "title": "Acara",
+    "description": "Selalu ada sesuatu yang terjadi di Yogyakarta. Temukan festival, pertunjukan budaya, workshop, pameran seni, dan pertemuan komunitas yang menghidupkan semangat kota yang dinamis.",
+    "registration": {
+      "title": "Pendaftaran acara",
+      "description": "Punya acara lokal yang akan datang? Beritahu kami tentang acara Anda dan kami akan menampilkannya di sini.",
+      "eventDetails": "Detail acara",
+      "eventName": "Nama acara",
+      "eventNamePlaceholder": "Nama acara",
+      "eventDescription": "Deskripsi acara",
+      "eventDescriptionPlaceholder": "Deskripsi acara",
+      "eventBegins": "Acara dimulai",
+      "eventImage": "Gambar",
+      "chooseImage": "Pilih gambar",
+      "noFileChosen": "Tidak ada file dipilih",
+      "eventLocation": "Lokasi",
+      "eventLocationPlaceholder": "Lokasi acara",
+      "contactInfo": "Informasi kontak",
+      "name": "Nama",
+      "namePlaceholder": "Nama Anda",
+      "email": "Email",
+      "emailPlaceholder": "Email Anda",
+      "phone": "Telepon",
+      "phonePlaceholder": "Nomor telepon Anda",
+      "send": "Kirim"
+    },
+    "readMore": "Selengkapnya",
+    "noEvents": "Tidak ada acara ditemukan.",
+    "upcoming": "Akan Datang"
+  },
+  "history": {
+    "legacyTitle": "Warisan Budaya yang Hidup",
+    "legacyP1": "Yogyakarta bukan sekadar kota yang membeku dalam sejarah. Masa lalunya hidup melalui ritual harian masyarakatnya — nada merdu gamelan yang bergema dari Keraton, seni membatik yang diturunkan dari generasi ke generasi, dan upacara kerajaan besar yang terus menandai perjalanan waktu.",
+    "legacyP2": "Saat ini, sebagai Daerah Istimewa Indonesia, Yogyakarta berdiri sebagai bukti kekuatan budaya yang abadi, meraih gelarnya yang layak sebagai Ibu Kota Kebudayaan Indonesia."
+  },
+  "planYourVisit": {
+    "title": "Rencanakan Kunjungan",
+    "description": "Bingung mau ke mana di Jogja? Serahkan pada kami. Klik satu tombol dan dapatkan itinerari liburan yang luar biasa secara instan. Dari tempat budaya yang kaya dan destinasi kuliner populer hingga permata tersembunyi lokal, kami sudah mengatur semuanya untuk Anda.",
+    "decorativeText": "Merencanakan Perjalanan ke Yogyakarta tidak pernah semudah ini",
+    "createTripPlan": "Buat Rencana Perjalanan",
+    "gettingHereTitle": "Semua tentang cara ke sini",
+    "gettingHereDesc": "Ada banyak cara untuk sampai ke Yogyakarta. Dengan menyewa mobil, naik kereta api atau terbang, atau dengan tur berpemandu. Lihat rekomendasi kami.",
+    "seeMore": "Selengkapnya"
+  },
+  "createPlan": {
+    "step1Title": "Kapan Anda bepergian?",
+    "step2Title": "Siapa yang ikut bersama Anda?",
+    "step3Title": "Berapa anggaran harian Anda?",
+    "step4Title": "Apa yang Anda minati?",
+    "step5Title": "Perjalanan Anda siap!",
+    "activeHours": "Jam aktif",
+    "start": "Mulai",
+    "end": "Selesai",
+    "selectEndDate": "Pilih tanggal akhir",
+    "dayTrip": "perjalanan sehari",
+    "nights": "malam",
+    "selectDailyBudget": "Pilih anggaran harian Anda",
+    "selectInterests": "Pilih satu atau lebih kategori yang menarik Anda.",
+    "travelDates": "Tanggal Perjalanan",
+    "travelingWith": "Bepergian dengan",
+    "dailyBudget": "Anggaran Harian",
+    "perDay": "/ hari",
+    "interests": "Minat",
+    "generateItinerary": "Buat Itinerari Saya",
+    "generating": "Membuat…",
+    "aiPlanning": "AI sedang merencanakan perjalanan Anda",
+    "errorTitle": "Ups, terjadi kesalahan",
+    "goBack": "Kembali",
+    "tryAgain": "Coba Lagi",
+    "companions": {
+      "solo": "Sendiri",
+      "partner": "Pasangan saya",
+      "family": "Seluruh keluarga",
+      "friends": "Teman-teman saya"
+    },
+    "interestLabels": {
+      "culture": "Budaya & Warisan",
+      "nature": "Alam & Petualangan",
+      "culinary": "Makanan & Kuliner",
+      "art": "Seni & Kerajinan",
+      "spiritual": "Spiritual & Kesehatan",
+      "nightlife": "Kehidupan Malam & Hiburan",
+      "shopping": "Belanja & Pasar",
+      "photography": "Spot Fotografi"
+    },
+    "loadingMessages": [
+      "Menyusun itinerari sempurna Anda…",
+      "Menemukan permata tersembunyi di Yogyakarta…",
+      "Memetakan rute terbaik untuk Anda…",
+      "Mengkurasi pengalaman budaya…",
+      "Menemukan tempat lokal terbaik…"
+    ],
+    "timeLabels": {
+      "morning": "Pagi",
+      "afternoon": "Siang",
+      "evening": "Sore",
+      "night": "Malam"
+    },
+    "results": {
+      "yourItinerary": "Itinerari Anda",
+      "day": "Hari",
+      "mapView": "Tampilan Peta",
+      "listView": "Tampilan Daftar",
+      "regenerate": "Buat Ulang",
+      "startOver": "Mulai Ulang",
+      "estimatedBudget": "Perkiraan biaya",
+      "tip": "Tips",
+      "totalEstimated": "Total Perkiraan Biaya",
+      "address": "Alamat",
+      "loadingMap": "Memuat peta…"
+    }
+  },
+  "maps": {
+    "title": "Jelajahi Jogja",
+    "description": "Temukan permata tersembunyi, favorit lokal, dan tempat tak terlupakan di seluruh Yogyakarta — semuanya di peta interaktif.",
+    "categories": {
+      "all": "Semua",
+      "accommodation": "Akomodasi",
+      "cafe": "Kafe",
+      "restaurant": "Restoran",
+      "beach": "Pantai",
+      "wisata": "Wisata"
+    },
+    "searchPlaceholder": "Cari tempat...",
+    "findingYou": "Mencari lokasi Anda...",
+    "nearMe": "Dekat Saya",
+    "recenterMap": "Pusatkan Peta",
+    "nearbyTitle": "Destinasi Terdekat",
+    "placesFound": "tempat ditemukan",
+    "noNearby": "Tidak ada destinasi ditemukan di sekitar. Coba perluas area pencarian Anda.",
+    "away": "jauhnya",
+    "viewDetail": "Lihat Detail",
+    "address": "Alamat:",
+    "phone": "Telepon:",
+    "yourLocation": "Lokasi Anda"
+  },
+  "chat": {
+    "welcome": "Sugeng Rawuh! 👋",
+    "welcomeDesc": "Saya pemandu pribadi Anda untuk warisan budaya, kebudayaan, dan harta karun tersembunyi Yogyakarta. Ada yang bisa saya bantu?",
+    "placeholder": "Tanya tentang Yogyakarta...",
+    "thinking": "Berpikir...",
+    "poweredBy": "Didukung AI · Respons mungkin tidak selalu akurat",
+    "history": "Riwayat",
+    "newChat": "Chat Baru",
+    "noConversations": "Belum ada percakapan.",
+    "startNewChat": "Mulai chat baru!",
+    "messages": "pesan",
+    "suggestions": [
+      "Apa candi yang wajib dikunjungi?",
+      "Makanan lokal terbaik di Yogyakarta?",
+      "Ceritakan tentang Keraton",
+      "Permata tersembunyi untuk dijelajahi"
+    ]
+  },
+  "categoryPage": {
+    "backToDiscover": "Kembali ke Jelajahi",
+    "noItemsFound": "Tidak ada item ditemukan untuk",
+    "showAll": "Tampilkan semua"
+  },
+  "discoverListing": {
+    "backToDiscover": "Kembali ke Jelajahi",
+    "showAll": "Tampilkan semua",
+    "emptyState": "Tidak ada tempat ditemukan untuk"
+  },
+  "createPlanTutorial": {
+    "stepLabel": "Langkah {current} dari {total}",
+    "back": "Kembali",
+    "next": "Lanjut",
+    "done": "Mengerti!",
+    "steps": [
+      {
+        "title": "Perencana 5 Langkah",
+        "content": "Panduan ini membawa Anda melalui 5 langkah cepat untuk membuat itinerari yang sesuai gaya perjalanan Anda. Ikuti nomor langkah di atas untuk melacak progres."
+      },
+      {
+        "title": "Pilih Tanggal",
+        "content": "Ketuk tanggal untuk menetapkan kedatangan, lalu ketuk tanggal lain untuk keberangkatan. Trip multi-hari sepenuhnya didukung!"
+      },
+      {
+        "title": "Jam Aktif",
+        "content": "Tentukan kapan hari wisata Anda mulai dan berakhir. AI menggunakan ini untuk membuat jadwal realistis yang sesuai energi dan ritme Anda."
+      },
+      {
+        "title": " Navigasi Langkah",
+        "content": "Setelah setiap langkah terisi, tekan \"Lanjut\" untuk melanjutkan. Gunakan \"Kembali\" kapan saja untuk meninjau dan menyesuaikan pilihan Anda."
+      }
+    ]
+  }
+}

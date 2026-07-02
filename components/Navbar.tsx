@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MessageCircle } from "lucide-react";
@@ -8,18 +8,22 @@ import ChatModal from "./ChatModal";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Languages } from "lucide-react";
+import { useLocale } from "./LocaleContext";
 
+/** Nav item definition — label is a translation key, not a display string. */
 const NAV_ITEMS = [
-  { href: "/", label: "Home" },
-  { href: "/discover", label: "Discover" },
-  { href: "/plan-your-visit", label: "Plan Your Visit" },
-  { href: "/maps", label: "Map" },
-  { href: "/articles", label: "Articles" },
-  { href: "/history", label: "History" },
+  { href: "/", labelKey: "navbar.nav.home" },
+  { href: "/discover", labelKey: "navbar.nav.discover" },
+  { href: "/plan-your-visit", labelKey: "navbar.nav.planYourVisit" },
+  { href: "/maps", labelKey: "navbar.nav.map" },
+  { href: "/articles", labelKey: "navbar.nav.articles" },
+  { href: "/history", labelKey: "navbar.nav.history" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { locale, setLocale, t } = useLocale();
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -40,6 +44,14 @@ export default function Navbar() {
   // Track if pill has been initially positioned
   const inlinePillInitialized = useRef(false);
   const overlayPillInitialized = useRef(false);
+
+  // Toggle language
+  const toggleLocale = useCallback(() => {
+    setLocale(locale === "id" ? "en" : "id");
+  }, [locale, setLocale]);
+
+  // The opposite language label (shown as what you'll switch TO)
+  const currentLanguageName = useMemo(() => t("navbar.languageName"), [t]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -184,6 +196,15 @@ export default function Navbar() {
     return () => clearTimeout(timer);
   }, [pathname, animateInlinePill]);
 
+  // Recalculate pill position when locale changes (label widths change)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      inlinePillInitialized.current = false;
+      animateInlinePill();
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [locale, animateInlinePill]);
+
   // Run overlay pill animation when overlay opens or pathname changes
   useEffect(() => {
     if (isMenuOpen) {
@@ -210,7 +231,6 @@ export default function Navbar() {
           <button
             onClick={() => setIsMenuOpen(true)}
             onMouseEnter={() => setIsCollapsed(false)}
-            onMouseLeave={() => setIsCollapsed(true)}
             className="flex items-center gap-2.5 text-gray-800 hover:text-black transition-colors font-medium text-[15px] whitespace-nowrap "
           >
             <svg width="18" height="18" viewBox="0 0 35 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -219,7 +239,7 @@ export default function Navbar() {
               <circle cx="30" cy="5" r="5" fill="black" />
               <circle cx="30" cy="26" r="5" fill="black" />
             </svg>
-            Menu
+            {t("navbar.menu")}
           </button>
 
           <div
@@ -242,11 +262,11 @@ export default function Navbar() {
                 href={item.href}
                 ref={(el) => { inlineLinkRefs.current[index] = el; }}
                 className={`relative z-10 transition-colors duration-300 font-medium text-[15px] whitespace-nowrap rounded-full px-3.5 py-1.5 ${pathname === item.href
-                    ? "text-white"
-                    : "text-gray-800 hover:bg-black/5 hover:text-black"
+                  ? "text-white"
+                  : "text-gray-800 hover:bg-black/5 hover:text-black"
                   }`}
               >
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             ))}
           </div>
@@ -260,15 +280,23 @@ export default function Navbar() {
             onClick={() => setIsChatOpen(true)}
             className="flex items-center gap-2.5 bg-white/70 backdrop-blur-md rounded-full px-5 py-2.5 shadow-sm border border-white/20 text-gray-800 hover:text-black hover:bg-white/80 transition-all font-medium text-[15px]"
           >
-            <span>Ask Anything</span>
+            <span>{t("navbar.askAnything")}</span>
             <MessageCircle size={18} />
           </button>
 
 
           {/* Language Selector Pill */}
-          <button className="flex items-center gap-2 bg-white/70 backdrop-blur-md rounded-full pl-5 pr-4 py-2.5 shadow-sm border border-white/20 text-gray-800 hover:text-black hover:bg-white/80 transition-all font-medium text-[15px]">
-            <span>Indonesia</span>
-            <Languages />
+          <button
+            onClick={toggleLocale}
+            className="flex items-center gap-2 bg-white/70 backdrop-blur-md rounded-full pl-5 pr-4 py-2.5 shadow-sm border border-white/20 text-gray-800 hover:text-black hover:bg-white/80 transition-all font-medium text-[15px] group"
+          >
+            <span
+              key={locale}
+              className="inline-block animate-[fadeSlideIn_0.3s_ease-out]"
+            >
+              {currentLanguageName}
+            </span>
+            <Languages className="transition-transform duration-300 group-hover:rotate-12" />
           </button>
         </div>
       </header>
@@ -283,14 +311,14 @@ export default function Navbar() {
       {/* Dropdown Menu Panel */}
       <div
         className={`fixed top-4 left-4 right-4 md:top-6 md:left-8 md:right-8 z-50 bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top ${isMenuOpen
-            ? "opacity-100 pointer-events-auto translate-y-0 scale-100"
-            : "opacity-0 pointer-events-none -translate-y-4 scale-[0.97]"
+          ? "opacity-100 pointer-events-auto translate-y-0 scale-100"
+          : "opacity-0 pointer-events-none -translate-y-4 scale-[0.97]"
           }`}
         style={{ maxHeight: "calc(100vh - 2rem)" }}
       >
         {/* Panel Header — close button at top right */}
         <div className="flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8 pb-2">
-          <span className="text-[13px] font-semibold uppercase tracking-widest text-gray-400">Menu</span>
+          <span className="text-[13px] font-semibold uppercase tracking-widest text-gray-400">{t("navbar.menu")}</span>
           <button
             onClick={() => setIsMenuOpen(false)}
             className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-black/5 transition-colors text-gray-600 hover:text-gray-900"
@@ -318,11 +346,11 @@ export default function Navbar() {
               ref={(el) => { overlayLinkRefs.current[index] = el; }}
               onClick={() => setIsMenuOpen(false)}
               className={`relative z-10 text-2xl md:text-[2rem] font-semibold transition-colors py-3 md:py-4 rounded-xl px-3 -mx-3 ${pathname === item.href
-                  ? "text-black"
-                  : "text-gray-800 hover:text-gray-500"
+                ? "text-black"
+                : "text-gray-800 hover:text-gray-500"
                 }`}
             >
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           ))}
         </div>
@@ -330,8 +358,8 @@ export default function Navbar() {
         {/* Panel Footer */}
         <div className="mt-auto border-t border-gray-100 px-6 md:px-10 py-5 md:py-6">
           <div className="mb-6">
-            <h3 className="font-bold text-gray-900 text-[15px]">Visit Yogyakarta</h3>
-            <p className="text-gray-500 text-[14px] mt-0.5">info@visityogyakarta.id</p>
+            <h3 className="font-bold text-gray-900 text-[15px]">{t("navbar.footer.title")}</h3>
+            <p className="text-gray-500 text-[14px] mt-0.5">{t("navbar.footer.email")}</p>
           </div>
 
           <div className="flex items-center justify-between">
@@ -342,13 +370,21 @@ export default function Navbar() {
               }}
               className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors font-medium text-[14px]"
             >
-              <span>Ask Anything</span>
+              <span>{t("navbar.askAnything")}</span>
               <MessageCircle size={16} strokeWidth={1.5} />
             </button>
 
-            <button className="flex items-center gap-1.5 font-medium text-[14px] text-gray-700 hover:text-gray-900 transition-colors">
-              <span>Indonesia</span>
-              <Languages size={16} />
+            <button
+              onClick={toggleLocale}
+              className="flex items-center gap-1.5 font-medium text-[14px] text-gray-700 hover:text-gray-900 transition-colors group"
+            >
+              <span
+                key={locale}
+                className="inline-block animate-[fadeSlideIn_0.3s_ease-out]"
+              >
+                {currentLanguageName}
+              </span>
+              <Languages size={16} className="transition-transform duration-300 group-hover:rotate-12" />
             </button>
           </div>
         </div>

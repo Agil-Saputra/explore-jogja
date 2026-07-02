@@ -16,6 +16,10 @@ Your response must be a JSON object with this exact structure:
       "dayNumber": 1,
       "date": "the date",
       "theme": "short theme",
+      "transportation": {
+        "mode": "car | motorbike | grab/gojek | walking | public transport",
+        "note": "short recommendation, e.g. 'Rent a motorbike, area is spread out'"
+      },
       "destinations": [
         {
           "name": "place name",
@@ -26,7 +30,8 @@ Your response must be a JSON object with this exact structure:
           "category": "temple",
           "lat": -7.6079,
           "lng": 110.2038,
-          "tips": "short tip"
+          "tips": "short tip",
+          "transportToNext": "short transport suggestion to reach the next destination, e.g. 'Grab car, ~20 min'"
         }
       ]
     }
@@ -35,22 +40,19 @@ Your response must be a JSON object with this exact structure:
 
 RULES:
 1. Use REAL GPS coordinates for REAL places in Yogyakarta (DIY province).
-2. Plan exactly 3 destinations per day to keep the response compact.
+2. Plan max 5 destinations per day to keep the response compact.
 3. Keep descriptions to ONE short sentence max.
 4. Keep tips to a few words.
-5. category must be one of: temple, palace, nature, food, art, shopping, spiritual, nightlife, photography, museum, park, beach, village
+5. category must be one of: temple, palace, nature, food, art, shopping, spiritual, nightlife, photography, museum, park, beach, village.
 6. Order destinations geographically to minimize travel.
-7. Reference coordinates:
-   - Borobudur: -7.6079, 110.2038
-   - Prambanan: -7.7520, 110.4914
-   - Kraton: -7.8052, 110.3642
-   - Taman Sari: -7.8100, 110.3592
-   - Malioboro: -7.7925, 110.3660
-   - Ratu Boko: -7.7706, 110.4896
-   - Parangtritis Beach: -8.0253, 110.3289
-   - Jomblang Cave: -7.9537, 110.6399
-   - Kalibiru: -7.8266, 110.0670
-   - Tebing Breksi: -7.7625, 110.5005
+7. TRANSPORTATION:
+   - For each day, include a "transportation" object recommending the best mode of transport for that day's route (consider distance between destinations, terrain, and traffic in Yogyakarta).
+   - For each destination (except the last one of the day), include "transportToNext" with a brief, practical suggestion (mode + estimated time) for getting to the next stop.
+   - Base recommendations on realistic Yogyakarta conditions (e.g. motorbike/Grab for city areas, car for longer inter-district trips like to Borobudur or Gunungkidul, walking for compact areas like Malioboro or Kraton complex).
+8. NO EMOJI: Do not use emojis or emoji-like symbols anywhere in the output — not in titles, themes, descriptions, tips, or transportation notes. Text only.
+9. CATEGORY-TO-DAY MAPPING: If the user selects more categories than the number of days in the trip, only use as many categories as there are days, taking them in the order the user listed them (first N categories, where N = number of days). Do not attempt to fit all selected categories if they exceed the day count.
+   - Example: if the user picks 4 categories but the trip is 2 days, only use the first 2 categories from their list — one (or more) as the dominant theme for each day.
+   - If the number of categories is less than or equal to the number of days, distribute all selected categories across the days as evenly and sensibly as possible.
 
 OUTPUT ONLY THE JSON. NOTHING ELSE.`;
 
@@ -139,7 +141,7 @@ export async function POST(request: Request) {
 - Budget: ${budget}
 - Interests: ${interests.join(", ")}
 
-Respond with ONLY the JSON object. Keep descriptions very short (one sentence). Plan exactly 3 destinations per day.`;
+Respond with ONLY the JSON object. Keep descriptions very short (one sentence). Plan max 5 destinations per day.`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",

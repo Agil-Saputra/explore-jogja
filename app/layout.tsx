@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Playfair_Display, Caveat_Brush } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import ConditionalNavbar from "@/components/ConditionalNavbar";
+import SmoothScrolling from "@/components/SmoothScrolling";
+import { LocaleProvider } from "@/components/LocaleContext";
 
 
 const jakarta = Plus_Jakarta_Sans({
@@ -100,14 +103,16 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="id"
       className={`${jakarta.variable} ${playfair.variable} ${caveatBrush.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-black text-white">
-        {/* <SmoothScrolling> */}
-          <ConditionalNavbar />
-          {children}
-        {/* </SmoothScrolling> */}
+        <LocaleProvider>
+          <SmoothScrolling>
+            <ConditionalNavbar />
+            {children}
+          </SmoothScrolling>
+        </LocaleProvider>
       </body>
     </html>
   );

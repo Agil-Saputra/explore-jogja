@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Image from "next/image";
@@ -10,7 +16,24 @@ import accomodationData from "@/data/accomodation";
 import cafesData from "@/data/cafes";
 import beachesData from "@/data/beaches";
 import restaurantData from "@/data/restaurant";
-import { MapPin, Navigation, Compass, Coffee, Utensils, Waves, Bed, LocateFixed, X, ChevronUp, ChevronDown, Loader2, Star, ArrowRight, Navigation2 } from "lucide-react";
+import {
+  MapPin,
+  Navigation,
+  Compass,
+  Coffee,
+  Utensils,
+  Waves,
+  Bed,
+  LocateFixed,
+  X,
+  ChevronUp,
+  ChevronDown,
+  Loader2,
+  Star,
+  ArrowRight,
+  Navigation2,
+} from "lucide-react";
+import { useLocale } from "@/components/LocaleContext";
 
 // Mapbox Token
 // Use the preconfigured token or a fallback if absent.
@@ -50,13 +73,21 @@ function slugify(name: string): string {
 }
 
 // Haversine formula to calculate distance between two coordinates in km
-function getDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+function getDistanceKm(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number,
+): number {
   const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
@@ -71,14 +102,24 @@ interface NearbyDestination {
 }
 
 export default function MapsPage() {
+  const { t } = useLocale();
+  const tRef = useRef(t);
+  useEffect(() => {
+    tRef.current = t;
+  }, [t]);
+
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const userMarkerRef = useRef<mapboxgl.Marker | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  
+
   // Near Me state
-  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
-  const [nearbyDestinations, setNearbyDestinations] = useState<NearbyDestination[]>([]);
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(
+    null,
+  );
+  const [nearbyDestinations, setNearbyDestinations] = useState<
+    NearbyDestination[]
+  >([]);
   const [showNearbyPanel, setShowNearbyPanel] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
@@ -102,10 +143,18 @@ export default function MapsPage() {
       Website?: string;
     }
     const rawData: RawItem[] = [
-      ...(accomodationData || []).map((d) => ({ ...(d as object), featureType: "Accommodation" } as RawItem)),
-      ...(cafesData || []).map((d) => ({ ...(d as object), featureType: "Cafe" } as RawItem)),
-      ...(restaurantData || []).map((d) => ({ ...(d as object), featureType: "Restaurant" } as RawItem)),
-      ...(beachesData || []).map((d) => ({ ...(d as object), featureType: "Beach" } as RawItem)),
+      ...(accomodationData || []).map(
+        (d) => ({ ...(d as object), featureType: "Accommodation" }) as RawItem,
+      ),
+      ...(cafesData || []).map(
+        (d) => ({ ...(d as object), featureType: "Cafe" }) as RawItem,
+      ),
+      ...(restaurantData || []).map(
+        (d) => ({ ...(d as object), featureType: "Restaurant" }) as RawItem,
+      ),
+      ...(beachesData || []).map(
+        (d) => ({ ...(d as object), featureType: "Beach" }) as RawItem,
+      ),
     ];
 
     // Build GeoJSON features
@@ -121,12 +170,15 @@ export default function MapsPage() {
           id: index,
           name: item.Name || "Unknown Destination",
           type: item.featureType,
-          image: item["Main Image"] || item.MainImage || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80",
+          image:
+            item["Main Image"] ||
+            item.MainImage ||
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80",
           category: item.Categories || "",
           rating: item["Average Rating"] || "N/A",
           address: item.Fulladdress || item.Address || "",
           phone: item.Phone || "",
-          website: item.Website || ""
+          website: item.Website || "",
         },
       }));
   }, []);
@@ -153,7 +205,7 @@ export default function MapsPage() {
 
       setNearbyDestinations(destinations);
     },
-    [allFeatures]
+    [allFeatures],
   );
 
   // Handle "Near Me" button click
@@ -162,7 +214,7 @@ export default function MapsPage() {
       // Already have location, just show/toggle panel
       setShowNearbyPanel(true);
       setPanelExpanded(true);
-      
+
       // Fly to user location
       mapRef.current?.flyTo({
         center: userLocation,
@@ -218,7 +270,9 @@ export default function MapsPage() {
         setIsLocating(false);
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            setLocationError("Location permission denied. Please allow location access.");
+            setLocationError(
+              "Location permission denied. Please allow location access.",
+            );
             break;
           case error.POSITION_UNAVAILABLE:
             setLocationError("Location information unavailable.");
@@ -234,7 +288,7 @@ export default function MapsPage() {
         enableHighAccuracy: true,
         timeout: 10000,
         maximumAge: 300000,
-      }
+      },
     );
   }, [userLocation, calculateNearby]);
 
@@ -268,7 +322,10 @@ export default function MapsPage() {
       attributionControl: false,
     });
 
-    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
+    map.addControl(
+      new mapboxgl.NavigationControl({ showCompass: false }),
+      "top-right",
+    );
 
     map.on("load", () => {
       // Add data source with clustering
@@ -339,12 +396,17 @@ export default function MapsPage() {
           "circle-color": [
             "match",
             ["get", "type"],
-            "Accommodation", CATEGORY_COLORS.Accommodation,
-            "Cafe", CATEGORY_COLORS.Cafe,
-            "Restaurant", CATEGORY_COLORS.Restaurant,
-            "Beach", CATEGORY_COLORS.Beach,
-            "Wisata", CATEGORY_COLORS.Wisata,
-            "#111111" // default
+            "Accommodation",
+            CATEGORY_COLORS.Accommodation,
+            "Cafe",
+            CATEGORY_COLORS.Cafe,
+            "Restaurant",
+            CATEGORY_COLORS.Restaurant,
+            "Beach",
+            CATEGORY_COLORS.Beach,
+            "Wisata",
+            CATEGORY_COLORS.Wisata,
+            "#111111", // default
           ],
           "circle-radius": 8,
           "circle-stroke-width": 2,
@@ -358,12 +420,17 @@ export default function MapsPage() {
           layers: ["clusters"],
         });
         const clusterId = features[0].properties?.cluster_id;
-        const source = map.getSource("jogja-destinations") as mapboxgl.GeoJSONSource;
+        const source = map.getSource(
+          "jogja-destinations",
+        ) as mapboxgl.GeoJSONSource;
 
         source.getClusterExpansionZoom(clusterId, (err, zoom) => {
           if (err) return;
           map.easeTo({
-            center: (features[0].geometry as GeoJSON.Point).coordinates as [number, number],
+            center: (features[0].geometry as GeoJSON.Point).coordinates as [
+              number,
+              number,
+            ],
             zoom: zoom ?? 14,
           });
         });
@@ -374,8 +441,19 @@ export default function MapsPage() {
         const features = e.features;
         if (!features || features.length === 0) return;
 
-        const coordinates = (features[0].geometry as GeoJSON.Point).coordinates.slice() as number[];
-        const props = features[0].properties as { name: string; type: string; image: string; rating: string; category?: string; address?: string; phone?: string; website?: string; };
+        const coordinates = (
+          features[0].geometry as GeoJSON.Point
+        ).coordinates.slice() as number[];
+        const props = features[0].properties as {
+          name: string;
+          type: string;
+          image: string;
+          rating: string;
+          category?: string;
+          address?: string;
+          phone?: string;
+          website?: string;
+        };
         const { name, type, image, rating, address, phone } = props;
 
         // Ensure proper popup placement when zoomed out
@@ -386,7 +464,8 @@ export default function MapsPage() {
         // HTML Content for Popup
         const popupContent = document.createElement("div");
         const basePath = CATEGORY_PATH[type];
-        popupContent.className = "flex flex-col gap-2 min-w-[200px] cursor-pointer group";
+        popupContent.className =
+          "flex flex-col gap-2 min-w-[200px] cursor-pointer group";
         popupContent.innerHTML = `
           <div class="w-full h-32 rounded-lg overflow-hidden mb-1 relative shadow-sm">
              <img src="${image}" alt="${name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80'" />
@@ -397,25 +476,24 @@ export default function MapsPage() {
              </div>
           </div>
           <div class="px-1 py-1 flex flex-col gap-1">
-             ${address ? `<p class="text-[10px] text-gray-500 truncate" title="${address}"><span class="font-semibold text-gray-700">Address:</span> ${address}</p>` : ''}
-             ${phone ? `<p class="text-[10px] text-gray-500 truncate"><span class="font-semibold text-gray-700">Phone:</span> ${phone}</p>` : ''}
+             ${address ? `<p class="text-[10px] text-gray-500 truncate" title="${address}"><span class="font-semibold text-gray-700">${tRef.current("maps.address")}</span> ${address}</p>` : ""}
+             ${phone ? `<p class="text-[10px] text-gray-500 truncate"><span class="font-semibold text-gray-700">${tRef.current("maps.phone")}</span> ${phone}</p>` : ""}
           </div>
           <div class="flex items-center justify-between px-1 mt-1 border-t border-gray-100 pt-1.5 border-dashed">
              <div class="flex items-center gap-1.5 text-xs text-gray-600">
-               <span class="text-amber-500">★</span> 
+               <span class="text-amber-500">★</span>
                <span class="font-medium">${rating}</span>
              </div>
-             <a href="${basePath}/${slugify(name)}" target="_blank" class="text-xs font-semibold text-blue-600 group-hover:text-blue-700">View Detail &rarr;</a>
+             <a href="${basePath}/${slugify(name)}" target="_blank" class="text-xs font-semibold text-blue-600 group-hover:text-blue-700">${tRef.current("maps.viewDetail")} &rarr;</a>
           </div>
         `;
-
 
         new mapboxgl.Popup({
           closeButton: true,
           closeOnClick: true,
           className: "jogja-map-popup",
           offset: 10,
-          maxWidth: "280px"
+          maxWidth: "280px",
         })
           .setLngLat(coordinates as [number, number])
           .setDOMContent(popupContent)
@@ -423,10 +501,26 @@ export default function MapsPage() {
       });
 
       // Change cursor on hover
-      map.on("mouseenter", "clusters", () => (map.getCanvas().style.cursor = "pointer"));
-      map.on("mouseleave", "clusters", () => (map.getCanvas().style.cursor = ""));
-      map.on("mouseenter", "unclustered-point", () => (map.getCanvas().style.cursor = "pointer"));
-      map.on("mouseleave", "unclustered-point", () => (map.getCanvas().style.cursor = ""));
+      map.on(
+        "mouseenter",
+        "clusters",
+        () => (map.getCanvas().style.cursor = "pointer"),
+      );
+      map.on(
+        "mouseleave",
+        "clusters",
+        () => (map.getCanvas().style.cursor = ""),
+      );
+      map.on(
+        "mouseenter",
+        "unclustered-point",
+        () => (map.getCanvas().style.cursor = "pointer"),
+      );
+      map.on(
+        "mouseleave",
+        "unclustered-point",
+        () => (map.getCanvas().style.cursor = ""),
+      );
     });
 
     mapRef.current = map;
@@ -446,9 +540,11 @@ export default function MapsPage() {
   // Filter functionality
   useEffect(() => {
     if (!mapRef.current || !mapRef.current.isStyleLoaded()) return;
-    
+
     // Filter the features state if we want real-time map source update
-    const source = mapRef.current.getSource("jogja-destinations") as mapboxgl.GeoJSONSource;
+    const source = mapRef.current.getSource(
+      "jogja-destinations",
+    ) as mapboxgl.GeoJSONSource;
     if (source) {
       if (activeCategory === "All") {
         source.setData({
@@ -456,43 +552,64 @@ export default function MapsPage() {
           features: allFeatures as GeoJSON.Feature[],
         });
       } else {
-        const filtered = allFeatures.filter((f) => f.properties.type === activeCategory);
+        const filtered = allFeatures.filter(
+          (f) => f.properties.type === activeCategory,
+        );
         source.setData({
           type: "FeatureCollection",
           features: filtered as GeoJSON.Feature[],
         });
       }
-      
+
       // Rescale layout bounds to fit filtered results beautifully
-      if (activeCategory !== 'All') {
-          // slight delay ensures the data changes before we fit bounds
-          setTimeout(() => {
-              const bounds = new mapboxgl.LngLatBounds();
-              const filtered = allFeatures.filter((f) => f.properties.type === activeCategory);
-              if (filtered.length > 0) {
-                 filtered.forEach(f => {
-                     bounds.extend(f.geometry.coordinates as [number, number]);
-                 });
-                 mapRef.current?.fitBounds(bounds, { padding: 80, maxZoom: 13, duration: 1500 });
-              }
-          }, 100);
+      if (activeCategory !== "All") {
+        // slight delay ensures the data changes before we fit bounds
+        setTimeout(() => {
+          const bounds = new mapboxgl.LngLatBounds();
+          const filtered = allFeatures.filter(
+            (f) => f.properties.type === activeCategory,
+          );
+          if (filtered.length > 0) {
+            filtered.forEach((f) => {
+              bounds.extend(f.geometry.coordinates as [number, number]);
+            });
+            mapRef.current?.fitBounds(bounds, {
+              padding: 80,
+              maxZoom: 13,
+              duration: 1500,
+            });
+          }
+        }, 100);
       }
     }
   }, [activeCategory, allFeatures]);
 
-  const categories = ["All", "Accommodation", "Cafe", "Restaurant", "Beach", "Wisata"];
+  const categories = [
+    "All",
+    "Accommodation",
+    "Cafe",
+    "Restaurant",
+    "Beach",
+    "Wisata",
+  ];
 
   return (
     <main className="relative w-full h-screen bg-neutral-100 overflow-hidden">
       {/* MAP CONTAINER */}
-      <div className="absolute inset-0 top-0" style={{ minHeight: "100vh" }} ref={mapContainerRef} />
+      <div
+        className="absolute inset-0 top-0"
+        style={{ minHeight: "100vh" }}
+        ref={mapContainerRef}
+      />
 
       {/* OVERLAY UI - Filter Glassmorphism Panel */}
       <div className="absolute top-28 left-6 z-10 hidden md:flex flex-col gap-4">
         <div className="bg-white/70 rounded-2xl p-5 border border-white/50 w-72 backdrop-blur-md">
-          <h2 className="text-xl font-jakarta font-bold text-gray-900 mb-1">Explore Jogja</h2>
+          <h2 className="text-xl font-jakarta font-bold text-gray-900 mb-1">
+            {t("maps.title")}
+          </h2>
           <p className="text-xs text-gray-500 mb-5 leading-relaxed">
-            Discover thousands of beautiful destinations right on the map. Click a point to see details.
+            {t("maps.description")}
           </p>
 
           <div className="flex flex-col gap-2.5">
@@ -511,11 +628,13 @@ export default function MapsPage() {
                 >
                   <span
                     className={`p-1.5 rounded-lg transition-all ease-in-out `}
-                    style={{ color: isActive ? 'white' : 'black' }}
+                    style={{ color: isActive ? "white" : "black" }}
                   >
                     <IconComp size={16} />
                   </span>
-                  <span className="font-medium text-sm font-jakarta">{cat}</span>
+                  <span className="font-medium text-sm font-jakarta">
+                    {t(`maps.categories.${cat.toLowerCase()}`)}
+                  </span>
                 </button>
               );
             })}
@@ -532,22 +651,29 @@ export default function MapsPage() {
           {isLocating ? (
             <Loader2 size={18} className="animate-spin" />
           ) : (
-            <Navigation2 size={18} className={`transition-transform group-hover:rotate-45 text-black`} />
+            <Navigation2
+              size={18}
+              className={`transition-transform group-hover:rotate-45 text-black`}
+            />
           )}
-          {isLocating ? "Finding you..." : "Destinations Near Me"}
+          {isLocating ? t("maps.findingYou") : t("maps.nearMe")}
         </button>
 
         {/* Global Reset View Button */}
-        <button 
-           onClick={() => {
-              setActiveCategory("All");
-              setShowNearbyPanel(false);
-              mapRef.current?.flyTo({ center: [110.3695, -7.7956], zoom: 12, duration: 2000 });
-           }}
-           className="bg-white/70 hover:bg-white backdrop-blur-md shadow-lg rounded-xl px-5 py-3 flex items-center gap-2 border border-white/50 text-gray-800 transition-all text-sm font-semibold hover:shadow-xl hover:-translate-y-1"
+        <button
+          onClick={() => {
+            setActiveCategory("All");
+            setShowNearbyPanel(false);
+            mapRef.current?.flyTo({
+              center: [110.3695, -7.7956],
+              zoom: 12,
+              duration: 2000,
+            });
+          }}
+          className="bg-white/70 hover:bg-white backdrop-blur-md shadow-lg rounded-xl px-5 py-3 flex items-center gap-2 border border-white/50 text-gray-800 transition-all text-sm font-semibold hover:shadow-xl hover:-translate-y-1"
         >
-           <LocateFixed size={18} className="text-gray-600"/>
-           Recenter Map
+          <LocateFixed size={18} className="text-gray-600" />
+          {t("maps.recenterMap")}
         </button>
       </div>
 
@@ -566,25 +692,27 @@ export default function MapsPage() {
             ) : (
               <Navigation2 size={18} />
             )}
-            {isLocating ? "Finding you..." : "Destinations Near Me"}
+            {isLocating ? t("maps.findingYou") : t("maps.nearMe")}
           </button>
         )}
 
         {/* Category Filters - Mobile */}
         <div className="bg-white/80 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl p-2 flex overflow-x-auto gap-2 scrollbar-none">
           {categories.map((cat) => {
-              const isActive = activeCategory === cat;
-              return (
-                 <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                      isActive ? "bg-black text-white shadow-md" : "bg-white text-gray-700 border border-gray-100"
-                    }`}
-                 >
-                    {cat}
-                 </button>
-              )
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  isActive
+                    ? "bg-black text-white shadow-md"
+                    : "bg-white text-gray-700 border border-gray-100"
+                }`}
+              >
+                {t(`maps.categories.${cat.toLowerCase()}`)}
+              </button>
+            );
           })}
         </div>
       </div>
@@ -597,7 +725,10 @@ export default function MapsPage() {
               <X size={14} className="text-red-500" />
             </div>
             <p className="text-sm text-red-700 font-medium">{locationError}</p>
-            <button onClick={() => setLocationError(null)} className="ml-2 text-red-400 hover:text-red-600">
+            <button
+              onClick={() => setLocationError(null)}
+              className="ml-2 text-red-400 hover:text-red-600"
+            >
               <X size={16} />
             </button>
           </div>
@@ -611,7 +742,8 @@ export default function MapsPage() {
             ${panelExpanded ? "md:right-6 md:top-28 md:bottom-auto md:w-96 bottom-0 left-0 right-0 md:left-auto md:max-h-[calc(100vh-8rem)]" : "md:right-6 md:top-28 md:w-96 bottom-0 left-0 right-0 md:left-auto"}
           `}
         >
-          <div className={`bg-white/90 backdrop-blur-xl border border-white/60 shadow-2xl overflow-hidden transition-all duration-500
+          <div
+            className={`bg-white/90 backdrop-blur-xl border border-white/60 shadow-2xl overflow-hidden transition-all duration-500
             ${panelExpanded ? "rounded-t-3xl md:rounded-2xl max-h-[70vh] md:max-h-[calc(100vh-8rem)]" : "rounded-t-3xl md:rounded-2xl max-h-16 md:max-h-16"}`}
           >
             {/* Panel Header */}
@@ -621,8 +753,12 @@ export default function MapsPage() {
             >
               <div className="flex items-center gap-3">
                 <div>
-                  <h3 className="text-sm font-bold text-gray-900 font-jakarta">Nearby Destinations</h3>
-                  <p className="text-[11px] text-gray-500">{filteredNearby.length} places found</p>
+                  <h3 className="text-sm font-bold text-gray-900 font-jakarta">
+                    {t("maps.nearbyTitle")}
+                  </h3>
+                  <p className="text-[11px] text-gray-500">
+                    {filteredNearby.length} {t("maps.placesFound")}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -636,7 +772,11 @@ export default function MapsPage() {
                   <X size={14} className="text-gray-500" />
                 </button>
                 <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
-                  {panelExpanded ? <ChevronDown size={14} className="text-gray-500" /> : <ChevronUp size={14} className="text-gray-500" />}
+                  {panelExpanded ? (
+                    <ChevronDown size={14} className="text-gray-500" />
+                  ) : (
+                    <ChevronUp size={14} className="text-gray-500" />
+                  )}
                 </div>
               </div>
             </div>
@@ -673,8 +813,9 @@ export default function MapsPage() {
                       <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mb-3">
                         <MapPin size={24} className="text-gray-400" />
                       </div>
-                      <p className="text-sm text-gray-500 font-medium">No destinations found nearby</p>
-                      <p className="text-xs text-gray-400 mt-1">Try a different category</p>
+                      <p className="text-sm text-gray-500 font-medium">
+                        {t("maps.noNearby")}
+                      </p>
                     </div>
                   ) : (
                     filteredNearby.map((dest, idx) => {
@@ -716,14 +857,21 @@ export default function MapsPage() {
                                 {dest.type}
                               </span>
                               <span className="flex items-center gap-0.5 text-[11px] text-gray-500">
-                                <Star size={10} className="text-amber-500 fill-amber-500" />
+                                <Star
+                                  size={10}
+                                  className="text-amber-500 fill-amber-500"
+                                />
                                 {dest.rating}
                               </span>
                             </div>
                             <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
                               <Navigation size={10} className="text-blue-500" />
-                              <span className="font-medium text-blue-600">{dest.distance.toFixed(1)} km</span>
-                              <span className="text-gray-400">away</span>
+                              <span className="font-medium text-blue-600">
+                                {dest.distance.toFixed(1)} km
+                              </span>
+                              <span className="text-gray-400">
+                                {t("maps.away")}
+                              </span>
                             </p>
                           </div>
 
@@ -743,7 +891,9 @@ export default function MapsPage() {
       )}
 
       {/* INJECT CSS FOR MAPBOX POPUP CUSTOMIZATION & User Marker */}
-      <style dangerouslySetInnerHTML={{__html:`
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
          .jogja-map-popup .mapboxgl-popup-content {
              padding: 8px;
              border-radius: 16px;
@@ -821,7 +971,9 @@ export default function MapsPage() {
          .animate-fade-in {
              animation: fade-in 0.3s ease-out;
          }
-      `}} />
+      `,
+        }}
+      />
     </main>
   );
 }

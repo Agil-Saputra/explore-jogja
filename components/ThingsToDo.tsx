@@ -1,51 +1,53 @@
-'use client';
+"use client";
 
-import React, { useState, useRef } from 'react';
-import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, EffectFade } from 'swiper/modules';
-import type { Swiper as SwiperType } from 'swiper';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import React, { useState, useRef } from "react";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, EffectFade } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
-import 'swiper/css';
-import 'swiper/css/effect-fade';
+import "swiper/css";
+import "swiper/css/effect-fade";
+import { useLocale } from "@/components/LocaleContext";
 
 const thingsToDoData = [
   {
-    image: '/assets/Malioboro-Yogyakarta.jpg',
-    title: 'Malioboro Street',
+    image: "/assets/Malioboro-Yogyakarta.jpg",
+    title: "Malioboro Street",
     description:
       "Often described as the heartbeat of Yogyakarta, Malioboro Street is the city's most iconic thoroughfare — a vibrant tapestry of culture, commerce, and heritage that has been...",
   },
   {
-    image: '/assets/ramayana-ballet.jpg',
-    title: 'Ramayana Ballet',
+    image: "/assets/ramayana-ballet.jpg",
+    title: "Ramayana Ballet",
     description:
-      'Witness the spectacular Ramayana Ballet performed against the stunning backdrop of Prambanan Temple. This mesmerizing open-air performance brings ancient Hindu mythology to life through...',
+      "Witness the spectacular Ramayana Ballet performed against the stunning backdrop of Prambanan Temple. This mesmerizing open-air performance brings ancient Hindu mythology to life through...",
   },
   {
-    image: '/assets/gunung-kidul-beach.avif',
-    title: 'Gunung Kidul Beaches',
+    image: "/assets/gunung-kidul-beach.avif",
+    title: "Gunung Kidul Beaches",
     description:
-      'Discover pristine white-sand beaches tucked along the dramatic limestone cliffs of Gunung Kidul. From the famous Timang Beach to the hidden gem of Jogan Waterfall Beach...',
+      "Discover pristine white-sand beaches tucked along the dramatic limestone cliffs of Gunung Kidul. From the famous Timang Beach to the hidden gem of Jogan Waterfall Beach...",
   },
   {
-    image: '/assets/keraton.webp',
-    title: 'Keraton Palace Visit',
+    image: "/assets/keraton.webp",
+    title: "Keraton Palace Visit",
     description:
       "Step into the living royal court of the Yogyakarta Sultanate. The Keraton has been the cultural epicenter of Javanese civilization since 1755, offering visitors a glimpse into the region's...",
   },
   {
-    image: '/assets/candi-prambanan.webp',
-    title: 'Prambanan Temple',
+    image: "/assets/candi-prambanan.webp",
+    title: "Prambanan Temple",
     description:
-      'Marvel at the largest Hindu temple complex in Indonesia, a UNESCO World Heritage Site rising majestically from the Prambanan Plain. Its towering spires and intricate reliefs tell stories of...',
+      "Marvel at the largest Hindu temple complex in Indonesia, a UNESCO World Heritage Site rising majestically from the Prambanan Plain. Its towering spires and intricate reliefs tell stories of...",
   },
 ];
 
 export default function ThingsToDo() {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
+  const { t } = useLocale();
 
   const goNext = () => {
     if (swiperRef.current) swiperRef.current.slideNext();
@@ -65,17 +67,17 @@ export default function ThingsToDo() {
           {/* Left: Big heading */}
           <div className="flex-shrink-0">
             <h2 className="text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[0.95] font-jakarta text-black ">
-              Things To Do
+              {t("thingsToDo.title")}
             </h2>
           </div>
 
           {/* Right: Description */}
           <div className="flex-1 max-w-xl pt-1 md:pt-2">
             <h3 className="text-xl md:text-2xl font-bold mb-4 text-black">
-              Discover hidden gems in Yogyakarta
+              {t("thingsToDo.subtitle")}
             </h3>
             <p className="text-black text-[15px] md:text-base leading-relaxed">
-              From impromptu discoveries to mapped-out adventures, there&apos;s no shortage of things to keep your attention and stretch your imagination across Yogyakarta. Explore the rich history and stunning landscapes that define this beautiful city, from the iconic Malioboro to the sensational southern beaches and everything in between that keeps visitors coming back time after time.
+              {t("thingsToDo.description")}
             </p>
           </div>
         </div>
@@ -126,7 +128,7 @@ export default function ThingsToDo() {
             </p>
             <div className="flex items-center justify-between">
               <button className="bg-gray-900 hover:bg-black text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors">
-                View Details
+                {t("thingsToDo.viewDetails")}
               </button>
               <div className="flex items-center gap-2">
                 <button
@@ -134,14 +136,20 @@ export default function ThingsToDo() {
                   className="w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-900 flex items-center justify-center transition-colors group"
                   aria-label="Previous slide"
                 >
-                  <ArrowLeft size={16} className="text-gray-500 group-hover:text-gray-900 transition-colors" />
+                  <ArrowLeft
+                    size={16}
+                    className="text-gray-500 group-hover:text-gray-900 transition-colors"
+                  />
                 </button>
                 <button
                   onClick={goNext}
                   className="w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-900 flex items-center justify-center transition-colors group"
                   aria-label="Next slide"
                 >
-                  <ArrowRight size={16} className="text-gray-500 group-hover:text-gray-900 transition-colors" />
+                  <ArrowRight
+                    size={16}
+                    className="text-gray-500 group-hover:text-gray-900 transition-colors"
+                  />
                 </button>
               </div>
             </div>

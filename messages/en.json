@@ -1,0 +1,306 @@
+{
+  "navbar": {
+    "menu": "Menu",
+    "askAnything": "Ask Anything",
+    "languageName": "English",
+    "nav": {
+      "home": "Home",
+      "discover": "Discover",
+      "planYourVisit": "Plan Your Visit",
+      "map": "Map",
+      "articles": "Articles",
+      "history": "History"
+    },
+    "footer": {
+      "title": "Visit Yogyakarta",
+      "email": "info@visityogyakarta.id"
+    }
+  },
+  "home": {
+    "heroTitle": "The Cultural Capital of Indonesia",
+    "heroSubtitle": "Discover the heart of Javanese culture, where ancient traditions meet vibrant modern life.",
+    "quote1": "From Javanese festivals and contemporary art exhibitions to vibrant community gatherings, find out what's happening in City and join us.",
+    "quote1Annotation": "Don't miss out on special experiences!",
+    "quote1Desc": "There is always something happening in Jogja. Here you'll find a dynamic events where traditional dance, modern music, indie art, and cultural festivals blend seamlessly into the city's everyday life. Whether you're looking for family-friendly workshops, outdoor concerts at the temples, batik exhibitions, or festivals that capture the unique \"Jogja Istimewa\" spirit. Stay tuned!",
+    "quote2": "Yogyakarta is the Heart of the Cultural Circle. Explore ancient temples, merapi landscapes, royal palaces, and exotic beaches – all within a short drive.",
+    "learnMore": "Learn More",
+    "quote2Annotation": "Enjoy the quality, the beauty and the hospitality of Jogja!",
+    "quote2Desc": "Discover the heritage-city charm with majestic palace views, vibrant street art, and a soul-soothing atmosphere. Yogyakarta is a haven for culture enthusiasts, boasting the richest collection of Javanese traditions and ancient wonders. Also a perfect base for the Cultural Circle. After a day on the road—come back to what really matters: authentic flavors, warm hospitality, and genuine comfort.",
+    "culinaryQuote": "A Feast for the Senses Awaits in Every Corner of Yogyakarta.",
+    "culinaryDesc": "Yogyakarta is not just a feast for the eyes — it's a paradise for food lovers. The city's culinary heritage is deeply intertwined with its royal past, from the sweet, aromatic gudeg born in the Sultan's kitchen to the smoky sate klatak grilled over iron skewers. Wander through angkringan stalls at midnight, sip a bold kopi joss infused with burning charcoal, or savor centuries-old recipes at iconic restaurants. Every meal in Jogja tells a story.",
+    "exploreCulinary": "Explore Culinary Map",
+    "planQuote": "Planning a trip to Yogyakarta has never been easier.",
+    "planDesc": "Our all-in-one AI travel guide for accommodations, itineraries, local tours, and essential seasonal tips.",
+    "planVisitBtn": "Plan Your Visit"
+  },
+  "footer": {
+    "title": "Visit Yogyakarta",
+    "address": "Visit Yogyakarta — 640 Yogyakarta — INDONESIA",
+    "email": "info@visitjogja.id",
+    "newsletterPlaceholder": "Sign up for our newsletter"
+  },
+  "discover": {
+    "title": "Discover Yogyakarta",
+    "heroText": "Ancient heritage, breathtaking natural wonders, or traditional treats. Jogja lets you see it all.",
+    "categories": {
+      "accommodation": "Accommodation",
+      "activities": "Activities",
+      "topAttractions": "Top Attractions",
+      "events": "Events",
+      "foodAndDrink": "Food & Drink",
+      "gettingAround": "Getting Around",
+      "trekkingAndHiking": "Trekking and Hiking",
+      "beaches": "Beaches",
+      "aestheticCafes": "Aesthetic Cafes"
+    }
+  },
+  "attractionsSlider": {
+    "title": "Attractions & Landmarks",
+    "viewAll": "View All",
+    "tabs": {
+      "attractions": "Attractions",
+      "landmarks": "Landmarks"
+    },
+    "decorativeText": "See all attractions and landmarks we have to offer"
+  },
+  "thingsToDo": {
+    "title": "Things To Do",
+    "subtitle": "Discover hidden gems in Yogyakarta",
+    "description": "From impromptu discoveries to mapped-out adventures, there's no shortage of things to keep your attention and stretch your imagination across Yogyakarta. Explore the rich history and stunning landscapes that define this beautiful city, from the iconic Malioboro to the sensational southern beaches and everything in between that keeps visitors coming back time after time.",
+    "viewDetails": "View Details"
+  },
+  "yogyakartaMap": {
+    "sectionTitle": "Five unique districts, each with their own character",
+    "description": "Yogyakarta comprises five distinct areas, anchored by the historic and cultural heart of Kota Yogyakarta. To the north, Sleman boasts majestic landmarks like Prambanan and Mt. Merapi, while Gunungkidul thrills with rugged beaches and Jomblang Cave. The southern coast of Bantul serves as the region's artistic soul, perfectly complementing the tranquil, nature-focused eco-tourism of Kulon Progo in the west.",
+    "tooltipLabels": {
+      "capital": "Capital",
+      "population": "Population",
+      "area": "Area"
+    },
+    "close": "Close",
+    "districts": {
+      "Bantul": {
+        "description": "Renowned for its stunning southern beaches and traditional batik craft villages."
+      },
+      "GunungKidul": {
+        "description": "Home to dramatic karst landscapes, hidden beaches, and ancient cave systems."
+      },
+      "KotaYogyakarta": {
+        "description": "The royal heart of Javanese culture — home to Keraton and Malioboro Street."
+      },
+      "KulonProgo": {
+        "description": "A rising gem with Menoreh Hills, tea plantations, and the new international airport."
+      },
+      "Sleman": {
+        "description": "Gateway to the majestic Mount Merapi and home to premier universities."
+      }
+    }
+  },
+  "articles": {
+    "title": "All About Yogyakarta",
+    "subtitle": "Your guide to Yogyakarta's rich culture, stunning landscapes, and unforgettable experiences.",
+    "description": "Explore a curated selection of articles covering Yogyakarta's cultural heritage, culinary delights, natural wonders, and travel guides.",
+    "searchPlaceholder": "Search articles...",
+    "filter": "Filter",
+    "all": "All",
+    "loadMore": "Load More",
+    "categories": {
+      "Culture": "Culture",
+      "Heritage": "Heritage",
+      "Food & Drink": "Food & Drink",
+      "Nature": "Nature",
+      "Travel Guide": "Travel Guide",
+      "Adventure": "Adventure",
+      "Lifestyle": "Lifestyle",
+      "Events": "Events"
+    }
+  },
+  "events": {
+    "title": "Events",
+    "description": "There is always something happening in Yogyakarta. Discover festivals, cultural performances, workshops, art exhibitions, and community gatherings that bring the city's vibrant spirit to life.",
+    "registration": {
+      "title": "Event registration",
+      "description": "Have a local event coming up? Tell us about your upcoming event and we'll feature it here.",
+      "eventDetails": "Event details",
+      "eventName": "Event name",
+      "eventNamePlaceholder": "Event name",
+      "eventDescription": "Event description",
+      "eventDescriptionPlaceholder": "Event description",
+      "eventBegins": "Event begins",
+      "eventImage": "Image",
+      "chooseImage": "Choose image",
+      "noFileChosen": "No file chosen",
+      "eventLocation": "Location",
+      "eventLocationPlaceholder": "Event location",
+      "contactInfo": "Contact info",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "Your email",
+      "phone": "Phone",
+      "phonePlaceholder": "Your phone number",
+      "send": "Send"
+    },
+    "readMore": "Read more",
+    "noEvents": "No events found.",
+    "upcoming": "Upcoming"
+  },
+  "history": {
+    "legacyTitle": "A Living Cultural Legacy",
+    "legacyP1": "Yogyakarta is not merely a city frozen in history. Its past lives on through the daily rituals of its people—the dulcet tones of the gamelan echoing from the Keraton, the meticulous art of batik-making passed down through generations, and the grand royal ceremonies that continue to mark the passage of time.",
+    "legacyP2": "Today, as a Special Region of Indonesia, Yogyakarta stands as a testament to the enduring power of culture, earning its rightful title as the Cultural Capital of Indonesia."
+  },
+  "planYourVisit": {
+    "title": "Plan Your Visit",
+    "description": "Not sure where to go in Jogja? Leave it to us. Click one button and get an instantly awesome vacation itinerary. From rich cultural spots and hit culinary destinations to local hidden gems, we've got it all sorted for you.",
+    "decorativeText": "Planning a Trip to Yogyakarta has never been easier",
+    "createTripPlan": "Create A Trip Plan",
+    "gettingHereTitle": "It's all about getting here",
+    "gettingHereDesc": "There are many ways to get to Yogyakarta. By renting a car, taking a train or flying, or on a guided tour. Check out our recommendations.",
+    "seeMore": "See more"
+  },
+  "createPlan": {
+    "step1Title": "When are you travelling?",
+    "step2Title": "Who's coming with you?",
+    "step3Title": "What's your daily budget?",
+    "step4Title": "What are you interested in?",
+    "step5Title": "Your trip is ready!",
+    "activeHours": "Active hours",
+    "start": "Start",
+    "end": "End",
+    "selectEndDate": "Select an end date",
+    "dayTrip": "day trip",
+    "nights": "nights",
+    "selectDailyBudget": "Select your daily budget",
+    "selectInterests": "Select one or more categories that excite you.",
+    "travelDates": "Travel Dates",
+    "travelingWith": "Traveling with",
+    "dailyBudget": "Daily Budget",
+    "perDay": "/ day",
+    "interests": "Interests",
+    "generateItinerary": "Generate My Itinerary",
+    "generating": "Generating…",
+    "aiPlanning": "AI is planning your trip",
+    "errorTitle": "Oops, something went wrong",
+    "goBack": "Go Back",
+    "tryAgain": "Try Again",
+    "companions": {
+      "solo": "Flying solo",
+      "partner": "My partner",
+      "family": "The whole family",
+      "friends": "My friends"
+    },
+    "interestLabels": {
+      "culture": "Culture & Heritage",
+      "nature": "Nature & Adventure",
+      "culinary": "Food & Culinary",
+      "art": "Art & Craft",
+      "spiritual": "Spiritual & Wellness",
+      "nightlife": "Nightlife & Entertainment",
+      "shopping": "Shopping & Markets",
+      "photography": "Photography Spots"
+    },
+    "loadingMessages": [
+      "Crafting your perfect itinerary…",
+      "Discovering hidden gems in Yogyakarta…",
+      "Mapping the best routes for you…",
+      "Curating cultural experiences…",
+      "Finding the best local spots…"
+    ],
+    "timeLabels": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "night": "Night"
+    },
+    "results": {
+      "yourItinerary": "Your Itinerary",
+      "day": "Day",
+      "mapView": "Map View",
+      "listView": "List View",
+      "regenerate": "Regenerate",
+      "startOver": "Start Over",
+      "estimatedBudget": "Estimated budget",
+      "tip": "Tip",
+      "totalEstimated": "Total Estimated Budget",
+      "address": "Address",
+      "loadingMap": "Loading map…"
+    }
+  },
+  "maps": {
+    "title": "Explore Jogja",
+    "description": "Discover hidden gems, local favorites, and unforgettable spots across Yogyakarta — all on an interactive map.",
+    "categories": {
+      "all": "All",
+      "accommodation": "Accommodation",
+      "cafe": "Cafe",
+      "restaurant": "Restaurant",
+      "beach": "Beach",
+      "wisata": "Wisata"
+    },
+    "searchPlaceholder": "Search places...",
+    "findingYou": "Finding you...",
+    "nearMe": "Near Me",
+    "recenterMap": "Recenter Map",
+    "nearbyTitle": "Nearby Destinations",
+    "placesFound": "places found",
+    "noNearby": "No destinations found nearby. Try expanding your search area.",
+    "away": "away",
+    "viewDetail": "View Detail",
+    "address": "Address:",
+    "phone": "Phone:",
+    "yourLocation": "Your Location"
+  },
+  "chat": {
+    "welcome": "Sugeng Rawuh! 👋",
+    "welcomeDesc": "I'm your personal guide to Yogyakarta's rich heritage, culture, and hidden treasures. How can I help?",
+    "placeholder": "Ask about Yogyakarta...",
+    "thinking": "Thinking...",
+    "poweredBy": "Powered by AI · Responses may not always be accurate",
+    "history": "History",
+    "newChat": "New Chat",
+    "noConversations": "No conversations yet.",
+    "startNewChat": "Start a new chat!",
+    "messages": "messages",
+    "suggestions": [
+      "What are the must-visit temples?",
+      "Best local food in Yogyakarta?",
+      "Tell me about Kraton Palace",
+      "Hidden gems to explore"
+    ]
+  },
+  "categoryPage": {
+    "backToDiscover": "Back to Discover",
+    "noItemsFound": "No items found for",
+    "showAll": "Show all"
+  },
+  "discoverListing": {
+    "backToDiscover": "Back to Discover",
+    "showAll": "Show all",
+    "emptyState": "No places found for"
+  },
+  "createPlanTutorial": {
+    "stepLabel": "Step {current} of {total}",
+    "back": "Back",
+    "next": "Next",
+    "done": "Got it!",
+    "steps": [
+      {
+        "title": "5-Step Planner",
+        "content": "This wizard walks you through 5 quick steps to build an itinerary tailored to your travel style. Follow the step number above to track your progress."
+      },
+      {
+        "title": "Pick Your Dates",
+        "content": "Tap a date to set your arrival, then tap another to set your departure. Multi-day trips are fully supported!"
+      },
+      {
+        "title": "Active Hours",
+        "content": "Set when your sightseeing day starts and ends. The AI uses this to build a realistic schedule that matches your energy and pace."
+      },
+      {
+        "title": "Navigate Steps",
+        "content": "Once each step is filled in, hit \"Next\" to continue. Use \"Back\" at any time to revisit and tweak your choices."
+      }
+    ]
+  }
+}

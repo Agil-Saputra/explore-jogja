@@ -1,10 +1,17 @@
 "use client";
 
-import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useMemo,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, ArrowLeft, Star } from "lucide-react";
 import { Footer } from "@/app/components/Footer";
+import { useLocale } from "@/components/LocaleContext";
 
 /* ------------------------------------------------------------------ */
 /*  Normalised item shape — each page maps its raw data into this     */
@@ -69,6 +76,7 @@ export default function DiscoverListingLayout({
   const [sortOpen, setSortOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
+  const { t } = useLocale();
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   // Collect unique categories
@@ -110,7 +118,9 @@ export default function DiscoverListingLayout({
 
   // Load more when sentinel enters viewport
   const loadMore = useCallback(() => {
-    setVisibleCount((prev) => Math.min(prev + LOAD_MORE_COUNT, filteredItems.length));
+    setVisibleCount((prev) =>
+      Math.min(prev + LOAD_MORE_COUNT, filteredItems.length),
+    );
   }, [filteredItems.length]);
 
   useEffect(() => {
@@ -166,7 +176,7 @@ export default function DiscoverListingLayout({
             size={18}
             className="group-hover:-translate-x-1 transition-transform"
           />
-          <span>Back to Discover</span>
+          <span>{t("discoverListing.backToDiscover")}</span>
         </Link>
 
         {/* Title */}
@@ -302,13 +312,13 @@ export default function DiscoverListingLayout({
         {visibleItems.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 text-gray-400">
             <p className="text-lg font-medium">
-              No {emptyNoun} found for &ldquo;{activeFilter}&rdquo;
+              {t("discoverListing.emptyState")} &ldquo;{activeFilter}&rdquo;
             </p>
             <button
               onClick={() => setActiveFilter("All")}
               className="mt-4 text-gray-900 underline underline-offset-4 font-medium text-[15px]"
             >
-              Show all
+              {t("discoverListing.showAll")}
             </button>
           </div>
         )}

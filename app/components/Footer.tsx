@@ -1,4 +1,9 @@
+"use client";
+
+import { useLocale } from "@/components/LocaleContext";
+
 export function Footer() {
+    const { t } = useLocale();
     return (
         <footer className="bg-[#2D2D2D] text-white py-16 px-6 md:px-16 flex flex-col items-center justify-center text-center">
             {/* Simple Whale Tail Logo representation */}
@@ -8,17 +13,17 @@ export function Footer() {
                 </svg>
 
             </div>
-            <h3 className="text-xl font-bold mb-8 tracking-wide">Visit Yogyakarta</h3>
+            <h3 className="text-xl font-bold mb-8 tracking-wide">{t("footer.title")}</h3>
 
             <div className="text-[13px] font-medium mb-12 leading-relaxed opacity-90">
-                <p>Visit Yogyakarta — 640 Yogyakarta — INDONESIA</p>
-                <p>info@visitjogja.id</p>
+                <p>{t("footer.address")}</p>
+                <p>{t("footer.email")}</p>
             </div>
 
             <div className="relative w-full max-w-[340px] mb-12">
                 <input
                     type="email"
-                    placeholder="Sign up for our newsletter"
+                    placeholder={t("footer.newsletterPlaceholder")}
                     className="w-full bg-white text-gray-900 rounded-full px-6 py-3.5 pr-14 outline-none font-medium text-sm placeholder:text-gray-500"
                 />
                 <button className="absolute right-1.5 top-1.5 bottom-1.5 bg-[#2D2D2D] rounded-full w-10 flex items-center justify-center text-white hover:bg-black transition-colors">

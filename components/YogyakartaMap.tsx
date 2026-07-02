@@ -5,12 +5,9 @@ import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-} from "react-simple-maps";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { SimpleOpacityReveal } from "@/app/components/RevealElements";
+import { useLocale } from "@/components/LocaleContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -37,7 +34,8 @@ const DISTRICT_DATA: Record<
 > = {
   Bantul: {
     displayName: "Bantul",
-    description: "Renowned for its stunning southern beaches and traditional batik craft villages.",
+    description:
+      "Renowned for its stunning southern beaches and traditional batik craft villages.",
     color: mapColor,
     hoverColor: "#6AAF7E",
     labelCoords: [110.33, -7.92],
@@ -48,7 +46,8 @@ const DISTRICT_DATA: Record<
   },
   GunungKidul: {
     displayName: "Gunung Kidul",
-    description: "Home to dramatic karst landscapes, hidden beaches, and ancient cave systems.",
+    description:
+      "Home to dramatic karst landscapes, hidden beaches, and ancient cave systems.",
     color: mapColor,
     hoverColor: "#B8956A",
     labelCoords: [110.62, -8.0],
@@ -59,7 +58,8 @@ const DISTRICT_DATA: Record<
   },
   KotaYogyakarta: {
     displayName: "Kota Yogyakarta",
-    description: "The royal heart of Javanese culture — home to Keraton and Malioboro Street.",
+    description:
+      "The royal heart of Javanese culture — home to Keraton and Malioboro Street.",
     color: mapColor,
     hoverColor: "#E07B6F",
     labelCoords: [110.36, -7.795],
@@ -70,7 +70,8 @@ const DISTRICT_DATA: Record<
   },
   KulonProgo: {
     displayName: "Kulon Progo",
-    description: "A rising gem with Menoreh Hills, tea plantations, and the new international airport.",
+    description:
+      "A rising gem with Menoreh Hills, tea plantations, and the new international airport.",
     color: mapColor,
     hoverColor: "#7DA3C5",
     labelCoords: [110.12, -7.82],
@@ -81,7 +82,8 @@ const DISTRICT_DATA: Record<
   },
   Sleman: {
     displayName: "Sleman",
-    description: "Gateway to the majestic Mount Merapi and home to premier universities.",
+    description:
+      "Gateway to the majestic Mount Merapi and home to premier universities.",
     color: mapColor,
     hoverColor: "#9D7FAF",
     labelCoords: [110.38, -7.65],
@@ -110,10 +112,14 @@ export default function YogyakartaMap() {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null);
   const districtListRef = useRef<HTMLDivElement>(null);
 
+  const { t } = useLocale();
+
   // GSAP word-by-word scroll reveal for section title
   useGSAP(() => {
     if (sectionTitleRef.current) {
-      const words = gsap.utils.toArray(sectionTitleRef.current.querySelectorAll('.word')) as HTMLElement[];
+      const words = gsap.utils.toArray(
+        sectionTitleRef.current.querySelectorAll(".word"),
+      ) as HTMLElement[];
       gsap.fromTo(
         words,
         { opacity: 0.1 },
@@ -126,8 +132,9 @@ export default function YogyakartaMap() {
             start: "top 85%",
             end: "bottom 35%",
             scrub: true,
+            once: true,
           },
-        }
+        },
       );
     }
   });
@@ -136,7 +143,7 @@ export default function YogyakartaMap() {
   useGSAP(() => {
     if (districtListRef.current) {
       const cards = gsap.utils.toArray(
-        districtListRef.current.querySelectorAll('.district-card')
+        districtListRef.current.querySelectorAll(".district-card"),
       ) as HTMLElement[];
 
       gsap.set(cards, { opacity: 0, y: 40 });
@@ -146,11 +153,11 @@ export default function YogyakartaMap() {
         y: 0,
         duration: 0.6,
         stagger: 0.12,
-        ease: 'power3.out',
+        ease: "power3.out",
         scrollTrigger: {
           trigger: districtListRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
+          start: "top 85%",
+          toggleActions: "play none none none",
         },
       });
     }
@@ -183,10 +190,7 @@ export default function YogyakartaMap() {
   }, []);
 
   const handleMouseEnter = useCallback(
-    (
-      geo: { properties: Record<string, unknown> },
-      event: React.MouseEvent
-    ) => {
+    (geo: { properties: Record<string, unknown> }, event: React.MouseEvent) => {
       const name = geo.properties.name as string;
       const data = DISTRICT_DATA[name];
       if (!data) return;
@@ -204,18 +208,18 @@ export default function YogyakartaMap() {
       });
       setHoveredId(name);
     },
-    []
+    [],
   );
 
   const handleMouseMove = useCallback(
     (event: React.MouseEvent) => {
       if (tooltip) {
         setTooltip((prev) =>
-          prev ? { ...prev, x: event.clientX, y: event.clientY } : null
+          prev ? { ...prev, x: event.clientX, y: event.clientY } : null,
         );
       }
     },
-    [tooltip]
+    [tooltip],
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -229,61 +233,67 @@ export default function YogyakartaMap() {
       center: [0, 0] as [number, number],
       scale: 60000,
     }),
-    []
+    [],
   );
 
   return (
-    <div className="relative w-full py-16 px-8 md:py-24 bg-white z-20 overflow-hidden" id="yogyakarta-map">
+    <div
+      className="relative w-full py-16 px-8 md:py-24 bg-white z-20 overflow-hidden"
+      id="yogyakarta-map"
+    >
       {/* Section title */}
       <div className="text-center mb-12">
-        <h2 ref={sectionTitleRef} className="text-3xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 leading-tight font-jakarta flex flex-wrap gap-x-2 md:gap-x-4 gap-y-1 md:gap-y-2 justify-center">
-          {"Five unique districts, each with their own character"
+        <h2
+          ref={sectionTitleRef}
+          className="text-3xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 leading-tight font-jakarta flex flex-wrap gap-x-2 md:gap-x-4 gap-y-1 md:gap-y-2 justify-center"
+        >
+          {t("yogyakartaMap.sectionTitle")
             .split(" ")
             .map((word, index) => (
-              <span key={index} className="word inline-block">{word}</span>
+              <span key={index} className="word inline-block">
+                {word}
+              </span>
             ))}
         </h2>
-        <p className="text-base md:text-xl text-gray-500 max-w-[40ch] mx-auto mt-4 leading-relaxed">
-
-        </p>
+        <p className="text-base md:text-xl text-gray-500 max-w-[40ch] mx-auto mt-4 leading-relaxed"></p>
       </div>
 
       <div className="flex gap-8 mx-auto items-start flex-col md:flex-row">
-
         <div className="flex-1 flex flex-col gap-4">
           <SimpleOpacityReveal className="text-lg md:text-2xl text-gray-600 font-medium md:mb-12">
-            Yogyakarta comprises five distinct areas, anchored by the historic and cultural heart of Kota Yogyakarta. To the north, Sleman boasts majestic landmarks like Prambanan and Mt. Merapi, while Gunungkidul thrills with rugged beaches and Jomblang Cave. The southern coast of Bantul serves as the region&apos;s artistic soul, perfectly complementing the tranquil, nature-focused eco-tourism of Kulon Progo in the west.
+            {t("yogyakartaMap.description")}
           </SimpleOpacityReveal>
 
           <div ref={districtListRef} className="grid md:grid-cols-2 gap-4">
-          {Object.entries(DISTRICT_DATA).map(([key, data]) => (
-            <div
-              key={key}
-              className={`district-card flex md:flex-row flex-col items-center gap-5 p-2 rounded-2xl border transition-all duration-300 cursor-pointer ${hoveredId === key
-                ? "bg-[#E0DDCE] border-gray-200 shadow-md scale-[1.01]"
-                : "bg-cream border-gray-100 hover:bg-slate-400 hover:border-gray-200 hover:shadow-sm"
+            {Object.entries(DISTRICT_DATA).map(([key, data]) => (
+              <div
+                key={key}
+                className={`district-card flex md:flex-row flex-col items-center gap-5 p-2 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                  hoveredId === key
+                    ? "bg-[#E0DDCE] border-gray-200 shadow-md scale-[1.01]"
+                    : "bg-cream border-gray-100 hover:bg-slate-400 hover:border-gray-200 hover:shadow-sm"
                 }`}
-              onMouseEnter={() => setHoveredId(key)}
-              onMouseLeave={() => setHoveredId(null)}
-              onClick={() => handleDistrictClick(key)}
-            >
-              <Image
-                src={data.image}
-                alt={data.displayName}
-                width={100}
-                height={100}
-                className="md:w-[70px] md:h-[70px] h-[140px] w-full object-cover rounded-sm shrink-0"
-              />
-              <div className="flex flex-col gap-0.5">
-                <h3 className="text-lg md:text-xl font-bold text-gray-900 font-jakarta">
-                  {data.displayName}
-                </h3>
-                <p className="text-[12px] text-gray-500">
-                  {data.description}
-                </p>
+                onMouseEnter={() => setHoveredId(key)}
+                onMouseLeave={() => setHoveredId(null)}
+                onClick={() => handleDistrictClick(key)}
+              >
+                <Image
+                  src={data.image}
+                  alt={data.displayName}
+                  width={100}
+                  height={100}
+                  className="md:w-[70px] md:h-[70px] h-[140px] w-full object-cover rounded-sm shrink-0"
+                />
+                <div className="flex flex-col gap-0.5">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 font-jakarta">
+                    {data.displayName}
+                  </h3>
+                  <p className="text-[12px] text-gray-500">
+                    {t(`yogyakartaMap.districts.${key}.description`)}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
         </div>
 
@@ -327,7 +337,8 @@ export default function YogyakartaMap() {
                           },
                           hover: {
                             outline: "none",
-                            filter: "brightness(1.15) drop-shadow(0 4px 12px rgba(0,0,0,0.25))",
+                            filter:
+                              "brightness(1.15) drop-shadow(0 4px 12px rgba(0,0,0,0.25))",
                           },
                           pressed: {
                             outline: "none",
@@ -339,7 +350,6 @@ export default function YogyakartaMap() {
                   })
                 }
               </Geographies>
-
             </>
           </ComposableMap>
         </div>
@@ -358,23 +368,29 @@ export default function YogyakartaMap() {
             {tooltip.displayName}
           </h3>
           <p className="text-xs text-gray-400 leading-relaxed mb-3">
-            {tooltip.description}
+            {t(`yogyakartaMap.districts.${tooltip.name}.description`)}
           </p>
           <div className="grid grid-cols-3 gap-2 border-t border-white/10 pt-3">
             <div className="flex flex-col gap-0.5">
-              <span className="text-[0.6rem] uppercase tracking-wider text-gray-500 font-semibold">Capital</span>
+              <span className="text-[0.6rem] uppercase tracking-wider text-gray-500 font-semibold">
+                {t("yogyakartaMap.tooltipLabels.capital")}
+              </span>
               <span className="text-xs font-semibold text-gray-200">
                 {tooltip.capital}
               </span>
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-[0.6rem] uppercase tracking-wider text-gray-500 font-semibold">Population</span>
+              <span className="text-[0.6rem] uppercase tracking-wider text-gray-500 font-semibold">
+                {t("yogyakartaMap.tooltipLabels.population")}
+              </span>
               <span className="text-xs font-semibold text-gray-200">
                 {tooltip.population}
               </span>
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-[0.6rem] uppercase tracking-wider text-gray-500 font-semibold">Area</span>
+              <span className="text-[0.6rem] uppercase tracking-wider text-gray-500 font-semibold">
+                {t("yogyakartaMap.tooltipLabels.area")}
+              </span>
               <span className="text-xs font-semibold text-gray-200">
                 {tooltip.area}
               </span>
@@ -403,7 +419,16 @@ export default function YogyakartaMap() {
               className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/20 hover:bg-black/40 text-white transition-colors backdrop-blur-sm cursor-pointer"
               aria-label="Close modal"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -431,22 +456,34 @@ export default function YogyakartaMap() {
             {/* Content */}
             <div className="p-6">
               <p className="text-gray-600 leading-relaxed mb-6">
-                {DISTRICT_DATA[selectedDistrict].description}
+                {t(`yogyakartaMap.districts.${selectedDistrict}.description`)}
               </p>
 
               {/* Stats grid */}
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="bg-gray-50 rounded-xl p-4 text-center">
-                  <span className="block text-[0.65rem] uppercase tracking-wider text-gray-400 font-semibold mb-1">Capital</span>
-                  <span className="block text-sm font-bold text-gray-900">{DISTRICT_DATA[selectedDistrict].capital}</span>
+                  <span className="block text-[0.65rem] uppercase tracking-wider text-gray-400 font-semibold mb-1">
+                    {t("yogyakartaMap.tooltipLabels.capital")}
+                  </span>
+                  <span className="block text-sm font-bold text-gray-900">
+                    {DISTRICT_DATA[selectedDistrict].capital}
+                  </span>
                 </div>
                 <div className="bg-gray-50 rounded-xl p-4 text-center">
-                  <span className="block text-[0.65rem] uppercase tracking-wider text-gray-400 font-semibold mb-1">Population</span>
-                  <span className="block text-sm font-bold text-gray-900">{DISTRICT_DATA[selectedDistrict].population}</span>
+                  <span className="block text-[0.65rem] uppercase tracking-wider text-gray-400 font-semibold mb-1">
+                    {t("yogyakartaMap.tooltipLabels.population")}
+                  </span>
+                  <span className="block text-sm font-bold text-gray-900">
+                    {DISTRICT_DATA[selectedDistrict].population}
+                  </span>
                 </div>
                 <div className="bg-gray-50 rounded-xl p-4 text-center">
-                  <span className="block text-[0.65rem] uppercase tracking-wider text-gray-400 font-semibold mb-1">Area</span>
-                  <span className="block text-sm font-bold text-gray-900">{DISTRICT_DATA[selectedDistrict].area}</span>
+                  <span className="block text-[0.65rem] uppercase tracking-wider text-gray-400 font-semibold mb-1">
+                    {t("yogyakartaMap.tooltipLabels.area")}
+                  </span>
+                  <span className="block text-sm font-bold text-gray-900">
+                    {DISTRICT_DATA[selectedDistrict].area}
+                  </span>
                 </div>
               </div>
 
@@ -454,7 +491,7 @@ export default function YogyakartaMap() {
                 onClick={() => setSelectedDistrict(null)}
                 className="w-full bg-gray-900 hover:bg-black text-white py-3 rounded-xl font-semibold transition-colors cursor-pointer"
               >
-                Close
+                {t("yogyakartaMap.close")}
               </button>
             </div>
           </div>

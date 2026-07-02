@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ChevronDown, ArrowLeft } from "lucide-react";
 import { Footer } from "@/app/components/Footer";
 import type { CategoryItem } from "@/data/categoryData";
+import { useLocale } from "@/components/LocaleContext";
 
 interface CategoryPageProps {
   title: string;
@@ -15,6 +16,7 @@ interface CategoryPageProps {
 export default function CategoryPage({ title, items }: CategoryPageProps) {
   const [sortOpen, setSortOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
+  const { t } = useLocale();
 
   // Collect unique tags
   const allTags = useMemo(() => {
@@ -42,7 +44,7 @@ export default function CategoryPage({ title, items }: CategoryPageProps) {
             size={18}
             className="group-hover:-translate-x-1 transition-transform"
           />
-          <span>Back to Discover</span>
+          <span>{t("categoryPage.backToDiscover")}</span>
         </Link>
 
         {/* Title */}
@@ -145,12 +147,14 @@ export default function CategoryPage({ title, items }: CategoryPageProps) {
         {/* Empty state */}
         {filteredItems.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 text-gray-400">
-            <p className="text-lg font-medium">No items found for &ldquo;{activeFilter}&rdquo;</p>
+            <p className="text-lg font-medium">
+              {t("categoryPage.noItemsFound")} &ldquo;{activeFilter}&rdquo;
+            </p>
             <button
               onClick={() => setActiveFilter("All")}
               className="mt-4 text-gray-900 underline underline-offset-4 font-medium text-[15px]"
             >
-              Show all
+              {t("categoryPage.showAll")}
             </button>
           </div>
         )}

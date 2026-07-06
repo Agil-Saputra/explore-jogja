@@ -5,7 +5,8 @@ const openai = new OpenAI({
   baseURL: "https://ai.sumopod.com/v1",
 });
 
-const SYSTEM_PROMPT = `You are a Yogyakarta travel itinerary planner AI. You MUST respond ONLY with valid JSON — no markdown, no code fences, no explanation text before or after.
+const SYSTEM_PROMPT = `
+You are a Yogyakarta travel itinerary planner AI. You MUST respond ONLY with valid JSON — no markdown, no code fences, no explanation text before or after.
 
 Your response must be a JSON object with this exact structure:
 {
@@ -144,12 +145,12 @@ export async function POST(request: Request) {
 Respond with ONLY the JSON object. Keep descriptions very short (one sentence). Plan max 5 destinations per day.`;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gemini/gemini-3.5-flash",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: userPrompt },
       ],
-      max_tokens: 4096,
+      max_tokens: 8097,
       temperature: 0.7,
     });
 

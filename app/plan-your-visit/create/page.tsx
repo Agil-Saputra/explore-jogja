@@ -5,6 +5,8 @@ import CreatePlanTutorial from "@/components/CreatePlanTutorial";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { savePlan, type PlanPreferences } from "@/lib/planStorage";
 import {
   ArrowLeft,
   ArrowRight,
@@ -29,37 +31,27 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { Itinerary } from "@/components/ItineraryMap";
+import { useLocale } from "@/components/LocaleContext";
+
+function MapLoader() {
+  const { t } = useLocale();
+  return (
+    <div className="w-full h-full rounded-2xl bg-gray-100 flex items-center justify-center">
+      <div className="flex flex-col items-center gap-3 text-gray-400">
+        <Loader2 size={24} className="animate-spin" />
+        <span className="text-sm">{t("createPlan.results.loadingMap")}</span>
+      </div>
+    </div>
+  );
+}
 
 /* ─── Dynamic import for Mapbox GL JS (no SSR) ─── */
 const ItineraryMap = dynamic(() => import("@/components/ItineraryMap"), {
   ssr: false,
-  loading: () => (
-    <div className="w-full h-full rounded-2xl bg-gray-100 flex items-center justify-center">
-      <div className="flex flex-col items-center gap-3 text-gray-400">
-        <Loader2 size={24} className="animate-spin" />
-        <span className="text-sm">Loading map…</span>
-      </div>
-    </div>
-  ),
+  loading: () => <MapLoader />,
 });
 
 /* ─────────────────────────────── helpers ─────────────────────────────── */
-
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function isSameDay(a: Date, b: Date) {
   return (
@@ -86,13 +78,6 @@ function formatRupiah(amount: number) {
     currency: "IDR",
     maximumFractionDigits: 0,
   }).format(amount);
-}
-
-function getTimeLabel(h: number) {
-  if (h >= 5 && h < 12) return "Morning";
-  if (h >= 12 && h < 17) return "Afternoon";
-  if (h >= 17 && h < 21) return "Evening";
-  return "Night";
 }
 
 /* ─── Day colors ─── */
@@ -127,42 +112,51 @@ const CATEGORY_EMOJI: Record<string, string> = {
 /* ─────────────────────────────── step data ─────────────────────────────── */
 
 const COMPANIONS = [
-  { id: "solo", label: "Flying solo", image: "/assets/plan-flying-solo.png" },
-  { id: "partner", label: "My partner", image: "/assets/plan-my-partner.png" },
-  {
-    id: "family",
-    label: "The whole family",
-    image: "/assets/plan-whole-family.png",
-  },
-  { id: "friends", label: "My friends", image: "/assets/plan-my-friends.png" },
+  { id: "solo", image: "/assets/plan-flying-solo.png" },
+  { id: "partner", image: "/assets/plan-my-partner.png" },
+  { id: "family", image: "/assets/plan-whole-family.png" },
+  { id: "friends", image: "/assets/plan-my-friends.png" },
 ];
 
-const INTERESTS: { id: string; label: string; icon: LucideIcon }[] = [
-  { id: "culture", label: "Culture & Heritage", icon: Landmark },
-  { id: "nature", label: "Nature & Adventure", icon: Leaf },
-  { id: "culinary", label: "Food & Culinary", icon: UtensilsCrossed },
-  { id: "art", label: "Art & Craft", icon: Palette },
-  { id: "spiritual", label: "Spiritual & Wellness", icon: Flower2 },
-  { id: "nightlife", label: "Nightlife & Entertainment", icon: Music2 },
-  { id: "shopping", label: "Shopping & Markets", icon: ShoppingBag },
-  { id: "photography", label: "Photography Spots", icon: Camera },
+const INTERESTS: { id: string; icon: LucideIcon }[] = [
+  { id: "culture", icon: Landmark },
+  { id: "nature", icon: Leaf },
+  { id: "culinary", icon: UtensilsCrossed },
+  { id: "art", icon: Palette },
+  { id: "spiritual", icon: Flower2 },
+  { id: "nightlife", icon: Music2 },
+  { id: "shopping", icon: ShoppingBag },
+  { id: "photography", icon: Camera },
 ];
 
 const STEP_COUNT = 5; // wizard steps (step 6 = results page, not counted in wizard)
 
-/* ─── Loading messages ─── */
-const LOADING_MESSAGES = [
-  "Crafting your perfect itinerary…",
-  "Discovering hidden gems in Yogyakarta…",
-  "Mapping the best routes for you…",
-  "Curating cultural experiences…",
-  "Finding the best local spots…",
-];
+const LOADING_MSG_COUNT = 5;
 
 /* ─────────────────────────────── component ─────────────────────────────── */
 
 export default function CreatePlanPage() {
+  const { t } = useLocale();
   const [currentStep, setCurrentStep] = useState(1);
+
+  /* ─── Localized arrays ─── */
+  const monthNames = useMemo(
+    () => Array.from({ length: 12 }, (_, i) => t(`createPlan.monthNames.${i}`)),
+    [t],
+  );
+  const dayLabels = useMemo(
+    () => Array.from({ length: 7 }, (_, i) => t(`createPlan.dayLabels.${i}`)),
+    [t],
+  );
+  const getTimeLabel = useCallback(
+    (h: number) => {
+      if (h >= 5 && h < 12) return t("createPlan.timeLabels.morning");
+      if (h >= 12 && h < 17) return t("createPlan.timeLabels.afternoon");
+      if (h >= 17 && h < 21) return t("createPlan.timeLabels.evening");
+      return t("createPlan.timeLabels.night");
+    },
+    [t],
+  );
 
   /* Step 1: Calendar + Active Hours */
   const today = useMemo(() => new Date(), []);
@@ -187,6 +181,7 @@ export default function CreatePlanPage() {
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
 
   /* Step 6: Itinerary Results */
+  const router = useRouter();
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
@@ -315,11 +310,16 @@ export default function CreatePlanPage() {
   };
 
   /* ─── format dates ─── */
-  const formatDateShort = (d: Date) =>
-    `${d.getDate()} ${MONTH_NAMES[d.getMonth()].slice(0, 3)}`;
+  const formatDateShort = useCallback(
+    (d: Date) => `${d.getDate()} ${monthNames[d.getMonth()].slice(0, 3)}`,
+    [monthNames],
+  );
 
-  const formatDateFull = (d: Date) =>
-    `${MONTH_NAMES[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+  const formatDateFull = useCallback(
+    (d: Date) =>
+      `${monthNames[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`,
+    [monthNames],
+  );
 
   /* ─── Generate itinerary ─── */
   const generateItinerary = useCallback(async () => {
@@ -333,38 +333,48 @@ export default function CreatePlanPage() {
 
     // Cycle loading messages
     const msgInterval = setInterval(() => {
-      setLoadingMsgIndex((prev) => (prev + 1) % LOADING_MESSAGES.length);
+      setLoadingMsgIndex((prev) => (prev + 1) % LOADING_MSG_COUNT);
     }, 3000);
 
     try {
-      const interestLabels = selectedInterests.map(
-        (id) => INTERESTS.find((i) => i.id === id)?.label || id,
+      const interestLabels = selectedInterests.map((id) =>
+        t(`createPlan.interestLabels.${id}`),
       );
-      const companionInfo = COMPANIONS.find((c) => c.id === selectedCompanion);
+
+      const preferences: PlanPreferences = {
+        startDate: formatDateFull(startDate),
+        endDate: formatDateFull(endDate),
+        startHour,
+        endHour,
+        companion: selectedCompanion
+          ? t(`createPlan.companions.${selectedCompanion}`)
+          : selectedCompanion,
+        budget: `${formatRupiah(budget)} per day`,
+        interests: interestLabels,
+      };
 
       const res = await fetch("/api/itinerary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          preferences: {
-            startDate: formatDateFull(startDate),
-            endDate: formatDateFull(endDate),
-            startHour,
-            endHour,
-            companion: companionInfo?.label || selectedCompanion,
-            budget: `${formatRupiah(budget)} per day`,
-            interests: interestLabels,
-          },
-        }),
+        body: JSON.stringify({ preferences }),
       });
 
       const data = await res.json();
       if (!res.ok)
         throw new Error(data.error || "Failed to generate itinerary");
 
-      setItinerary(data.itinerary);
-      setActiveDay(1);
-      setActiveDestIdx(null);
+      // Save to localStorage and navigate to dedicated result page
+      const planId = `plan_${Date.now()}`;
+      savePlan({
+        id: planId,
+        createdAt: Date.now(),
+        preferences,
+        itinerary: data.itinerary,
+      });
+      clearInterval(msgInterval);
+      setIsGenerating(false);
+      router.push(`/plan-your-visit/result/${planId}`);
+      return;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Something went wrong";
       setGenerationError(msg);
@@ -380,6 +390,9 @@ export default function CreatePlanPage() {
     selectedInterests,
     startHour,
     endHour,
+    t,
+    formatDateFull,
+    router,
   ]);
 
   /* ─── Current active day data ─── */
@@ -433,27 +446,27 @@ export default function CreatePlanPage() {
 
               {currentStep === 1 && (
                 <h1 className="text-3xl md:text-5xl font-bold text-center tracking-tight">
-                  When are you travelling?
+                  {t("createPlan.step1Title")}
                 </h1>
               )}
               {currentStep === 2 && (
                 <h1 className="text-3xl md:text-5xl font-bold text-center tracking-tight">
-                  Who&apos;s coming with you?
+                  {t("createPlan.step2Title")}
                 </h1>
               )}
               {currentStep === 3 && (
                 <h1 className="text-3xl md:text-5xl font-bold text-center tracking-tight">
-                  What&apos;s your daily budget?
+                  {t("createPlan.step3Title")}
                 </h1>
               )}
               {currentStep === 4 && (
                 <h1 className="text-3xl md:text-5xl font-bold text-center tracking-tight">
-                  What are you interested in?
+                  {t("createPlan.step4Title")}
                 </h1>
               )}
               {currentStep === 5 && (
                 <h1 className="text-3xl md:text-5xl font-bold text-center tracking-tight">
-                  Your trip is ready!
+                  {t("createPlan.step5Title")}
                 </h1>
               )}
             </div>
@@ -490,7 +503,7 @@ export default function CreatePlanPage() {
                       <ChevronLeft size={20} className="text-gray-600" />
                     </button>
                     <h2 className="text-lg font-bold text-gray-900">
-                      {MONTH_NAMES[calendarMonth]} {calendarYear}
+                      {monthNames[calendarMonth]} {calendarYear}
                     </h2>
                     <button
                       onClick={nextMonth}
@@ -502,7 +515,7 @@ export default function CreatePlanPage() {
 
                   {/* Day labels */}
                   <div className="grid grid-cols-7 mb-2">
-                    {DAY_LABELS.map((d) => (
+                    {dayLabels.map((d) => (
                       <div
                         key={d}
                         className="text-center text-xs font-semibold text-gray-400 py-2"
@@ -562,16 +575,17 @@ export default function CreatePlanPage() {
                               (endDate.getTime() - startDate.getTime()) /
                                 86400000,
                             )}{" "}
-                            nights)
+                            {t("createPlan.nights")})
                           </span>
                         </>
                       ) : endDate ? (
                         <span className="font-semibold text-black">
-                          {formatDateShort(startDate)} (day trip)
+                          {formatDateShort(startDate)} (
+                          {t("createPlan.dayTrip")})
                         </span>
                       ) : (
                         <span className="text-gray-400">
-                          Select an end date
+                          {t("createPlan.selectEndDate")}
                         </span>
                       )}
                     </div>
@@ -580,12 +594,14 @@ export default function CreatePlanPage() {
 
                 {/* Active Hours */}
                 <div id="create-plan-active-hours" className="mt-8">
-                  <h3 className="text-xl font-bold mb-5">Active hours</h3>
+                  <h3 className="text-xl font-bold mb-5">
+                    {t("createPlan.activeHours")}
+                  </h3>
                   <div className="grid grid-cols-2 gap-4">
                     {/* Start */}
                     <div className="bg-white rounded-2xl px-5 py-4 text-center">
                       <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">
-                        Start
+                        {t("createPlan.start")}
                       </span>
                       <div className="flex items-center justify-center gap-1 mt-1">
                         <button
@@ -615,7 +631,7 @@ export default function CreatePlanPage() {
                     {/* End */}
                     <div className="bg-white rounded-2xl px-5 py-4 text-center">
                       <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">
-                        End
+                        {t("createPlan.end")}
                       </span>
                       <div className="flex items-center justify-center gap-1 mt-1">
                         <button
@@ -645,7 +661,10 @@ export default function CreatePlanPage() {
 
             {/* ─── STEP 2: Companions ─── */}
             {currentStep === 2 && (
-              <div className="grid grid-cols-2 gap-4 md:gap-6 max-w-2xl w-full">
+              <div
+                id="create-plan-companions"
+                className="grid grid-cols-2 gap-4 md:gap-6 max-w-2xl w-full"
+              >
                 {COMPANIONS.map((comp) => (
                   <button
                     key={comp.id}
@@ -659,14 +678,14 @@ export default function CreatePlanPage() {
                     <div className="aspect-[4/3] relative">
                       <Image
                         src={comp.image}
-                        alt={comp.label}
+                        alt={t(`createPlan.companions.${comp.id}`)}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="px-4 py-3 bg-white">
                       <span className="font-medium text-sm md:text-base text-gray-900">
-                        {comp.label}
+                        {t(`createPlan.companions.${comp.id}`)}
                       </span>
                     </div>
                     {selectedCompanion === comp.id && (
@@ -686,9 +705,12 @@ export default function CreatePlanPage() {
                   <div className="h-full rounded-full bg-[#2C2C2C] w-full" />
                 </div>
 
-                <div className="bg-gray-50 rounded-3xl p-6 md:p-8 shadow-sm">
+                <div
+                  id="create-plan-budget"
+                  className="bg-gray-50 rounded-3xl p-6 md:p-8 shadow-sm"
+                >
                   <p className="text-gray-500 text-center text-sm mb-8">
-                    Select your daily budget
+                    {t("createPlan.selectDailyBudget")}
                   </p>
 
                   <div className="flex flex-col items-center gap-8">
@@ -719,9 +741,12 @@ export default function CreatePlanPage() {
             {currentStep === 4 && (
               <div className="flex flex-col items-center w-full max-w-2xl">
                 <p className="text-gray-500 mb-6 text-center">
-                  Select one or more categories that excite you.
+                  {t("createPlan.selectInterests")}
                 </p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
+                <div
+                  id="create-plan-interests"
+                  className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full"
+                >
                   {INTERESTS.map((int) => (
                     <button
                       key={int.id}
@@ -734,7 +759,7 @@ export default function CreatePlanPage() {
                     >
                       <int.icon size={28} strokeWidth={1.5} />
                       <span className="text-sm font-medium text-center leading-tight">
-                        {int.label}
+                        {t(`createPlan.interestLabels.${int.id}`)}
                       </span>
                       {selectedInterests.includes(int.id) && (
                         <div className="w-5 h-5 rounded-full bg-black text-white flex items-center justify-center mt-1">
@@ -749,11 +774,14 @@ export default function CreatePlanPage() {
 
             {/* ─── STEP 5: Summary ─── */}
             {currentStep === 5 && (
-              <div className="max-w-lg w-full bg-gray-50 rounded-2xl p-8 border border-gray-200">
+              <div
+                id="create-plan-summary"
+                className="max-w-lg w-full bg-gray-50 rounded-2xl p-8 border border-gray-200"
+              >
                 <div className="space-y-6">
                   <div>
                     <span className="text-xs uppercase tracking-wider text-gray-400 font-semibold">
-                      Travel Dates
+                      {t("createPlan.travelDates")}
                     </span>
                     <p className="text-lg font-semibold mt-1">
                       {startDate && endDate
@@ -768,29 +796,30 @@ export default function CreatePlanPage() {
                   <div className="h-px bg-gray-200" />
                   <div>
                     <span className="text-xs uppercase tracking-wider text-gray-400 font-semibold">
-                      Traveling with
+                      {t("createPlan.travelingWith")}
                     </span>
                     <p className="text-lg font-semibold mt-1">
-                      {COMPANIONS.find((c) => c.id === selectedCompanion)
-                        ?.label ?? "—"}
+                      {selectedCompanion
+                        ? t(`createPlan.companions.${selectedCompanion}`)
+                        : "—"}
                     </p>
                   </div>
                   <div className="h-px bg-gray-200" />
                   <div>
                     <span className="text-xs uppercase tracking-wider text-gray-400 font-semibold">
-                      Daily Budget
+                      {t("createPlan.dailyBudget")}
                     </span>
                     <p className="text-lg font-semibold mt-1">
                       {formatRupiah(budget)}{" "}
                       <span className="text-sm text-gray-500 font-normal">
-                        / day
+                        {t("createPlan.perDay")}
                       </span>
                     </p>
                   </div>
                   <div className="h-px bg-gray-200" />
                   <div>
                     <span className="text-xs uppercase tracking-wider text-gray-400 font-semibold">
-                      Interests
+                      {t("createPlan.interests")}
                     </span>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {selectedInterests.map((id) => {
@@ -801,7 +830,7 @@ export default function CreatePlanPage() {
                             className="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm font-medium flex items-center gap-1.5"
                           >
                             {int && <int.icon size={14} strokeWidth={1.75} />}{" "}
-                            {int?.label}
+                            {t(`createPlan.interestLabels.${id}`)}
                           </span>
                         );
                       })}
@@ -820,10 +849,10 @@ export default function CreatePlanPage() {
                   {isGenerating ? (
                     <>
                       <Loader2 size={18} className="animate-spin" />
-                      Generating…
+                      {t("createPlan.generating")}
                     </>
                   ) : (
-                    <>Generate My Itinerary</>
+                    <>{t("createPlan.generateItinerary")}</>
                   )}
                 </button>
               </div>
@@ -831,7 +860,7 @@ export default function CreatePlanPage() {
           </div>
         )}
 
-        {/* ─── STEP 6: ITINERARY RESULTS ─── */}
+        {/* ─── STEP 6: GENERATING / ERROR STATE ─── */}
         {currentStep === 6 && (
           <>
             {/* ── Loading State ── */}
@@ -862,10 +891,10 @@ export default function CreatePlanPage() {
 
                   <div>
                     <h2 className="text-2xl font-bold mb-2">
-                      AI is planning your trip
+                      {t("createPlan.aiPlanning")}
                     </h2>
                     <p className="text-gray-500 animate-pulse-soft transition-all duration-500">
-                      {LOADING_MESSAGES[loadingMsgIndex]}
+                      {t(`createPlan.loadingMessages.${loadingMsgIndex}`)}
                     </p>
                   </div>
                 </div>
@@ -877,7 +906,7 @@ export default function CreatePlanPage() {
               <div className="flex-1 flex items-center justify-center px-6 py-12">
                 <div className="flex flex-col items-center gap-4 max-w-md text-center">
                   <h2 className="text-2xl font-bold">
-                    Oops, something went wrong
+                    {t("createPlan.errorTitle")}
                   </h2>
                   <p className="text-gray-500">{generationError}</p>
                   <div className="flex gap-3 mt-2">
@@ -885,320 +914,14 @@ export default function CreatePlanPage() {
                       onClick={() => setCurrentStep(5)}
                       className="px-6 py-3 rounded-xl border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
                     >
-                      Go Back
+                      {t("createPlan.goBack")}
                     </button>
                     <button
                       onClick={generateItinerary}
                       className="px-6 py-3 rounded-xl bg-black text-white font-medium hover:bg-gray-800 transition-colors"
                     >
-                      Try Again
+                      {t("createPlan.tryAgain")}
                     </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ── Results ── */}
-            {itinerary && !isGenerating && (
-              <div className="flex flex-col h-screen">
-                {/* Results Header */}
-                <div className="flex-shrink-0 border-b border-gray-100 bg-white/80 backdrop-blur-md z-10">
-                  <div className="px-6 py-5">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <Link
-                          href="/plan-your-visit"
-                          className="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-500"
-                        >
-                          <ArrowLeft size={20} />
-                        </Link>
-                        <div>
-                          <h1 className="text-xl md:text-2xl font-bold tracking-tight">
-                            {itinerary.title}
-                          </h1>
-                          <p className="text-sm text-gray-500 mt-0.5">
-                            {itinerary.summary}
-                          </p>
-                        </div>
-                      </div>
-                      {/* Mobile map toggle */}
-                      <button
-                        onClick={() => setShowMap(!showMap)}
-                        className="md:hidden flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 text-black font-medium text-sm"
-                      >
-                        <MapPin size={16} />
-                        {showMap ? "Timeline" : "Map"}
-                      </button>
-                    </div>
-
-                    {/* Day tabs */}
-                    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                      {itinerary.days.map((day) => {
-                        const color =
-                          DAY_COLORS[(day.dayNumber - 1) % DAY_COLORS.length];
-                        const isActive = activeDay === day.dayNumber;
-                        return (
-                          <button
-                            key={day.dayNumber}
-                            onClick={() => {
-                              setActiveDay(day.dayNumber);
-                              setActiveDestIdx(null);
-                            }}
-                            className={`flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 border-2 ${
-                              isActive
-                                ? "text-white shadow-lg scale-[1.02]"
-                                : "bg-white text-gray-600 border-gray-150 hover:border-gray-300"
-                            }`}
-                            style={
-                              isActive
-                                ? {
-                                    background: color,
-                                    borderColor: color,
-                                    boxShadow: `0 4px 14px ${color}40`,
-                                  }
-                                : {}
-                            }
-                          >
-                            Day {day.dayNumber}
-                            <span
-                              className={`ml-1.5 text-xs font-normal ${isActive ? "text-white/80" : "text-gray-400"}`}
-                            >
-                              {day.theme}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Results Body — split layout */}
-                <div className="flex-1 flex min-h-0">
-                  {/* Left: Timeline */}
-                  <div
-                    className={`${
-                      showMap ? "hidden" : "flex"
-                    } md:flex flex-col w-full md:w-[440px] lg:w-[500px] flex-shrink-0 border-r border-gray-100 overflow-y-auto`}
-                  >
-                    {currentDayData && (
-                      <div className="p-6 space-y-1">
-                        {/* Day header */}
-                        <div className="flex items-center gap-3 mb-6">
-                          <div
-                            className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg"
-                            style={{
-                              background:
-                                DAY_COLORS[(activeDay - 1) % DAY_COLORS.length],
-                            }}
-                          >
-                            {activeDay}
-                          </div>
-                          <div>
-                            <h3 className="font-bold text-lg">
-                              {currentDayData.theme}
-                            </h3>
-                            <p className="text-sm text-gray-400">
-                              {currentDayData.date}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Destination cards */}
-                        {currentDayData.destinations.map((dest, idx) => {
-                          const color =
-                            DAY_COLORS[(activeDay - 1) % DAY_COLORS.length];
-                          const isActiveDest = activeDestIdx === idx;
-                          return (
-                            <div key={idx} className="flex gap-4">
-                              {/* Timeline line */}
-                              <div className="flex flex-col items-center flex-shrink-0 w-8">
-                                <div
-                                  className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm transition-all duration-300 ${
-                                    isActiveDest ? "scale-110 shadow-lg" : ""
-                                  }`}
-                                  style={{
-                                    background: color,
-                                    boxShadow: isActiveDest
-                                      ? `0 4px 12px ${color}50`
-                                      : "none",
-                                  }}
-                                >
-                                  {idx + 1}
-                                </div>
-                                {idx <
-                                  currentDayData.destinations.length - 1 && (
-                                  <div
-                                    className="w-0.5 flex-1 min-h-[40px]"
-                                    style={{ background: `${color}30` }}
-                                  />
-                                )}
-                              </div>
-
-                              {/* Card */}
-                              <button
-                                onClick={() =>
-                                  setActiveDestIdx(isActiveDest ? null : idx)
-                                }
-                                className={`flex-1 mb-4 p-4 rounded-2xl border-2 text-left transition-all duration-300 hover:shadow-md ${
-                                  isActiveDest
-                                    ? "shadow-lg scale-[1.01]"
-                                    : "border-gray-100 bg-white hover:border-gray-200"
-                                }`}
-                                style={
-                                  isActiveDest
-                                    ? {
-                                        borderColor: color,
-                                        background: `${color}08`,
-                                      }
-                                    : {}
-                                }
-                              >
-                                <div className="flex items-start justify-between mb-2">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-lg">
-                                      {CATEGORY_EMOJI[dest.category] || "📍"}
-                                    </span>
-                                    <h4 className="font-bold text-base text-gray-900">
-                                      {dest.name}
-                                    </h4>
-                                  </div>
-                                  <ChevronDown
-                                    size={16}
-                                    className={`text-gray-400 transition-transform duration-300 flex-shrink-0 mt-1 ${
-                                      isActiveDest ? "rotate-180" : ""
-                                    }`}
-                                  />
-                                </div>
-
-                                <div className="flex items-center gap-3 text-xs text-gray-400 mb-2">
-                                  <span className="flex items-center gap-1">
-                                    <Clock size={12} />
-                                    {dest.time} – {dest.endTime}
-                                  </span>
-                                  <span className="flex items-center gap-1">
-                                    ⏱ {dest.duration}
-                                  </span>
-                                </div>
-
-                                {/* Expandable content */}
-                                <div
-                                  className={`overflow-hidden transition-all duration-300 ${
-                                    isActiveDest
-                                      ? "max-h-40 opacity-100 mt-2"
-                                      : "max-h-0 opacity-0"
-                                  }`}
-                                >
-                                  <p className="text-sm text-gray-600 leading-relaxed mb-2">
-                                    {dest.description}
-                                  </p>
-                                  {dest.tips && (
-                                    <div
-                                      className="flex items-start gap-2 p-2.5 rounded-xl text-xs"
-                                      style={{
-                                        background: `${color}10`,
-                                        color: color,
-                                      }}
-                                    >
-                                      <Lightbulb
-                                        size={14}
-                                        className="flex-shrink-0 mt-0.5"
-                                      />
-                                      <span>{dest.tips}</span>
-                                    </div>
-                                  )}
-                                </div>
-                              </button>
-                            </div>
-                          );
-                        })}
-
-                        {/* Google Maps Route Link */}
-                        {currentDayData.destinations.length >= 2 &&
-                          (() => {
-                            const waypoints = currentDayData.destinations
-                              .map((d) => `${d.lat},${d.lng}`)
-                              .join("/");
-                            const mapsUrl = `https://www.google.com/maps/dir/${waypoints}`;
-                            const color =
-                              DAY_COLORS[(activeDay - 1) % DAY_COLORS.length];
-                            return (
-                              <a
-                                href={mapsUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-3 mt-4 px-4 py-3.5 rounded-2xl border-2 border-dashed transition-all duration-300 hover:shadow-md group"
-                                style={{
-                                  borderColor: `${color}40`,
-                                  background: `${color}06`,
-                                }}
-                              >
-                                <div
-                                  className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                                  style={{ background: `${color}15` }}
-                                >
-                                  <MapPin size={18} style={{ color }} />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <span className="text-sm font-semibold text-gray-900 block">
-                                    Day {activeDay} Route Map
-                                  </span>
-                                  <span className="text-xs text-gray-400 block truncate">
-                                    {currentDayData.destinations
-                                      .map((d) => d.name)
-                                      .join(" → ")}
-                                  </span>
-                                </div>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="text-gray-400 group-hover:text-gray-600 flex-shrink-0 transition-colors"
-                                >
-                                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                                  <polyline points="15 3 21 3 21 9" />
-                                  <line x1="10" y1="14" x2="21" y2="3" />
-                                </svg>
-                              </a>
-                            );
-                          })()}
-
-                        {/* Regenerate button */}
-                        <div className="pt-4 mt-2 border-t border-gray-100">
-                          <button
-                            onClick={generateItinerary}
-                            disabled={isGenerating}
-                            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl border-2 border-dashed border-gray-200 text-gray-500 font-semibold text-sm hover:border-black hover:text-black hover:bg-gray-50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
-                          >
-                            <RefreshCw
-                              size={16}
-                              className="transition-transform duration-500 group-hover:rotate-180"
-                            />
-                            {isGenerating
-                              ? "Regenerating…"
-                              : "Regenerate Itinerary"}
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Right: Map */}
-                  <div
-                    className={`${showMap ? "flex" : "hidden"} md:flex flex-1 min-h-0`}
-                  >
-                    <div className="w-full h-full p-4">
-                      <ItineraryMap
-                        itinerary={itinerary}
-                        activeDay={activeDay}
-                        activeDestinationIndex={activeDestIdx}
-                      />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -1221,7 +944,7 @@ export default function CreatePlanPage() {
               `}
             >
               <ArrowLeft size={16} />
-              Back
+              {t("createPlan.back")}
             </button>
 
             <button
@@ -1232,7 +955,7 @@ export default function CreatePlanPage() {
                 ${canProceed() ? "bg-[#2C2C2C] text-white hover:bg-black shadow-lg hover:shadow-xl" : "bg-gray-200 text-gray-400 cursor-not-allowed"}
               `}
             >
-              Next
+              {t("createPlan.next")}
               <ArrowRight size={16} />
             </button>
           </div>
@@ -1294,7 +1017,7 @@ export default function CreatePlanPage() {
           </div>
         )}
       </div>
-      <CreatePlanTutorial />
+      <CreatePlanTutorial onWizardStepChange={(s) => setCurrentStep(s)} />
     </main>
   );
 }

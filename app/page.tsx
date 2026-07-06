@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,6 +14,7 @@ import {
 import { Footer } from "./components/Footer";
 import YogyakartaMap from "@/components/YogyakartaMap";
 import { useLocale } from "@/components/LocaleContext";
+import { useHorizontalGalleryScroll } from "./hooks/useHorizontalGalleryScroll";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -34,6 +35,9 @@ export default function HeroSection() {
   const quoteRef4 = useRef<HTMLHeadingElement>(null);
   const parallaxBannerRef = useRef<HTMLDivElement>(null);
   const parallaxBgRef = useRef<HTMLDivElement>(null);
+  // Horizontal gallery refs — wrapper is the pin trigger, strip is translated on X
+  const horizWrapperRef = useRef<HTMLDivElement>(null);
+  const horizStripRef = useRef<HTMLDivElement>(null);
 
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -291,6 +295,12 @@ export default function HeroSection() {
       });
     }
   });
+
+  // Horizontal gallery scroll — pin + translate at desktop, native scroll on mobile
+  useHorizontalGalleryScroll(
+    horizWrapperRef as React.RefObject<HTMLElement | null>,
+    horizStripRef as React.RefObject<HTMLElement | null>
+  );
 
   return (
     <>
@@ -557,11 +567,19 @@ export default function HeroSection() {
       {/* Culinary Section */}
       <section
         id="culinary-section"
-        className="relative w-full py-16 lg:py-32 bg-white z-20 overflow-hidden"
+        className="relative w-full bg-white z-20 overflow-hidden"
       >
-        <div className="px-8">
-          {/* Section Header */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 lg:mb-20">
+
+        
+
+        <div
+          ref={horizWrapperRef}
+          className="horiz-gallery-wrapper relative w-full"
+        >
+
+          {/* Heading — normal vertical flow, NOT inside the pinned area */}
+        <div className="px-8 pt-16 lg:pt-32 pb-12 lg:pb-20">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div className="w-full">
               <h2
                 ref={quoteRef4}
@@ -577,62 +595,82 @@ export default function HeroSection() {
               </h2>
             </div>
           </div>
-
-          {/* Image Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mb-12 lg:mb-20">
-            {/* Large Featured Image */}
-            <div className="md:col-span-7 h-[300px] md:h-[500px]">
-              <SlidingImageReveal className="w-full h-full rounded-2xl overflow-hidden">
-                <Image
-                  src="/assets/culinary-gudeg.png"
-                  alt="Traditional Jogja Gudeg - Signature Javanese jackfruit stew"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 60vw"
-                />
-              </SlidingImageReveal>
-            </div>
-
-            {/* Stacked Right Images */}
-            <div className="md:col-span-5 flex flex-col gap-4 md:gap-6">
-              <div className="h-[200px] md:h-[240px]">
-                <SlidingImageReveal className="w-full h-full rounded-2xl overflow-hidden">
-                  <Image
-                    src="/assets/bakpia.webp"
-                    alt="Yogyakarta street food - Sate, Bakpia, Es Dawet, Wedang Ronde"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 40vw"
-                  />
-                </SlidingImageReveal>
-              </div>
-              <div className="h-[200px] md:h-[240px]">
-                <SlidingImageReveal className="w-full h-full rounded-2xl overflow-hidden">
-                  <Image
-                    src="/assets/sate-klathak-jogja.jpg"
-                    alt="Traditional Javanese restaurant ambience in Yogyakarta"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 40vw"
-                  />
-                </SlidingImageReveal>
-              </div>
-            </div>
-          </div>
-
-          {/* Description & CTA */}
-          <div className="flex-1 flex flex-col gap-6">
-            <SimpleOpacityReveal className="text-base md:text-xl text-gray-600 font-medium leading-relaxed">
-              {t("home.culinaryDesc")}
-            </SimpleOpacityReveal>
-            <a
-              href="/discover"
-              className="w-fit bg-[#2C2C2C] hover:bg-black text-white px-8 py-3 rounded-full font-medium transition-colors font-jakarta"
-            >
-              {t("home.exploreCulinary")}
-            </a>
-          </div>
         </div>
+
+          <div
+            ref={horizStripRef}
+            className="horiz-gallery-strip flex gap-4 md:gap-6 px-8 overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory lg:snap-none"
+            style={{ willChange: "transform" }}
+          >
+            {(
+              [
+                {
+                  src: "/assets/culinary-gudeg.png",
+                  alt: "Traditional Jogja Gudeg — signature Javanese jackfruit stew",
+                },
+                {
+                  src: "/assets/bakpia.webp",
+                  alt: "Bakpia — iconic Yogyakarta sweet pastry snack",
+                },
+                {
+                  src: "/assets/sate-klathak-jogja.jpg",
+                  alt: "Sate Klathak — charcoal-grilled skewers unique to Jogja",
+                },
+                {
+                  src: "/assets/culinary-ambience.png",
+                  alt: "Warm culinary ambience of a traditional Jogja restaurant",
+                },
+                {
+                  src: "/assets/culinary-street.png",
+                  alt: "Vibrant street food scene along Malioboro",
+                },
+              ] as { src: string; alt: string }[]
+            ).map((img, index) => (
+              <div
+                key={img.src}
+                className="flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[38vw] h-[380px] md:h-[500px] rounded-2xl overflow-hidden relative snap-start"
+              >
+                <SlidingImageReveal className="w-full h-full">
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 38vw"
+                    {...(index === 4
+                      ? {
+                        onLoad: () => {
+                          requestAnimationFrame(() =>
+                            ScrollTrigger.refresh()
+                          );
+                        },
+                      }
+                      : {})}
+                  />
+                </SlidingImageReveal>
+              </div>
+            ))}
+          </div>
+
+
+          {/* Description & CTA — normal vertical flow below the gallery */}
+          <div className="px-8 pb-16 lg:pb-32 pt-12 lg:pt-20">
+            <div className="flex-1 flex flex-col gap-6">
+              <SimpleOpacityReveal className="text-base md:text-xl text-gray-600 font-medium leading-relaxed">
+                {t("home.culinaryDesc")}
+              </SimpleOpacityReveal>
+              <a
+                href="/discover"
+                className="w-fit bg-[#2C2C2C] hover:bg-black text-white px-8 py-3 rounded-full font-medium transition-colors font-jakarta"
+              >
+                {t("home.exploreCulinary")}
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+
       </section>
 
       {/* Jogjakarta Map */}

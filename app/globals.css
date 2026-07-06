@@ -143,6 +143,16 @@
 .animate-music-bar-3 { animation: musicBar 0.9s ease-in-out infinite alternate; }
 .animate-music-bar-4 { animation: musicBar 1.2s ease-in-out infinite alternate-reverse; }
 
+/* ── Culinary horizontal scroll hint ── */
+@keyframes bounceX {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+
+.animate-bounce-x {
+  animation: bounceX 1.2s ease-in-out infinite;
+}
+
 /* ── Language switcher text transition ── */
 @keyframes fadeSlideIn {
   from {

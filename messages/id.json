@@ -160,6 +160,23 @@
     "seeMore": "Selengkapnya"
   },
   "createPlan": {
+    "monthNames": [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember"
+    ],
+    "dayLabels": ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"],
+    "back": "Kembali",
+    "next": "Lanjut",
     "step1Title": "Kapan Anda bepergian?",
     "step2Title": "Siapa yang ikut bersama Anda?",
     "step3Title": "Berapa anggaran harian Anda?",
@@ -180,7 +197,7 @@
     "interests": "Minat",
     "generateItinerary": "Buat Itinerari Saya",
     "generating": "Membuat…",
-    "aiPlanning": "AI sedang merencanakan perjalanan Anda",
+    "aiPlanning": "Sedang merencanakan perjalanan Anda",
     "errorTitle": "Ups, terjadi kesalahan",
     "goBack": "Kembali",
     "tryAgain": "Coba Lagi",
@@ -224,7 +241,43 @@
       "tip": "Tips",
       "totalEstimated": "Total Perkiraan Biaya",
       "address": "Alamat",
-      "loadingMap": "Memuat peta…"
+      "loadingMap": "Memuat peta…",
+      "regenerating": "Membuat Ulang…",
+      "regenerateItinerary": "Buat Ulang Itinerari",
+      "routeMap": "Peta Rute",
+      "timeline": "Linimasa",
+      "mapToggle": "Peta"
+    }
+  },
+  "planHistory": {
+    "title": "Rencana Perjalanan Anda",
+    "subtitle": "Lanjutkan perencanaan dari terakhir kali.",
+    "empty": "Belum ada rencana tersimpan.",
+    "emptyHint": "Buat itinerari perjalanan pertama Anda di atas!",
+    "viewPlan": "Lihat Rencana",
+    "delete": "Hapus",
+    "createdOn": "Dibuat",
+    "days": "hari",
+    "day": "hari",
+    "notFound": "Rencana tidak ditemukan",
+    "notFoundDesc": "Rencana ini mungkin telah dihapus atau tidak ada.",
+    "backToPlans": "Kembali ke Rencana",
+    "newPlan": "Buat Rencana Baru",
+    "regenerate": "Buat Ulang Itinerari",
+    "regenerating": "Membuat Ulang…",
+    "loadingPlan": "Memuat rencana Anda…",
+    "savedNotice": "Rencana disimpan ke riwayat",
+    "historyModal": {
+      "title": "Riwayat Itinerari",
+      "subtitle": "Semua itinerari yang pernah kamu buat, tersimpan di sini.",
+      "empty": "Belum ada itinerari",
+      "emptyHint": "Rencana yang kamu buat akan muncul di sini.",
+      "openHistory": "Riwayat Itinerari",
+      "viewThis": "Lihat",
+      "deleteThis": "Hapus",
+      "created": "Dibuat",
+      "daysCount_one": "hari",
+      "daysCount_other": "hari"
     }
   },
   "maps": {
@@ -298,8 +351,24 @@
         "content": "Tentukan kapan hari wisata Anda mulai dan berakhir. AI menggunakan ini untuk membuat jadwal realistis yang sesuai energi dan ritme Anda."
       },
       {
-        "title": " Navigasi Langkah",
+        "title": "Navigasi Langkah",
         "content": "Setelah setiap langkah terisi, tekan \"Lanjut\" untuk melanjutkan. Gunakan \"Kembali\" kapan saja untuk meninjau dan menyesuaikan pilihan Anda."
+      },
+      {
+        "title": "Siapa yang Ikut?",
+        "content": "Pilih dengan siapa Anda bepergian — sendiri, berpasangan, bersama keluarga, atau teman. Pilihan ini menyesuaikan ritme dan gaya aktivitas yang direkomendasikan AI."
+      },
+      {
+        "title": "Atur Anggaran",
+        "content": "Geser slider untuk menetapkan batas pengeluaran harian. AI menggunakan ini untuk menyarankan tempat dan pengalaman yang sesuai dompet Anda."
+      },
+      {
+        "title": "Minat Anda",
+        "content": "Pilih satu atau lebih kategori yang Anda sukai. Semakin banyak yang dipilih, semakin personal itinerari Anda!"
+      },
+      {
+        "title": "Tinjau & Buat!",
+        "content": "Periksa ringkasan perjalanan sebelum membuat itinerari. Sudah sesuai? Tekan \"Generate My Itinerary\" dan biarkan AI merencanakan petualangan Jogja terbaik Anda!"
       }
     ]
   }

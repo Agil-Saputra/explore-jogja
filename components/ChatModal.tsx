@@ -259,17 +259,19 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
   }, [messages]);
 
   /* Focus input & lock scroll when modal opens */
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      setTimeout(() => inputRef.current?.focus(), 300);
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+   useEffect(() => {
+     if (isOpen) {
+       document.body.style.overflow = "hidden";
+       window.__lenis?.stop();
+     } else {
+       document.body.style.overflow = "";
+       window.__lenis?.start();
+     }
+     return () => {
+       document.body.style.overflow = "";
+       window.__lenis?.start();
+     };
+   }, [isOpen]);
 
   /* Escape to close */
   useEffect(() => {
@@ -407,6 +409,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
         {/* Sidebar panel */}
         <div
+          data-lenis-prevent
           className={`fixed md:absolute z-[103] md:z-[103] top-0 left-0 h-full bg-gray-50 border-r border-gray-100 flex flex-col transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             sidebarOpen
               ? "w-[280px] translate-x-0"

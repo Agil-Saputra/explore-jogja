@@ -160,6 +160,23 @@
     "seeMore": "See more"
   },
   "createPlan": {
+    "monthNames": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "dayLabels": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "back": "Back",
+    "next": "Next",
     "step1Title": "When are you travelling?",
     "step2Title": "Who's coming with you?",
     "step3Title": "What's your daily budget?",
@@ -224,7 +241,43 @@
       "tip": "Tip",
       "totalEstimated": "Total Estimated Budget",
       "address": "Address",
-      "loadingMap": "Loading map…"
+      "loadingMap": "Loading map…",
+      "regenerating": "Regenerating…",
+      "regenerateItinerary": "Regenerate Itinerary",
+      "routeMap": "Route Map",
+      "timeline": "Timeline",
+      "mapToggle": "Map"
+    }
+  },
+  "planHistory": {
+    "title": "Your Saved Plans",
+    "subtitle": "Continue planning where you left off.",
+    "empty": "No saved plans yet.",
+    "emptyHint": "Create your first trip itinerary above!",
+    "viewPlan": "View Plan",
+    "delete": "Delete",
+    "createdOn": "Created",
+    "days": "days",
+    "day": "day",
+    "notFound": "Plan not found",
+    "notFoundDesc": "This plan may have been deleted or doesn't exist.",
+    "backToPlans": "Back to Plans",
+    "newPlan": "Create New Plan",
+    "regenerate": "Regenerate Itinerary",
+    "regenerating": "Regenerating…",
+    "loadingPlan": "Loading your plan…",
+    "savedNotice": "Plan saved to history",
+    "historyModal": {
+      "title": "Itinerary History",
+      "subtitle": "All your generated itineraries, saved locally.",
+      "empty": "No itineraries yet",
+      "emptyHint": "Your generated plans will appear here.",
+      "openHistory": "Itinerary History",
+      "viewThis": "View",
+      "deleteThis": "Delete",
+      "created": "Created",
+      "daysCount_one": "day",
+      "daysCount_other": "days"
     }
   },
   "maps": {
@@ -300,6 +353,22 @@
       {
         "title": "Navigate Steps",
         "content": "Once each step is filled in, hit \"Next\" to continue. Use \"Back\" at any time to revisit and tweak your choices."
+      },
+      {
+        "title": "Who's Joining You?",
+        "content": "Pick who you're traveling with — solo, as a couple, with family, or with friends. Your choice tailors the pace and style of activities the AI recommends."
+      },
+      {
+        "title": "Set Your Budget",
+        "content": "Drag the slider to set your daily spending limit. The AI uses this to suggest places and experiences that fit your wallet."
+      },
+      {
+        "title": "Your Interests",
+        "content": "Select one or more categories you're excited about. The more you pick, the more personalised your itinerary will be!"
+      },
+      {
+        "title": "Review & Generate!",
+        "content": "Check your trip summary before generating. Everything looks right? Hit \"Generate My Itinerary\" and let the AI plan your perfect Jogja adventure!"
       }
     ]
   }

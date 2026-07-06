@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 
 /** Routes where the global Navbar should be hidden. */
-const HIDDEN_NAVBAR_ROUTES = ['/plan-your-visit/create'];
+const HIDDEN_NAVBAR_ROUTES = ['/plan-your-visit/create', '/plan-your-visit/result'];
 
 export default function ConditionalNavbar() {
   const pathname = usePathname();

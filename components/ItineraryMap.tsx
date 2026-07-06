@@ -21,6 +21,10 @@ export interface ItineraryDay {
   dayNumber: number;
   date: string;
   theme: string;
+  transportation?: {
+    mode: string;
+    note: string;
+  };
   destinations: Destination[];
 }
 

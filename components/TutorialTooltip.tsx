@@ -17,7 +17,7 @@ export function createTutorialTooltip(namespace: string) {
     index,
     step,
     backProps,
-    closeProps,
+    skipProps,
     primaryProps,
     tooltipProps,
     size,
@@ -63,14 +63,26 @@ export function createTutorialTooltip(namespace: string) {
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              justifyContent: "end",
+              alignItems: "start",
+              justifyContent: "space-between",
               padding: "16px 20px 0",
             }}
           >
-
+                {step.title && (
+              <h3
+                style={{
+                  fontSize: 20,
+                  fontWeight: 800,
+                  color: "#1a1a1a",
+                  marginBottom: 8,
+                  lineHeight: 1.3,
+                }}
+              >
+                {step.title as string}
+              </h3>
+            )}
             <button
-              {...closeProps}
+              {...skipProps}
               style={{
                 background: "none",
                 border: "none",
@@ -92,19 +104,7 @@ export function createTutorialTooltip(namespace: string) {
 
           {/* Content */}
           <div style={{ padding: "16px 20px 8px" }}>
-            {step.title && (
-              <h3
-                style={{
-                  fontSize: 20,
-                  fontWeight: 800,
-                  color: "#1a1a1a",
-                  marginBottom: 8,
-                  lineHeight: 1.3,
-                }}
-              >
-                {step.title as string}
-              </h3>
-            )}
+        
             <p
               style={{
                 fontSize: 14,
@@ -159,6 +159,37 @@ export function createTutorialTooltip(namespace: string) {
                   {t(`${namespace}.back`)}
                 </button>
               )}
+
+              {index == 0 && (
+               <button
+                  {...skipProps}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    background: "none",
+                    border: "1.5px solid #ddd",
+                    borderRadius: 12,
+                    padding: "8px 16px",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: "#666",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    fontFamily: "inherit",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "#999";
+                    e.currentTarget.style.color = "#333";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "#ddd";
+                    e.currentTarget.style.color = "#666";
+                  }}
+                >
+                  Skip Tutorial
+                </button>
+              )}
             </div>
 
             {continuous && (
@@ -182,11 +213,13 @@ export function createTutorialTooltip(namespace: string) {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-1px)";
-                  e.currentTarget.style.boxShadow = "0 6px 20px rgba(0, 0, 0, 0.2)";
+                  e.currentTarget.style.boxShadow =
+                    "0 6px 20px rgba(0, 0, 0, 0.2)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "0 4px 14px rgba(0, 0, 0, 0.15)";
+                  e.currentTarget.style.boxShadow =
+                    "0 4px 14px rgba(0, 0, 0, 0.15)";
                 }}
               >
                 {isLastStep ? t(`${namespace}.done`) : t(`${namespace}.next`)}

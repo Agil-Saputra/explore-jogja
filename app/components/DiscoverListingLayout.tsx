@@ -37,6 +37,8 @@ export interface DiscoverListingLayoutProps {
   subtitle: string;
   /** Base path for detail links, e.g. "/discover/beaches" */
   basePath: string;
+  /** Optional noun for empty state, e.g. "accommodation" */
+  emptyNoun?: string;
   /** The normalised items to display */
   items: ListingItem[];
   /**
@@ -67,6 +69,7 @@ export default function DiscoverListingLayout({
   title,
   subtitle,
   basePath,
+  emptyNoun,
   items,
   renderCardFooter,
 }: DiscoverListingLayoutProps) {
@@ -308,7 +311,9 @@ export default function DiscoverListingLayout({
         {visibleItems.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 text-gray-400">
             <p className="text-lg font-medium">
-              {t("discoverListing.emptyState")} &ldquo;{activeFilter}&rdquo;
+              {emptyNoun 
+                ? `No ${emptyNoun} found for \u201c${activeFilter}\u201d`
+                : `${t("discoverListing.emptyState")} \u201c${activeFilter}\u201d`}
             </p>
             <button
               onClick={() => setActiveFilter("All")}

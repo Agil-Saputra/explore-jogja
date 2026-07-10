@@ -124,7 +124,7 @@ export default function AttractionsSlider() {
         >
           {data.map((item, idx) => (
             <div
-              key={`${activeTab}-${idx}`}
+              key={`attraction-${idx}`}
               className="group flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[32vw] h-[420px] md:h-[560px] rounded-2xl overflow-hidden relative snap-start cursor-pointer"
             >
               {/* Image */}

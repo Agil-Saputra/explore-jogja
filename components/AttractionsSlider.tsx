@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLocale } from "@/components/LocaleContext";
@@ -41,37 +41,15 @@ const attractionsData = [
   },
 ];
 
-const landmarksData = [
-  {
-    image: "/assets/keraton-2.png",
-    title: "Keraton Ngayogyakarta",
-  },
-  {
-    image: "/assets/Yogyakarta_Indonesia_Tugu-Yogyakarta-01.jpg",
-    title: "Tugu Monument at Dawn",
-  },
-  {
-    image: "/assets/main-image.webp",
-    title: "Historic City Center",
-  },
-  {
-    image: "/assets/prambanan.webp",
-    title: "Prambanan at Sunset",
-  },
-];
+
 
 export default function AttractionsSlider() {
   const { t } = useLocale();
-  const tabs = [
-    t("attractionsSlider.tabs.attractions"),
-    t("attractionsSlider.tabs.landmarks"),
-  ];
-  const [activeTab, setActiveTab] = useState(0);
   // Horizontal gallery refs — wrapper is the pin trigger, strip is translated on X
   const horizWrapperRef = useRef<HTMLDivElement>(null);
   const horizStripRef = useRef<HTMLDivElement>(null);
 
-  const data = activeTab === 0 ? attractionsData : landmarksData;
+  const data = attractionsData;
 
   // Desktop pin + horizontal translate; mobile uses native overflow-x snap
   useHorizontalGalleryScroll(
@@ -83,7 +61,7 @@ export default function AttractionsSlider() {
   useEffect(() => {
     const id = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => cancelAnimationFrame(id);
-  }, [activeTab]);
+  }, []);
 
   return (
     <section className="relative w-full bg-white z-20 overflow-hidden">

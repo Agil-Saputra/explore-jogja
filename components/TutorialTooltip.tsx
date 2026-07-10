@@ -2,7 +2,7 @@
 
 import React from "react";
 import { TooltipRenderProps } from "react-joyride";
-import { Compass, X, ArrowRight, ArrowLeft } from "lucide-react";
+import { X, ArrowRight, ArrowLeft } from "lucide-react";
 import { useLocale } from "@/components/LocaleContext";
 
 /**

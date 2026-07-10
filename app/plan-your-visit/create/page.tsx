@@ -4,7 +4,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import CreatePlanTutorial from "@/components/CreatePlanTutorial";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+
 import { useRouter } from "next/navigation";
 import { savePlan, type PlanPreferences } from "@/lib/planStorage";
 import {
@@ -13,13 +13,7 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  MapPin,
-  Clock,
-  Lightbulb,
   Loader2,
-  Sparkles,
-  ChevronDown,
-  RefreshCw,
   Landmark,
   Leaf,
   UtensilsCrossed,
@@ -30,26 +24,7 @@ import {
   Camera,
   type LucideIcon,
 } from "lucide-react";
-import type { Itinerary } from "@/components/ItineraryMap";
 import { useLocale } from "@/components/LocaleContext";
-
-function MapLoader() {
-  const { t } = useLocale();
-  return (
-    <div className="w-full h-full rounded-2xl bg-gray-100 flex items-center justify-center">
-      <div className="flex flex-col items-center gap-3 text-gray-400">
-        <Loader2 size={24} className="animate-spin" />
-        <span className="text-sm">{t("createPlan.results.loadingMap")}</span>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Dynamic import for Mapbox GL JS (no SSR) ─── */
-const ItineraryMap = dynamic(() => import("@/components/ItineraryMap"), {
-  ssr: false,
-  loading: () => <MapLoader />,
-});
 
 /* ─────────────────────────────── helpers ─────────────────────────────── */
 
@@ -79,35 +54,6 @@ function formatRupiah(amount: number) {
     maximumFractionDigits: 0,
   }).format(amount);
 }
-
-/* ─── Day colors ─── */
-const DAY_COLORS = [
-  "#171717",
-  "#8B5CF6",
-  "#F97316",
-  "#10B981",
-  "#EC4899",
-  "#EAB308",
-  "#06B6D4",
-  "#F43F5E",
-];
-
-/* ─── Category emoji ─── */
-const CATEGORY_EMOJI: Record<string, string> = {
-  temple: "🛕",
-  palace: "🏛️",
-  nature: "🌿",
-  food: "🍜",
-  art: "🎨",
-  shopping: "🛍️",
-  spiritual: "🧘",
-  nightlife: "🎶",
-  photography: "📸",
-  museum: "🏛️",
-  park: "🌳",
-  beach: "🏖️",
-  village: "🏘️",
-};
 
 /* ─────────────────────────────── step data ─────────────────────────────── */
 
@@ -182,13 +128,9 @@ export default function CreatePlanPage() {
 
   /* Step 6: Itinerary Results */
   const router = useRouter();
-  const [itinerary, setItinerary] = useState<Itinerary | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
-  const [activeDay, setActiveDay] = useState(1);
-  const [activeDestIdx, setActiveDestIdx] = useState<number | null>(null);
   const [loadingMsgIndex, setLoadingMsgIndex] = useState(0);
-  const [showMap, setShowMap] = useState(false);
 
   const toggleInterest = (id: string) => {
     setSelectedInterests((prev) =>
@@ -327,7 +269,6 @@ export default function CreatePlanPage() {
 
     setIsGenerating(true);
     setGenerationError(null);
-    setItinerary(null);
     setCurrentStep(6);
     setLoadingMsgIndex(0);
 
@@ -394,12 +335,6 @@ export default function CreatePlanPage() {
     formatDateFull,
     router,
   ]);
-
-  /* ─── Current active day data ─── */
-  const currentDayData = useMemo(
-    () => itinerary?.days.find((d) => d.dayNumber === activeDay),
-    [itinerary, activeDay],
-  );
 
   return (
     <main className="min-h-screen bg-cream text-gray-900 font-jakarta w-full">

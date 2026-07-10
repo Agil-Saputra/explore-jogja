@@ -92,25 +92,8 @@ function EventCard({
 }) {
   const { t } = useLocale();
 
-  const CardWrapper = link
-    ? ({ children }: { children: React.ReactNode }) => (
-        <a
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-[#EBE9E4] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-sm transition-shadow"
-        >
-          {children}
-        </a>
-      )
-    : ({ children }: { children: React.ReactNode }) => (
-        <div className="bg-[#EBE9E4] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-sm transition-shadow">
-          {children}
-        </div>
-      );
-
-  return (
-    <CardWrapper>
+  const content = (
+    <>
       <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-14 w-full">
         {/* Date block */}
         <div className="flex flex-col min-w-[100px]">
@@ -147,6 +130,21 @@ function EventCard({
           {t("events.readMore")}
         </button>
       </div>
-    </CardWrapper>
+    </>
+  );
+
+  return link ? (
+    <a
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-[#EBE9E4] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-sm transition-shadow"
+    >
+      {content}
+    </a>
+  ) : (
+    <div className="bg-[#EBE9E4] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-sm transition-shadow">
+      {content}
+    </div>
   );
 }

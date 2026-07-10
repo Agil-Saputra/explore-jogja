@@ -20,7 +20,7 @@ export default async function EventsPage() {
             <p>
               Discover the vibrant cultural events, festivals, and performances
               happening across Yogyakarta. From ancient Ramayana ballets to
-              contemporary art exhibitions — there's always something to
+              contemporary art exhibitions — there&apos;s always something to
               experience.
             </p>
           </div>
@@ -37,7 +37,7 @@ export default async function EventsPage() {
             </h2>
             <p className="text-[15px] font-medium text-gray-800">
               Organizing a cultural event in Yogyakarta? Fill in the form below
-              and we'll feature it on our platform.
+              and we&apos;ll feature it on our platform.
             </p>
           </div>
 

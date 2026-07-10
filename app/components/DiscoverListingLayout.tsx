@@ -37,8 +37,6 @@ export interface DiscoverListingLayoutProps {
   subtitle: string;
   /** Base path for detail links, e.g. "/discover/beaches" */
   basePath: string;
-  /** Noun used in the empty-state message, e.g. "beaches" */
-  emptyNoun: string;
   /** The normalised items to display */
   items: ListingItem[];
   /**
@@ -69,7 +67,6 @@ export default function DiscoverListingLayout({
   title,
   subtitle,
   basePath,
-  emptyNoun,
   items,
   renderCardFooter,
 }: DiscoverListingLayoutProps) {

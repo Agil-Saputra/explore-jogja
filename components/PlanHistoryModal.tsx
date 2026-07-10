@@ -4,7 +4,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   X,
-  History,
   MapPin,
   CalendarDays,
   Trash2,
@@ -47,18 +46,6 @@ interface PlanHistoryModalProps {
   currentPlanId?: string;
 }
 
-/* ─── DAY_COLORS — mirrored from page ─── */
-const DAY_COLORS = [
-  "#171717",
-  "#8B5CF6",
-  "#F97316",
-  "#10B981",
-  "#EC4899",
-  "#EAB308",
-  "#06B6D4",
-  "#F43F5E",
-];
-
 /* ─── Component ─── */
 export default function PlanHistoryModal({
   isOpen,
@@ -72,7 +59,7 @@ export default function PlanHistoryModal({
   /* Load plans whenever modal opens */
   useEffect(() => {
     if (isOpen) {
-      setPlans(getPlans());
+      setTimeout(() => setPlans(getPlans()), 0);
     }
   }, [isOpen]);
 
@@ -176,7 +163,7 @@ export default function PlanHistoryModal({
             </div>
           ) : (
             <div className="px-4 py-4 space-y-3">
-              {plans.map((plan, idx) => {
+              {plans.map((plan) => {
                 const days = getDayCount(plan);
                 const isCurrent = plan.id === currentPlanId;
                 const isDeleting = deletingId === plan.id;

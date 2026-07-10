@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { History } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Footer } from "../components/Footer";
 import { useLocale } from "@/components/LocaleContext";
@@ -15,7 +14,9 @@ export default function PlanYourVisit() {
   const [plans, setPlans] = useState<SavedPlan[]>([]);
 
   useEffect(() => {
-    setPlans(getPlans());
+    setTimeout(() => {
+      setPlans(getPlans());
+    }, 0);
   }, []);
 
   console.log(plans.length);

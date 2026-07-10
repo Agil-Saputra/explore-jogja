@@ -15,7 +15,6 @@ import {
   Mail,
   MapPin,
   RefreshCw,
-  Sparkles,
   Plus,
   Send,
   X,

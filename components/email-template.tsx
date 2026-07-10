@@ -61,10 +61,6 @@ const CATEGORY_EMOJI: Record<string, string> = {
 };
 
 export function EmailTemplate({ itinerary }: EmailTemplateProps) {
-  const totalDestinations = itinerary.days.reduce(
-    (acc, d) => acc + d.destinations.length,
-    0
-  );
 
   return (
     <div

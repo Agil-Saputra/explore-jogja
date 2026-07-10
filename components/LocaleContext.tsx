@@ -48,12 +48,12 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored === "en" || stored === "id") {
-        setLocaleState(stored);
+        setTimeout(() => setLocaleState(stored as Locale), 0);
       }
     } catch {
       // localStorage unavailable (SSR / private browsing) — use default
     }
-    setMounted(true);
+    setTimeout(() => setMounted(true), 0);
   }, []);
 
   const setLocale = useCallback((next: Locale) => {

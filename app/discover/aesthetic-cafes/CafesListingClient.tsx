@@ -1,42 +1,24 @@
 "use client";
 
+import { CafePlace } from "@/lib/googlePlaces";
 import DiscoverListingLayout, {
   ListingItem,
 } from "@/app/components/DiscoverListingLayout";
 
-interface Cafe {
-  Name: string;
-  Fulladdress: string;
-  Street: string;
-  Categories: string;
-  Phone: string | null;
-  "Review Count": number | null;
-  "Average Rating": string;
-  "Google Maps URL": string;
-  Latitude: number;
-  Longitude: number;
-  Website: string | null;
-  MainImage: string;
-  AdditionalImages: string[];
-  "Place Id": string;
-  "Top 5 Reviews": { name: string; review: string }[];
-  description: string;
-}
-
 interface CafesListingClientProps {
-  cafes: Cafe[];
+  cafes: CafePlace[];
 }
 
 export default function CafesListingClient({ cafes }: CafesListingClientProps) {
-  // Map cafe-specific fields to the normalised ListingItem shape
+  // Map CafePlace fields to the normalised ListingItem shape
   const items: ListingItem[] = cafes.map((cafe) => ({
-    id: cafe.description || cafe.Name,
-    name: cafe.Name,
-    street: cafe.Street,
-    fullAddress: cafe.Fulladdress,
-    categories: cafe.Categories,
-    averageRating: cafe["Average Rating"],
-    mainImage: cafe.MainImage,
+    id: cafe.placeId,
+    name: cafe.name,
+    street: cafe.street,
+    fullAddress: cafe.fullAddress,
+    categories: cafe.categories || null,
+    averageRating: cafe.averageRating,
+    mainImage: cafe.mainImage,
   }));
 
   return (

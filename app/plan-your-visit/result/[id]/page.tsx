@@ -6,14 +6,19 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Clock,
   History,
   Lightbulb,
   Loader2,
+  Mail,
   MapPin,
   RefreshCw,
   Sparkles,
   Plus,
+  Send,
+  X,
 } from "lucide-react";
 import PlanHistoryModal from "@/components/PlanHistoryModal";
 import type { Itinerary } from "@/components/ItineraryMap";
@@ -38,33 +43,6 @@ const ItineraryMap = dynamic(() => import("@/components/ItineraryMap"), {
   loading: () => <MapLoader />,
 });
 
-/* ─── Constants ─── */
-const DAY_COLORS = [
-  "#171717",
-  "#8B5CF6",
-  "#F97316",
-  "#10B981",
-  "#EC4899",
-  "#EAB308",
-  "#06B6D4",
-  "#F43F5E",
-];
-
-const CATEGORY_EMOJI: Record<string, string> = {
-  temple: "🛕",
-  palace: "🏛️",
-  nature: "🌿",
-  food: "🍜",
-  art: "🎨",
-  shopping: "🛍️",
-  spiritual: "🧘",
-  nightlife: "🎶",
-  photography: "📸",
-  museum: "🏛️",
-  park: "🌳",
-  beach: "🏖️",
-  village: "🏘️",
-};
 
 const LOADING_MSG_COUNT = 5;
 
@@ -87,6 +65,15 @@ export default function PlanResultPage({
   const [showMap, setShowMap] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [loadingMsgIndex, setLoadingMsgIndex] = useState(0);
+  // Per-destination slider indexes: key = "dayNumber-destIdx"
+  const [sliderIndexes, setSliderIndexes] = useState<Record<string, number>>({});
+
+  // Email modal state
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [emailSending, setEmailSending] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<"idle" | "success" | "error">("idle");
+  const [emailError, setEmailError] = useState<string | null>(null);
 
   /* ─── Load plan from localStorage ─── */
   useEffect(() => {
@@ -139,6 +126,42 @@ export default function PlanResultPage({
       setIsRegenerating(false);
     }
   }, [plan]);
+
+  /* ─── Send Email ─── */
+  const sendEmail = useCallback(async () => {
+    if (!itinerary || !emailInput.trim()) return;
+    setEmailSending(true);
+    setEmailError(null);
+    try {
+      const res = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailInput.trim(), itinerary }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error?.message || data.error || "Failed to send email");
+      setEmailStatus("success");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Something went wrong";
+      setEmailError(msg);
+      setEmailStatus("error");
+    } finally {
+      setEmailSending(false);
+    }
+  }, [itinerary, emailInput]);
+
+  const openEmailModal = useCallback(() => {
+    setEmailInput("");
+    setEmailStatus("idle");
+    setEmailError(null);
+    setShowEmailModal(true);
+  }, []);
+
+  const closeEmailModal = useCallback(() => {
+    setShowEmailModal(false);
+    setEmailStatus("idle");
+    setEmailError(null);
+  }, []);
 
   /* ─── Loading state ─── */
   if (isLoading) {
@@ -225,6 +248,7 @@ export default function PlanResultPage({
     </div>
   ) : null;
 
+
   /* ─── Full result view ─── */
   return (
     <main className="min-h-screen bg-cream text-gray-900 font-jakarta w-full">
@@ -257,6 +281,14 @@ export default function PlanResultPage({
                   <History size={16} />
                   <span className="hidden sm:inline">{t("planHistory.historyModal.openHistory")}</span>
                 </button>
+                {/* Send via Email button */}
+                <button
+                  onClick={openEmailModal}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black text-white font-medium text-sm hover:bg-gray-800 transition-colors shadow-sm"
+                >
+                  <Mail size={16} />
+                  <span className="hidden sm:inline">Send via Email</span>
+                </button>
                 {/* Create new plan */}
                 <Link
                   href="/plan-your-visit/create"
@@ -281,7 +313,7 @@ export default function PlanResultPage({
             {/* Day tabs */}
             <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
               {itinerary.days.map((day) => {
-                const color = DAY_COLORS[(day.dayNumber - 1) % DAY_COLORS.length];
+                const color = "#171717";
                 const isActive = activeDay === day.dayNumber;
                 return (
                   <button
@@ -327,7 +359,7 @@ export default function PlanResultPage({
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg"
                     style={{
-                      background: DAY_COLORS[(activeDay - 1) % DAY_COLORS.length],
+                      background: "#171717",
                     }}
                   >
                     {activeDay}
@@ -349,7 +381,7 @@ export default function PlanResultPage({
 
                 {/* Destination cards */}
                 {currentDayData.destinations.map((dest, idx) => {
-                  const color = DAY_COLORS[(activeDay - 1) % DAY_COLORS.length];
+                  const color = "#171717"
                   const isActiveDest = activeDestIdx === idx;
                   return (
                     <div key={idx} className="flex gap-4">
@@ -376,7 +408,7 @@ export default function PlanResultPage({
                       </div>
 
                       {/* Card */}
-                      <button
+                      <div
                         onClick={() =>
                           setActiveDestIdx(isActiveDest ? null : idx)
                         }
@@ -395,9 +427,6 @@ export default function PlanResultPage({
                       >
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-lg">
-                              {CATEGORY_EMOJI[dest.category] || "📍"}
-                            </span>
                             <h4 className="font-bold text-base text-gray-900">
                               {dest.name}
                             </h4>
@@ -422,10 +451,97 @@ export default function PlanResultPage({
                         {/* Expandable content */}
                         <div
                           className={`overflow-hidden transition-all duration-300 ${isActiveDest
-                            ? "max-h-40 opacity-100 mt-2"
+                            ? "max-h-[480px] opacity-100 mt-2"
                             : "max-h-0 opacity-0"
                             }`}
                         >
+                          {/* ── Image Slider ── */}
+                          {isActiveDest && dest.imageUrls && dest.imageUrls.length > 0 && (() => {
+                            const sliderKey = `${activeDay}-${idx}`;
+                            const currentImg = sliderIndexes[sliderKey] ?? 0;
+                            const total = dest.imageUrls.length;
+                            const goPrev = (e: React.MouseEvent) => {
+                              e.stopPropagation();
+                              setSliderIndexes((s) => ({ ...s, [sliderKey]: (currentImg - 1 + total) % total }));
+                            };
+                            const goNext = (e: React.MouseEvent) => {
+                              e.stopPropagation();
+                              setSliderIndexes((s) => ({ ...s, [sliderKey]: (currentImg + 1) % total }));
+                            };
+                            return (
+                              <div className="relative w-full h-50 rounded-xl overflow-hidden mb-3 group" onClick={(e) => e.stopPropagation()}>
+                                {/* Slides */}
+                                <div
+                                  className="flex h-full transition-transform duration-300 ease-in-out"
+                                  style={{ transform: `translateX(-${currentImg * (100 / total)}%)`, width: `${total * 100}%` }}
+                                >
+                                  {dest.imageUrls.map((url, imgIdx) => (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img
+                                      key={imgIdx}
+                                      src={url}
+                                      alt={`${dest.name} ${imgIdx + 1}`}
+                                      className="h-full object-cover flex-shrink-0"
+                                      style={{ width: `${100 / total}%` }}
+                                      loading="lazy"
+                                    />
+                                  ))}
+                                </div>
+
+                                {/* Gradient overlay */}
+                                <div
+                                  className="absolute inset-x-0 bottom-0 h-12 pointer-events-none"
+                                  style={{ background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%)" }}
+                                />
+
+                                {/* Category + counter badge */}
+                                <span
+                                  className="absolute bottom-2 left-2 text-white text-xs font-semibold px-2 py-0.5 rounded-full"
+                                  style={{ background: `${color}cc` }}
+                                >
+                                </span>
+                                <span className="absolute bottom-2 right-2 text-white text-xs font-semibold bg-black/50 px-2 py-0.5 rounded-full">
+                                  {currentImg + 1} / {total}
+                                </span>
+
+                                {/* Arrow buttons — only show if > 1 image */}
+                                {total > 1 && (
+                                  <>
+                                    <button
+                                      onClick={goPrev}
+                                      aria-label="Previous photo"
+                                      className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-black/70"
+                                    >
+                                      <ChevronLeft size={14} />
+                                    </button>
+                                    <button
+                                      onClick={goNext}
+                                      aria-label="Next photo"
+                                      className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-black/70"
+                                    >
+                                      <ChevronRight size={14} />
+                                    </button>
+                                  </>
+                                )}
+
+                                {/* Dot indicators */}
+                                {total > 1 && (
+                                  <div className="absolute top-2 left-1/2 -translate-x-1/2 flex gap-1">
+                                    {dest.imageUrls.map((_, dotIdx) => (
+                                      <button
+                                        key={dotIdx}
+                                        onClick={(e) => { e.stopPropagation(); setSliderIndexes((s) => ({ ...s, [sliderKey]: dotIdx })); }}
+                                        aria-label={`Go to photo ${dotIdx + 1}`}
+                                        className="w-1.5 h-1.5 rounded-full transition-all duration-200"
+                                        style={{ background: dotIdx === currentImg ? "white" : "rgba(255,255,255,0.45)" }}
+                                      />
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })()}
+
                           <p className="text-sm text-gray-600 leading-relaxed mb-2">
                             {dest.description}
                           </p>
@@ -445,7 +561,7 @@ export default function PlanResultPage({
                             </div>
                           )}
                         </div>
-                      </button>
+                      </div>
                     </div>
                   );
                 })}
@@ -457,8 +573,7 @@ export default function PlanResultPage({
                       .map((d) => `${d.lat},${d.lng}`)
                       .join("/");
                     const mapsUrl = `https://www.google.com/maps/dir/${waypoints}`;
-                    const color =
-                      DAY_COLORS[(activeDay - 1) % DAY_COLORS.length];
+                    const color = "#171717";
                     return (
                       <a
                         href={mapsUrl}
@@ -548,6 +663,134 @@ export default function PlanResultPage({
         onClose={() => setShowHistory(false)}
         currentPlanId={id}
       />
+
+      {/* ─── Email Modal ─── */}
+      {showEmailModal && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-[200] bg-black/50 backdrop-blur-sm"
+            onClick={closeEmailModal}
+          />
+          {/* Modal */}
+          <div className="fixed inset-0 z-[201] flex items-center justify-center px-4">
+            <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
+              {/* Modal header */}
+              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center">
+                    <Mail size={18} className="text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-base font-bold text-gray-900">Send Itinerary via Email</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">We&apos;ll send your full plan to your inbox</p>
+                  </div>
+                </div>
+                <button
+                  onClick={closeEmailModal}
+                  className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Modal body */}
+              <div className="px-6 py-6">
+                {emailStatus === "success" ? (
+                  /* Success state */
+                  <div className="text-center py-4">
+                    <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">Email Sent!</h3>
+                    <p className="text-sm text-gray-500 mb-6">
+                      Your itinerary has been sent to <strong>{emailInput}</strong>
+                    </p>
+                    <button
+                      onClick={closeEmailModal}
+                      className="px-6 py-2.5 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-colors"
+                    >
+                      Done
+                    </button>
+                  </div>
+                ) : (
+                  /* Input state */
+                  <>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Recipient Email Address
+                    </label>
+                    <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-black focus-within:ring-2 focus-within:ring-black/10 transition-all">
+                      <Mail size={16} className="text-gray-400 flex-shrink-0" />
+                      <input
+                        id="email-input"
+                        type="email"
+                        value={emailInput}
+                        onChange={(e) => {
+                          setEmailInput(e.target.value);
+                          setEmailError(null);
+                          setEmailStatus("idle");
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && emailInput.trim()) sendEmail();
+                        }}
+                        placeholder="you@example.com"
+                        className="flex-1 bg-transparent outline-none text-sm text-gray-800 placeholder:text-gray-400"
+                        disabled={emailSending}
+                        autoFocus
+                      />
+                    </div>
+
+                    {/* Error */}
+                    {emailError && (
+                      <p className="mt-2 text-xs text-red-600">{emailError}</p>
+                    )}
+
+                    {/* Itinerary preview */}
+                    <div className="mt-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Sending</p>
+                      <p className="text-sm font-bold text-gray-900">{itinerary?.title}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        {itinerary?.days.length} {itinerary?.days.length === 1 ? "day" : "days"} ·{" "}
+                        {itinerary?.days.reduce((acc, d) => acc + d.destinations.length, 0)} destinations
+                      </p>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex gap-2 mt-6">
+                      <button
+                        onClick={closeEmailModal}
+                        className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-gray-600 text-sm font-semibold hover:bg-gray-50 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        id="send-email-btn"
+                        onClick={sendEmail}
+                        disabled={!emailInput.trim() || emailSending}
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                      >
+                        {emailSending ? (
+                          <>
+                            <Loader2 size={16} className="animate-spin" />
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            <Send size={15} />
+                            Send Email
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </main>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { History } from "lucide-react";
@@ -7,10 +7,19 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { Footer } from "../components/Footer";
 import { useLocale } from "@/components/LocaleContext";
 import PlanHistoryModal from "@/components/PlanHistoryModal";
+import { getPlans, type SavedPlan } from "@/lib/planStorage";
 
 export default function PlanYourVisit() {
   const { t } = useLocale();
   const [showHistory, setShowHistory] = useState(false);
+  const [plans, setPlans] = useState<SavedPlan[]>([]);
+
+  useEffect(() => {
+    setPlans(getPlans());
+  }, []);
+
+  console.log(plans.length);
+
   return (
     <main className="min-h-screen bg-cream text-gray-900 pt-28 md:pt-48 pb-0 font-jakarta">
       <ScrollReveal>
@@ -66,13 +75,15 @@ export default function PlanYourVisit() {
                 >
                   {t("planYourVisit.createTripPlan")}
                 </Link>
-                <button
-                  id="plan-history-btn"
-                  onClick={() => setShowHistory(true)}
-                  className="flex items-center gap-2 w-fit border-2 border-gray-200 hover:border-gray-400 bg-white/70 hover:bg-white text-gray-700 hover:text-gray-900 px-8 py-3 rounded-full font-medium transition-all duration-200 backdrop-blur-sm"
-                >
-                  {t("planHistory.historyModal.openHistory")}
-                </button>
+                {plans.length > 0 && (
+                  <button
+                    id="plan-history-btn"
+                    onClick={() => setShowHistory(true)}
+                    className="flex items-center gap-2 w-fit border-2 border-gray-200 hover:border-gray-400 bg-white/70 hover:bg-white text-gray-700 hover:text-gray-900 px-8 py-3 rounded-full font-medium transition-all duration-200 backdrop-blur-sm"
+                  >
+                    {t("planHistory.historyModal.openHistory")}
+                  </button>
+                )}
               </div>
             </div>
           </div>

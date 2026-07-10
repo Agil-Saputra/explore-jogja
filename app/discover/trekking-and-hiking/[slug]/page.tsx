@@ -3,7 +3,7 @@ import PlaceDetailLayout, {
   type CategoryMeta,
 } from "@/components/PlaceDetailLayout";
 import {
-  getBeaches,
+  getTrekkingAndHiking,
   slugify,
   type PlaceResult,
 } from "@/lib/googlePlaces";
@@ -30,27 +30,27 @@ function toPlaceItem(p: PlaceResult): PlaceItem {
 
 /* ─── Category metadata ──────────────────────────────────────── */
 const category: CategoryMeta = {
-  backLabel: "All Beaches",
-  backHref: "/discover/beaches",
-  otherTitle: "Other Beaches",
+  backLabel: "All Trekking & Hiking",
+  backHref: "/discover/trekking-and-hiking",
+  otherTitle: "Other Trails",
   otherDescription:
-    "More stunning shores to explore in Yogyakarta — from hidden coves to dramatic clifftop views along the southern coast.",
-  ctaLabel: "Beaches",
-  basePath: "/discover/beaches",
-  singularLabel: "Beach",
-  reviewsHeading: "What Visitors Say",
-  reviewsNoun: "beach",
+    "More breathtaking trekking spots and hiking trails around Yogyakarta — from volcanic summits to hidden waterfalls and lush jungle paths.",
+  ctaLabel: "Trekking & Hiking",
+  basePath: "/discover/trekking-and-hiking",
+  singularLabel: "Trail",
+  reviewsHeading: "What Hikers Say",
+  reviewsNoun: "trail",
 };
 
 /* ─── Page ───────────────────────────────────────────────────── */
-export default async function BeachDetailPage({
+export default async function TrekkingDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
 
-  const places = await getBeaches();
+  const places = await getTrekkingAndHiking();
   const allItems = places.map(toPlaceItem);
   const item = allItems.find((i) => slugify(i.name) === slug) ?? null;
 

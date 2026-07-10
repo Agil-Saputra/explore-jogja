@@ -1,4 +1,4 @@
-import accommodations from "@/data/accomodation.js";
+import { getAccommodations } from "@/lib/googlePlaces";
 import AccommodationListingClient from "./AccommodationListingClient";
 
 export const metadata = {
@@ -7,6 +7,7 @@ export const metadata = {
     "Find the best places to stay in Yogyakarta — from boutique hotels to luxury resorts near Borobudur.",
 };
 
-export default function AccommodationPage() {
+export default async function AccommodationPage() {
+  const accommodations = await getAccommodations();
   return <AccommodationListingClient accommodations={accommodations} />;
 }

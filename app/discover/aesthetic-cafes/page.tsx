@@ -1,4 +1,4 @@
-import cafesData from "@/data/cafes.js";
+import { getAestheticCafes } from "@/lib/googlePlaces";
 import CafesListingClient from "./CafesListingClient";
 
 export const metadata = {
@@ -7,6 +7,7 @@ export const metadata = {
     "Visit Yogyakarta's most Instagram-worthy cafes — specialty coffee, rooftop views, and cozy vibes.",
 };
 
-export default function AestheticCafesPage() {
-  return <CafesListingClient cafes={cafesData} />;
+export default async function AestheticCafesPage() {
+  const cafes = await getAestheticCafes();
+  return <CafesListingClient cafes={cafes} />;
 }

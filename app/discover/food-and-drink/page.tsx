@@ -1,4 +1,4 @@
-import restaurants from "@/data/restaurant.js";
+import { getFoodAndDrink } from "@/lib/googlePlaces";
 import FoodDrinkListingClient from "./FoodDrinkListingClient";
 
 export const metadata = {
@@ -7,6 +7,7 @@ export const metadata = {
     "Taste the best of Yogyakarta — gudeg, sate klathak, bakpia, angkringan and traditional Javanese cuisine.",
 };
 
-export default function FoodAndDrinkPage() {
+export default async function FoodAndDrinkPage() {
+  const restaurants = await getFoodAndDrink();
   return <FoodDrinkListingClient restaurants={restaurants} />;
 }

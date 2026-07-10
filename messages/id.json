@@ -8,7 +8,8 @@
       "discover": "Jelajahi",
       "planYourVisit": "Rencanakan Kunjungan",
       "map": "Peta",
-      "articles": "Artikel",
+      "articles": "Cerita & Panduan",
+      "events": "Acara",
       "history": "Sejarah"
     },
     "footer": {
@@ -289,7 +290,7 @@
       "cafe": "Kafe",
       "restaurant": "Restoran",
       "beach": "Pantai",
-      "wisata": "Wisata"
+      "trekking": "Trekking"
     },
     "searchPlaceholder": "Cari tempat...",
     "findingYou": "Mencari lokasi Anda...",

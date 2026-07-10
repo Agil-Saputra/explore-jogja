@@ -1,56 +1,30 @@
-"use client";
-
-import { use, useMemo } from "react";
+import { getAestheticCafes, slugify, CafePlace } from "@/lib/googlePlaces";
 import PlaceDetailLayout, {
-  slugify,
   type PlaceItem,
   type CategoryMeta,
 } from "@/components/PlaceDetailLayout";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const cafesData: RawCafe[] = require("@/data/cafes.js");
-
-/* ─── Raw data type ──────────────────────────────────────────── */
-interface RawCafe {
-  Name: string;
-  Fulladdress: string;
-  Street: string;
-  Categories: string;
-  Phone: string | null;
-  "Review Count": number | null;
-  "Average Rating": string;
-  "Google Maps URL": string;
-  Latitude: number;
-  Longitude: number;
-  Website: string | null;
-  MainImage: string;
-  AdditionalImages: string[];
-  "Place Id": string;
-  "Top 5 Reviews": { name: string; review: string }[];
-  description: string;
-}
-
-/* ─── Normaliser ─────────────────────────────────────────────── */
-function toPlaceItem(c: RawCafe): PlaceItem {
+// ─── Normaliser: CafePlace → PlaceItem ───────────────────────────────────────
+function toPlaceItem(c: CafePlace): PlaceItem {
   return {
-    name: c.Name,
-    fullAddress: c.Fulladdress,
-    street: c.Street,
-    categories: c.Categories,
-    phone: c.Phone,
-    reviewCount: c["Review Count"],
-    averageRating: c["Average Rating"],
-    googleMapsUrl: c["Google Maps URL"],
-    website: c.Website,
-    mainImage: c.MainImage,
-    additionalImages: c.AdditionalImages ?? [],
-    placeId: c["Place Id"],
-    reviews: c["Top 5 Reviews"] ?? [],
+    name: c.name,
+    fullAddress: c.fullAddress,
+    street: c.street,
+    categories: c.categories,
+    phone: c.phone,
+    reviewCount: c.reviewCount,
+    averageRating: c.averageRating,
+    googleMapsUrl: c.googleMapsUrl,
+    website: c.website,
+    mainImage: c.mainImage,
+    additionalImages: c.additionalImages ?? [],
+    placeId: c.placeId,
+    reviews: c.reviews ?? [],
     description: c.description,
   };
 }
 
-/* ─── Category metadata ──────────────────────────────────────── */
+// ─── Category metadata ────────────────────────────────────────────────────────
 const category: CategoryMeta = {
   backLabel: "All Aesthetic Cafes",
   backHref: "/discover/aesthetic-cafes",
@@ -64,20 +38,16 @@ const category: CategoryMeta = {
   reviewsNoun: "cafe",
 };
 
-/* ─── Page ───────────────────────────────────────────────────── */
-export default function CafeDetailPage({
+// ─── Page ─────────────────────────────────────────────────────────────────────
+export default async function CafeDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = use(params);
-
-  const allItems = useMemo(() => cafesData.map(toPlaceItem), []);
-
-  const item = useMemo(
-    () => allItems.find((i) => slugify(i.name) === slug) ?? null,
-    [slug, allItems],
-  );
+  const { slug } = await params;
+  const cafes = await getAestheticCafes();
+  const allItems = cafes.map(toPlaceItem);
+  const item = allItems.find((i) => slugify(i.name) === slug) ?? null;
 
   return (
     <PlaceDetailLayout item={item} allItems={allItems} category={category} />

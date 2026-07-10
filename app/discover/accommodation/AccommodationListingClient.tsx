@@ -1,43 +1,25 @@
 "use client";
 
+import { PlaceResult } from "@/lib/googlePlaces";
 import DiscoverListingLayout, {
   ListingItem,
 } from "@/app/components/DiscoverListingLayout";
 
-interface Accommodation {
-  Name: string;
-  Fulladdress: string;
-  Street: string;
-  Categories: string | null;
-  Phone: string | null;
-  "Review Count": number | null;
-  "Average Rating": string;
-  "Google Maps URL": string;
-  Latitude: number;
-  Longitude: number;
-  Website: string | null;
-  "Main Image": string;
-  "Additional Images": string[];
-  "Place Id": string;
-  "Top 5 Reviews": { name: string; review: string }[];
-  description: string;
-}
-
 interface AccommodationListingClientProps {
-  accommodations: Accommodation[];
+  accommodations: PlaceResult[];
 }
 
 export default function AccommodationListingClient({
   accommodations,
 }: AccommodationListingClientProps) {
   const items: ListingItem[] = accommodations.map((acc) => ({
-    id: acc["Place Id"] || acc.Name,
-    name: acc.Name,
-    street: acc.Street,
-    fullAddress: acc.Fulladdress,
-    categories: acc.Categories,
-    averageRating: acc["Average Rating"],
-    mainImage: acc["Main Image"],
+    id: acc.placeId,
+    name: acc.name,
+    street: acc.street,
+    fullAddress: acc.fullAddress,
+    categories: acc.categories || null,
+    averageRating: acc.averageRating,
+    mainImage: acc.mainImage,
   }));
 
   return (

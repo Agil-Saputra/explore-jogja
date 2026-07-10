@@ -1,4 +1,4 @@
-import beachesData from "@/data/beaches.js";
+import { getBeaches } from "@/lib/googlePlaces";
 import BeachesListingClient from "./BeachesListingClient";
 
 export const metadata = {
@@ -7,6 +7,7 @@ export const metadata = {
     "Explore Yogyakarta's stunning south coast beaches — Parangtritis, Indrayanti, Timang, and hidden gems.",
 };
 
-export default function BeachesPage() {
-  return <BeachesListingClient beaches={beachesData} />;
+export default async function BeachesPage() {
+  const beaches = await getBeaches();
+  return <BeachesListingClient beaches={beaches} />;
 }

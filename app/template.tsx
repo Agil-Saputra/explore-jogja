@@ -11,6 +11,12 @@ export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Reset scroll position to the top on every navigation.
+    // Lenis hijacks native scrolling, so Next.js's default scroll-to-top
+    // doesn't apply — we must reset the Lenis instance explicitly.
+    window.scrollTo(0, 0);
+    window.__lenis?.scrollTo(0, { immediate: true });
+
     if (pathname === "/") return;
 
     // Use setTimeout to avoid synchronous setState inside effect

@@ -1,52 +1,30 @@
-"use client";
-
-import { use, useMemo } from "react";
 import PlaceDetailLayout, {
-  slugify,
   type PlaceItem,
   type CategoryMeta,
 } from "@/components/PlaceDetailLayout";
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const restaurantsData: RawRestaurant[] = require("@/data/restaurant.js").default;
-
-/* ─── Raw data type ──────────────────────────────────────────── */
-interface RawRestaurant {
-  Name: string;
-  Fulladdress: string;
-  Street: string;
-  Categories: string | null;
-  Phone: string | null;
-  "Review Count": number | null;
-  "Average Rating": string;
-  "Google Maps URL": string;
-  Latitude: number;
-  Longitude: number;
-  Website: string | null;
-  "Main Image": string;
-  "Additional Images": string[];
-  "Place Id": string;
-  "Top 5 Reviews": { name: string; review: string }[];
-  description: string;
-}
+import {
+  getFoodAndDrink,
+  slugify,
+  type PlaceResult,
+} from "@/lib/googlePlaces";
 
 /* ─── Normaliser ─────────────────────────────────────────────── */
-function toPlaceItem(r: RawRestaurant): PlaceItem {
+function toPlaceItem(p: PlaceResult): PlaceItem {
   return {
-    name: r.Name,
-    fullAddress: r.Fulladdress,
-    street: r.Street,
-    categories: r.Categories,
-    phone: r.Phone,
-    reviewCount: r["Review Count"],
-    averageRating: r["Average Rating"],
-    googleMapsUrl: r["Google Maps URL"],
-    website: r.Website,
-    mainImage: r["Main Image"],
-    additionalImages: r["Additional Images"] ?? [],
-    placeId: r["Place Id"],
-    reviews: r["Top 5 Reviews"] ?? [],
-    description: r.description,
+    name: p.name,
+    fullAddress: p.fullAddress,
+    street: p.street,
+    categories: p.categories || null,
+    phone: p.phone,
+    reviewCount: p.reviewCount,
+    averageRating: p.averageRating,
+    googleMapsUrl: p.googleMapsUrl,
+    website: p.website,
+    mainImage: p.mainImage,
+    additionalImages: p.additionalImages ?? [],
+    placeId: p.placeId,
+    reviews: p.reviews ?? [],
+    description: p.description,
   };
 }
 
@@ -65,19 +43,16 @@ const category: CategoryMeta = {
 };
 
 /* ─── Page ───────────────────────────────────────────────────── */
-export default function FoodDrinkDetailPage({
+export default async function FoodDrinkDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = use(params);
+  const { slug } = await params;
 
-  const allItems = useMemo(() => restaurantsData.map(toPlaceItem), []);
-
-  const item = useMemo(
-    () => allItems.find((i) => slugify(i.name) === slug) ?? null,
-    [slug, allItems],
-  );
+  const places = await getFoodAndDrink();
+  const allItems = places.map(toPlaceItem);
+  const item = allItems.find((i) => slugify(i.name) === slug) ?? null;
 
   return (
     <PlaceDetailLayout item={item} allItems={allItems} category={category} />

@@ -5,29 +5,29 @@ import DiscoverListingLayout, {
   ListingItem,
 } from "@/app/components/DiscoverListingLayout";
 
-interface FoodDrinkListingClientProps {
-  restaurants: PlaceResult[];
+interface TrekkingListingClientProps {
+  places: PlaceResult[];
 }
 
-export default function FoodDrinkListingClient({
-  restaurants,
-}: FoodDrinkListingClientProps) {
-  const items: ListingItem[] = restaurants.map((r) => ({
-    id: r.placeId,
-    name: r.name,
-    street: r.street,
-    fullAddress: r.fullAddress,
-    categories: r.categories || null,
-    averageRating: r.averageRating,
-    mainImage: r.mainImage,
+export default function TrekkingListingClient({
+  places,
+}: TrekkingListingClientProps) {
+  const items: ListingItem[] = places.map((place) => ({
+    id: place.placeId,
+    name: place.name,
+    street: place.street,
+    fullAddress: place.fullAddress,
+    categories: place.categories || null,
+    averageRating: place.averageRating,
+    mainImage: place.mainImage,
   }));
 
   return (
     <DiscoverListingLayout
-      title="Food & Drink"
-      subtitle="Taste the best of Yogyakarta — gudeg, sate klathak, bakpia, angkringan and traditional Javanese cuisine."
-      basePath="/discover/food-and-drink"
-      emptyNoun="restaurants"
+      title="Trekking & Hiking"
+      subtitle="Hike through Yogyakarta's best trails — Mount Merapi, Kalibiru, waterfalls, and ancient volcano treks."
+      basePath="/discover/trekking-and-hiking"
+      emptyNoun="trekking spots"
       items={items}
       renderCardFooter={(item) => (
         <div className="flex flex-col gap-2">

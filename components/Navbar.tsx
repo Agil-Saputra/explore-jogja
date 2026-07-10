@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { href: "/plan-your-visit", labelKey: "navbar.nav.planYourVisit" },
   { href: "/maps", labelKey: "navbar.nav.map" },
   { href: "/articles", labelKey: "navbar.nav.articles" },
+  { href: "/events", labelKey: "navbar.nav.events" },
   { href: "/history", labelKey: "navbar.nav.history" },
 ];
 

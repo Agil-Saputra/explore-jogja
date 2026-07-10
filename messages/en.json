@@ -8,7 +8,8 @@
       "discover": "Discover",
       "planYourVisit": "Plan Your Visit",
       "map": "Map",
-      "articles": "Articles",
+      "articles": "Stories & Guides",
+      "events" : "Events",
       "history": "History"
     },
     "footer": {
@@ -197,7 +198,7 @@
     "interests": "Interests",
     "generateItinerary": "Generate My Itinerary",
     "generating": "Generating…",
-    "aiPlanning": "AI is planning your trip",
+    "aiPlanning": "Planning your trip",
     "errorTitle": "Oops, something went wrong",
     "goBack": "Go Back",
     "tryAgain": "Try Again",
@@ -289,7 +290,7 @@
       "cafe": "Cafe",
       "restaurant": "Restaurant",
       "beach": "Beach",
-      "wisata": "Wisata"
+      "trekking" : "Trekking"
     },
     "searchPlaceholder": "Search places...",
     "findingYou": "Finding you...",

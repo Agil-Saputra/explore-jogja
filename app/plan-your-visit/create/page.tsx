@@ -419,13 +419,12 @@ export default function CreatePlanPage() {
               {Array.from({ length: STEP_COUNT }, (_, i) => (
                 <div
                   key={i}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i + 1 === currentStep
-                      ? "w-8 bg-black"
-                      : i + 1 < currentStep
-                        ? "w-4 bg-gray-400"
-                        : "w-4 bg-gray-200"
-                  }`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${i + 1 === currentStep
+                    ? "w-8 bg-black"
+                    : i + 1 < currentStep
+                      ? "w-4 bg-gray-400"
+                      : "w-4 bg-gray-200"
+                    }`}
                 />
               ))}
             </div>
@@ -573,7 +572,7 @@ export default function CreatePlanPage() {
                             (
                             {Math.round(
                               (endDate.getTime() - startDate.getTime()) /
-                                86400000,
+                              86400000,
                             )}{" "}
                             {t("createPlan.nights")})
                           </span>

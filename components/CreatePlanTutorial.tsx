@@ -49,6 +49,15 @@ export default function CreatePlanTutorial({ onWizardStepChange }: Props) {
         return;
       }
 
+      // Close tour when user clicks outside the tooltip (overlay click)
+      if (action === ACTIONS.CLOSE || action === ACTIONS.SKIP) {
+        localStorage.setItem(TOUR_STORAGE_KEY, "true");
+        setShowRestartButton(true);
+        setShouldRun(false);
+        onWizardStepChange(1);
+        return;
+      }
+
       // Controlled step navigation
       if (type === EVENTS.STEP_AFTER) {
         if (action === ACTIONS.NEXT) {

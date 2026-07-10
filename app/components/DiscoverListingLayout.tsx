@@ -96,9 +96,9 @@ export default function DiscoverListingLayout({
     return items.filter((item) =>
       item.categories
         ? item.categories
-            .split(",")
-            .map((c) => c.trim())
-            .includes(activeFilter)
+          .split(",")
+          .map((c) => c.trim())
+          .includes(activeFilter)
         : false,
     );
   }, [items, activeFilter]);
@@ -214,11 +214,10 @@ export default function DiscoverListingLayout({
                         setActiveFilter(cat);
                         setSortOpen(false);
                       }}
-                      className={`block w-full text-left px-4 py-2 text-[14px] font-medium transition-colors ${
-                        activeFilter === cat
+                      className={`block w-full text-left px-4 py-2 text-[14px] font-medium transition-colors ${activeFilter === cat
                           ? "bg-gray-900 text-white"
                           : "text-gray-700 hover:bg-gray-100"
-                      }`}
+                        }`}
                     >
                       {cat}
                     </button>

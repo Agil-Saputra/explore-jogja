@@ -15,6 +15,7 @@ export interface Destination {
   lat: number;
   lng: number;
   tips: string;
+  imageUrls?: string[];
 }
 
 export interface ItineraryDay {
@@ -40,34 +41,6 @@ interface ItineraryMapProps {
   activeDestinationIndex?: number | null;
 }
 
-/* ─── Day color palette ─── */
-const DAY_COLORS = [
-  "#0EA5E9", // sky-500
-  "#8B5CF6", // violet-500
-  "#F97316", // orange-500
-  "#10B981", // emerald-500
-  "#EC4899", // pink-500
-  "#EAB308", // yellow-500
-  "#06B6D4", // cyan-500
-  "#F43F5E", // rose-500
-];
-
-/* ─── Category emoji map ─── */
-const CATEGORY_EMOJI: Record<string, string> = {
-  temple: "🛕",
-  palace: "🏛️",
-  nature: "🌿",
-  food: "🍜",
-  art: "🎨",
-  shopping: "🛍️",
-  spiritual: "🧘",
-  nightlife: "🎶",
-  photography: "📸",
-  museum: "🏛️",
-  park: "🌳",
-  beach: "🏖️",
-  village: "🏘️",
-};
 
 /* ─── Mapbox access token ─── */
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
@@ -109,11 +82,17 @@ function createMarkerElement(num: number, color: string): HTMLDivElement {
 
 /* ─── Create popup HTML content ─── */
 function createPopupHTML(dest: Destination, color: string): string {
-  const emoji = CATEGORY_EMOJI[dest.category] || "📍";
+  const firstImage = dest.imageUrls?.[0];
+  const imageHtml = firstImage
+    ? `<div style="position:relative;width:100%;height:130px;border-radius:10px;overflow:hidden;margin-bottom:10px">
+        <img src="${firstImage}" alt="${dest.name}" style="width:100%;height:100%;object-fit:cover;display:block" />
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.45) 0%,transparent 60%)"></div>
+      </div>`
+    : "";
   return `
-    <div style="min-width:200px;font-family:'Plus Jakarta Sans',sans-serif;padding:4px">
+    <div style="min-width:220px;font-family:'Plus Jakarta Sans',sans-serif;padding:4px">
+      ${imageHtml}
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-        <span style="font-size:18px">${emoji}</span>
         <strong style="font-size:14px;color:#1a1a1a">${dest.name}</strong>
       </div>
       <p style="font-size:12px;color:#666;margin:4px 0 6px;line-height:1.4">
@@ -124,6 +103,9 @@ function createPopupHTML(dest: Destination, color: string): string {
         <span>⏱ ${dest.duration}</span>
       </div>
       ${dest.tips ? `<p style="font-size:11px;color:${color};margin-top:6px;font-style:italic">💡 ${dest.tips}</p>` : ""}
+      <a href="https://www.google.com/maps/search/?api=1&query=${dest.lat},${dest.lng}" target="_blank" rel="noopener noreferrer" style="display:block;margin-top:12px;padding:8px;background-color:${color};color:white;text-align:center;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;transition:opacity 0.2s" onmouseover="this.style.opacity=0.9" onmouseout="this.style.opacity=1">
+        Open in Google Maps
+      </a>
     </div>
   `;
 }
@@ -168,7 +150,7 @@ export default function ItineraryMap({
   );
 
   const destinations = useMemo(() => day?.destinations || [], [day]);
-  const color = DAY_COLORS[(activeDay - 1) % DAY_COLORS.length];
+  const color = "#0EA5E9";
 
   const center: [number, number] =
     destinations.length > 0

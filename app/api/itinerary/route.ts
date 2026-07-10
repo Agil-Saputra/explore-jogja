@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { findPlacePhotos } from "@/lib/googlePlaces";
 
 const openai = new OpenAI({
   apiKey: process.env.SUMOPOD_API_KEY,
@@ -189,6 +190,32 @@ Respond with ONLY the JSON object. Keep descriptions very short (one sentence). 
         { status: 500 }
       );
     }
+
+    // ── Enrich each destination with real Google Places photos ────────────────
+    // Collect all destinations across all days into a flat array with their
+    // day/dest indices so we can mutate them after resolving.
+    type DestRef = { dayIdx: number; destIdx: number; name: string; lat: number; lng: number };
+    const destRefs: DestRef[] = [];
+    itinerary.days.forEach((day: { destinations: { name: string; lat: number; lng: number }[] }, dayIdx: number) => {
+      day.destinations.forEach(
+        (dest: { name: string; lat: number; lng: number }, destIdx: number) => {
+          destRefs.push({ dayIdx, destIdx, name: dest.name, lat: dest.lat, lng: dest.lng });
+        }
+      );
+    });
+
+    // Fire all photo lookups in parallel; never let one failure block others
+    const photoResults = await Promise.allSettled(
+      destRefs.map((ref) => findPlacePhotos(ref.name, ref.lat, ref.lng))
+    );
+
+    // Attach imageUrls (array) to each destination object
+    photoResults.forEach((result, i) => {
+      const ref = destRefs[i];
+      const imageUrls =
+        result.status === "fulfilled" ? result.value : [];
+      itinerary.days[ref.dayIdx].destinations[ref.destIdx].imageUrls = imageUrls;
+    });
 
     return Response.json({ itinerary });
   } catch (error: unknown) {

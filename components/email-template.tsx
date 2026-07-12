@@ -7,7 +7,10 @@ interface Destination {
   endTime: string;
   duration: string;
   category: string;
+  lat?: number;
+  lng?: number;
   tips?: string;
+  imageUrls?: string[];
 }
 
 interface TransportInfo {
@@ -214,6 +217,29 @@ export function EmailTemplate({ itinerary }: EmailTemplateProps) {
                       marginBottom: "10px",
                     }}
                   >
+                    {dest.imageUrls && dest.imageUrls.length > 0 && (
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "160px",
+                          borderRadius: "8px",
+                          overflow: "hidden",
+                          marginBottom: "14px",
+                        }}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={dest.imageUrls[0]}
+                          alt={dest.name}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            display: "block",
+                          }}
+                        />
+                      </div>
+                    )}
                     <div
                       style={{
                         display: "flex",
@@ -250,6 +276,28 @@ export function EmailTemplate({ itinerary }: EmailTemplateProps) {
                     >
                       {dest.description}
                     </p>
+                    {dest.lat && dest.lng && (
+                      <div style={{ marginTop: "12px" }}>
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${dest.lat},${dest.lng}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: "inline-block",
+                            padding: "6px 12px",
+                            backgroundColor: "#f9fafb",
+                            color: "#374151",
+                            textDecoration: "none",
+                            borderRadius: "6px",
+                            fontSize: "12px",
+                            fontWeight: 600,
+                            border: "1px solid #e5e7eb",
+                          }}
+                        >
+                          🗺️ Get Directions
+                        </a>
+                      </div>
+                    )}
                     {dest.tips && (
                       <div
                         style={{

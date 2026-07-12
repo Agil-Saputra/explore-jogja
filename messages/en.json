@@ -149,7 +149,69 @@
   "history": {
     "legacyTitle": "A Living Cultural Legacy",
     "legacyP1": "Yogyakarta is not merely a city frozen in history. Its past lives on through the daily rituals of its people—the dulcet tones of the gamelan echoing from the Keraton, the meticulous art of batik-making passed down through generations, and the grand royal ceremonies that continue to mark the passage of time.",
-    "legacyP2": "Today, as a Special Region of Indonesia, Yogyakarta stands as a testament to the enduring power of culture, earning its rightful title as the Cultural Capital of Indonesia."
+    "legacyP2": "Today, as a Special Region of Indonesia, Yogyakarta stands as a testament to the enduring power of culture, earning its rightful title as the Cultural Capital of Indonesia.",
+    "timeline": {
+      "giyanti": {
+        "shortLabel": "TREATY OF GIYANTI",
+        "title": "Treaty of Giyanti",
+        "description": "Signed on February 13, 1755, in Giyanti Village, this treaty marked a turning point in Javanese history after years of succession conflict fueled by VOC's divide-and-rule politics. Prince Mangkubumi, who previously fought against the Company alongside Prince Sambernyawa, finally accepted a peace offer and was crowned Sultan Hamengkubuwono I over half of the Mataram Sultanate's territory. The Mataram Sultanate was officially divided into two: the Surakarta Sunanate under Pakubuwono III and the Yogyakarta Sultanate under Hamengkubuwono I. This event marked the birth of Yogyakarta as an independent royal entity, laying the cultural and political foundations that endure to this day."
+      },
+      "pembangunanKeraton": {
+        "shortLabel": "KRATON CONSTRUCTION",
+        "title": "Construction of the Yogyakarta Kraton",
+        "description": "Shortly after his coronation, Sultan Hamengkubuwono I began constructing a new seat of government for the newborn sultanate. After temporarily residing at Ambar Ketawang, the Sultan finally moved his entire family and center of power to the magnificent newly completed palace on October 7, 1756. This palace complex was designed with profound Javanese cosmological philosophy, aligning Mount Merapi in the north and the South Sea in the south in an imaginary line now known as the Philosophical Axis. This historic moving day is commemorated annually as the anniversary of the City of Yogyakarta."
+      },
+      "gegerSepehi": {
+        "shortLabel": "GEGER SEPEHI",
+        "title": "The Geger Sepehi Incident",
+        "description": "On June 20, 1812, British forces consisting largely of Sepoy soldiers from India, under the command of Thomas Stamford Raffles and Colonel Rollo Gillespie, invaded and looted the Yogyakarta Kraton due to political tensions with Sultan Hamengkubuwono II. The brief but brutal attack destroyed the palace's defenses and caused immense material and cultural damage. Thousands of heirlooms, ancient manuscripts, and royal treasures were looted and brought to England, where many remain in European museums today. This event, known as Geger Sepehi, left a deep scar in the collective memory of the Yogyakarta people regarding colonialism."
+      },
+      "perangDiponegoro": {
+        "shortLabel": "DIPONEGORO WAR",
+        "title": "Start of the Java War",
+        "description": "Triggered by the installation of colonial road markers across his ancestral lands in Tegalrejo without permission, Prince Diponegoro took up arms against the Dutch East Indies government in 1825. This resistance quickly escalated into a massive rebellion involving nobles, clerics, and commoners across Central Java, utilizing guerrilla tactics that frustrated the colonial forces. The Java War, which raged until 1830, became one of the costliest and deadliest wars in Dutch colonial history in the archipelago, claiming hundreds of thousands of lives. Although it ended with the treacherous capture of Diponegoro, his resistance stood as a powerful symbol of the fighting spirit and fundamentally altered the socio-political order of the Yogyakarta Sultanate."
+      },
+      "amanat1945": {
+        "shortLabel": "5 SEPTEMBER MANDATE",
+        "title": "Integration into the Republic of Indonesia",
+        "description": "Just one day after the Proclamation of Indonesian Independence, Sultan Hamengkubuwono IX and Paku Alam VIII immediately sent a telegram of support to the central government in Jakarta, a bold decision given their status as ruling monarchs. This verbal support was officially formalized on September 5, 1945, through the 5 September Mandate, a historic declaration stating that the Yogyakarta Sultanate and Pakualaman Principality merged to form the Special Region of Yogyakarta as an inseparable part of the Republic of Indonesia. This highly risky political move became a strong foundation of legitimacy for the young Republic, solidifying Yogyakarta's special position in Indonesia's state structure to this day."
+      },
+      "ibukotaRI": {
+        "shortLabel": "REPUBLIC'S CAPITAL",
+        "title": "Yogyakarta Becomes the Capital of RI",
+        "description": "In early 1946, the security situation in Jakarta deteriorated drastically due to the arrival of Allied forces and NICA (Netherlands Indies Civil Administration), threatening the existence of the young Republic. At the invitation of Sultan Hamengkubuwono IX, President Soekarno, Vice President Mohammad Hatta, and the entire government apparatus were secretly relocated by train from Jakarta to Yogyakarta, arriving on January 4, 1946. For the next nearly four years, Yogyakarta functioned as the capital of the Republic of Indonesia, becoming the center of diplomacy, defense, and government amidst the turbulence of the independence revolution. This crucial role cemented Yogyakarta's moniker as the 'City of Struggle' in the nation's grand historical narrative."
+      },
+      "seranganUmum": {
+        "shortLabel": "GENERAL OFFENSIVE",
+        "title": "March 1 General Offensive",
+        "description": "Amid Dutch claims to the international community that the Republic of Indonesia and its military had been completely paralyzed following the second Dutch Military Aggression, Lieutenant Colonel Soeharto, along with TNI forces and the people of Yogyakarta, orchestrated a daring lightning strike. On the morning of March 1, 1949, guerrilla forces attacked from multiple directions and successfully controlled the city of Yogyakarta for about six hours before executing a controlled retreat. Although temporary, the operation was a severe blow to Dutch propaganda and successfully proved to the United Nations and the world that the sovereignty of the Republic of Indonesia was still alive and its army remained solid against the occupation."
+      },
+      "pembentukanDIY": {
+        "shortLabel": "FORMATION OF DIY",
+        "title": "Establishment of the Special Region",
+        "description": "As official state recognition of Yogyakarta's extraordinary contributions and sacrifices during the independence revolution, particularly its role as the Republic's capital and revolutionary base, the central government enacted Law Number 3 of 1950. Through this law, the status of the Special Region of Yogyakarta was established at the provincial level with special privileges not possessed by other regions in Indonesia, including autonomy in land management, spatial planning, culture, and the mechanism for filling the regional head position, which is traditionally held by the reigning Sultan of Yogyakarta and Paku Alam. This special arrangement became the forerunner of the unique governance system that continues to operate into the modern era."
+      },
+      "gempaBumi": {
+        "shortLabel": "EARTHQUAKE",
+        "title": "Yogyakarta Earthquake Tragedy",
+        "description": "On the morning of Saturday, May 27, 2006, a 5.9 Richter scale tectonic earthquake shook Yogyakarta and its surroundings with a shallow epicenter near Bantul Regency, causing damage far more severe than its magnitude suggested. In seconds, hundreds of thousands of homes were leveled, public infrastructure was paralyzed, and numerous historic sites, including the Prambanan Temple Complex, suffered significant structural damage. This disaster claimed over 5,000 lives and injured tens of thousands more, making it one of the largest humanitarian tragedies in modern Yogyakarta history. The post-earthquake reconstruction process, which involved the communal effort (gotong royong) of the community, government, and international agencies, later became a testament to the resilience and fighting spirit of the people of Yogyakarta."
+      },
+      "uuKeistimewaan": {
+        "shortLabel": "PRIVILEGE LAW",
+        "title": "Passage of the DIY Privilege Law",
+        "description": "After long and sensitive debates surrounding the mechanism for filling the regional head position—between an electoral system and appointment based on lineage—the Indonesian House of Representatives finally passed Law Number 13 of 2012 concerning the Privileges of the Special Region of Yogyakarta on August 31, 2012. This law definitively affirmed the mechanism of appointment over election, wherein the reigning Sultan of Yogyakarta automatically serves as the Governor of DIY and the reigning Adipati Paku Alam as the Vice Governor. In addition to regulating institutions, the law also granted special authority in land management (Sultan Ground and Pakualaman Ground), spatial planning, culture, and the management of significant Privilege Funds for regional development."
+      },
+      "warisanDunia": {
+        "shortLabel": "UNESCO WORLD HERITAGE",
+        "title": "Philosophical Axis Recognized by UNESCO",
+        "description": "Following a lengthy submission and assessment process, UNESCO officially designated the Philosophical Axis of Yogyakarta, internationally named 'The Cosmological Axis of Yogyakarta and its Historic Landmarks', as a World Cultural Heritage site during the 45th session of the World Heritage Committee in Riyadh, Saudi Arabia, on September 18, 2023. This imaginary line, stretching about six kilometers from Panggung Krapyak in the south, passing through the Yogyakarta Kraton and Tugu Pal Putih, to Mount Merapi in the north, embodies the Javanese philosophy of human life from its origins to its return to the Creator. This prestigious recognition not only affirms the outstanding universal value of Yogyakarta's urban spatial planning but also brings great responsibility for preserving this cultural heritage for future generations."
+      },
+      "hubKreatif": {
+        "shortLabel": "DIGITAL CREATIVE HUB",
+        "title": "Remote Work and Technology Ecosystem",
+        "description": "Entering this year, Yogyakarta's economic and social landscape has undergone a significant transformation as its position as a center of gravity for digital nomads, software developers, and creative industry professionals from within and outside the country has strengthened. Coworking spaces have sprung up in various corners of the city, sitting alongside traditional villages and cultural heritage areas, creating a unique blend of rich local wisdom with the flexible lifestyles and work cultures typical of global metropolises. This phenomenon is further driven by the relatively affordable cost of living, improving internet connectivity, and the student city atmosphere that is always welcoming to new ideas, making Yogyakarta an increasingly strong magnet for startups, digital agencies, and cross-disciplinary creative communities."
+      }
+    }
   },
   "planYourVisit": {
     "title": "Plan Your Visit",
@@ -158,7 +220,19 @@
     "createTripPlan": "Create A Trip Plan",
     "gettingHereTitle": "It's all about getting here",
     "gettingHereDesc": "There are many ways to get to Yogyakarta. By renting a car, taking a train or flying, or on a guided tour. Check out our recommendations.",
-    "seeMore": "See more"
+    "seeMore": "See more",
+    "gettingAroundTitle": "Getting around",
+    "gettingAroundDesc": "Getting around Yogyakarta is easy and affordable. The city offers a variety of transport options to suit every traveler's needs, from modern public buses to traditional pedicabs. Whether you're exploring the bustling city center or venturing out to surrounding attractions, you'll find convenient ways to get around.",
+    "gettingAroundDecorativeText": "There's always a way to explore Jogja!",
+    "transportBusTitle": "By Bus / Public Transport",
+    "transportBusDesc": "Trans Jogja is the city's main public bus system, connecting major landmarks like Malioboro, Prambanan, and the airport. Rides cost around Rp 3,500 with a rechargeable card. Buses run from 05:30 AM to 09:30 PM daily.",
+    "transportRideHailTitle": "By Ride-Hailing (Grab / Gojek)",
+    "transportRideHailDesc": "Grab and Gojek are the most popular ride-hailing apps in Yogyakarta. You can book cars or motorbike taxis (ojek online) for affordable point-to-point trips. A typical ride across the city costs Rp 15,000–30,000.",
+    "transportBecakTitle": "By Becak (Pedicab)",
+    "transportBecakDesc": "The traditional becak is a charming way to explore the old city, especially around Malioboro and the Kraton area. Agree on a price before you hop in — short trips usually cost Rp 20,000–40,000.",
+    "transportMotorbikeTitle": "By Motorbike Rental",
+    "transportMotorbikeDesc": "Renting a motorbike gives you the most freedom to explore at your own pace. Daily rentals cost Rp 70,000–100,000. An international driving permit is recommended. Perfect for day trips to beaches and temples.",
+    "busSchedule": "Bus schedule"
   },
   "createPlan": {
     "monthNames": [

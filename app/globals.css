@@ -1,9 +1,19 @@
 @import "tailwindcss";
 @import "mapbox-gl/dist/mapbox-gl.css";
+
+@font-face {
+  font-family: "Jawapalsu";
+  src: url("/fonts/JAWAPALSU.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-jakarta: var(--font-jakarta);
   --font-serif: var(--font-playfair);
   --font-caveat: var(--font-caveat-brush);
+  --font-jawapalsu: "Jawapalsu", serif;
   --color-cream: #FAF9F6;
   --color-light-cream: #FAF9F6;
 }

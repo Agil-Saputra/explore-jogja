@@ -110,7 +110,6 @@ function createPopupHTML(dest: Destination, color: string): string {
   `;
 }
 
-/* ─── Fetch route geometry from Mapbox Directions API ─── */
 async function fetchRouteGeometry(
   destinations: Destination[],
   token: string
@@ -119,7 +118,7 @@ async function fetchRouteGeometry(
 
   const coords = destinations
     .map((d) => `${d.lng},${d.lat}`)
-    .join(";");
+    .join(",");
 
   try {
     const res = await fetch(
@@ -141,7 +140,7 @@ export default function ItineraryMap({
 }: ItineraryMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const markersRef = useRef<mapboxgl.Marker[]>([]);
+  const markersRef = useRef<mapboxgl.Marker[ ]>([]);
   const popupsRef = useRef<mapboxgl.Popup[]>([]);
 
   const day = useMemo(

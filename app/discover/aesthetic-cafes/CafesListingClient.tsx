@@ -18,6 +18,8 @@ export default function CafesListingClient({ cafes }: CafesListingClientProps) {
     fullAddress: cafe.fullAddress,
     categories: cafe.categories || null,
     averageRating: cafe.averageRating,
+    reviewCount: cafe.reviewCount,
+    priceLevel: cafe.priceLevel,
     mainImage: cafe.mainImage,
   }));
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { Clock, Calendar, ChevronDown, Upload, X, CheckCircle, Loader2, AlertCircle } from "lucide-react";
+import { ChevronDown, Upload, X, CheckCircle, Loader2, AlertCircle } from "lucide-react";
 
 type SubmitState = "idle" | "loading" | "success" | "error";
 
@@ -28,12 +28,16 @@ export default function EventSubmitForm() {
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
 
-  /** Combine a dd/mm/yyyy date string and HH:MM time into an ISO-8601 datetime with +07:00 */
+  /** Combine a date string (YYYY-MM-DD or DD/MM/YYYY) and HH:MM time into an ISO-8601 datetime with +07:00 */
   function buildIso(dateStr: string, timeStr: string): string | null {
     if (!dateStr || !timeStr) return null;
-    const parts = dateStr.split("/");
-    if (parts.length !== 3) return null;
-    const [dd, mm, yyyy] = parts;
+    let yyyy, mm, dd;
+    if (dateStr.includes("-")) {
+      [yyyy, mm, dd] = dateStr.split("-");
+    } else {
+      [dd, mm, yyyy] = dateStr.split("/");
+    }
+    if (!yyyy || !mm || !dd) return null;
     return `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}T${timeStr}:00+07:00`;
   }
 
@@ -107,7 +111,7 @@ export default function EventSubmitForm() {
         <div>
           <h3 className="text-2xl font-bold text-[#2B2B2B] mb-2">Event Submitted!</h3>
           <p className="text-gray-600 text-[15px]">
-            Your event has been submitted to Contentful and is pending review. It will appear on the
+            Your event has been submitted and at pending review, we will notify you once it&apos;s published and it will appear on the
             events page once published.
           </p>
         </div>
@@ -198,20 +202,17 @@ export default function EventSubmitForm() {
                 disabled={isLoading}
                 className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
               />
-              <Clock className="absolute right-4 top-1/2 -translate-y-1/2 text-black w-4 h-4 pointer-events-none" />
             </div>
             <div className="relative">
               <input
                 id="startDate"
-                type="text"
-                placeholder="dd/mm/yyyy"
+                type="date"
                 value={startDateVal}
                 onChange={(e) => setStartDateVal(e.target.value)}
                 required
                 disabled={isLoading}
-                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 placeholder:text-gray-400 text-[15px] disabled:opacity-50"
+                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
               />
-              <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 text-black w-4 h-4 pointer-events-none" />
             </div>
           </div>
           <p className="text-[13px] text-gray-500 -mb-1">End (optional)</p>
@@ -225,19 +226,16 @@ export default function EventSubmitForm() {
                 disabled={isLoading}
                 className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
               />
-              <Clock className="absolute right-4 top-1/2 -translate-y-1/2 text-black w-4 h-4 pointer-events-none" />
             </div>
             <div className="relative">
               <input
                 id="endDate"
-                type="text"
-                placeholder="dd/mm/yyyy"
+                type="date"
                 value={endDateVal}
                 onChange={(e) => setEndDateVal(e.target.value)}
                 disabled={isLoading}
-                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 placeholder:text-gray-400 text-[15px] disabled:opacity-50"
+                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
               />
-              <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 text-black w-4 h-4 pointer-events-none" />
             </div>
           </div>
         </div>
@@ -292,6 +290,7 @@ export default function EventSubmitForm() {
             >
               <Upload className="w-6 h-6 text-gray-400" />
               <span className="text-[14px] text-gray-500">Drop files here</span>
+              <span className="text-[12px] text-gray-400 -mt-1 mb-2 text-center">Max 5MB (JPG, PNG).<br/>Recommended size: 1200x630px.</span>
               <button
                 type="button"
                 onClick={(e) => {

@@ -7,7 +7,6 @@ import {
   MapPin,
   Calendar,
   Utensils,
-  Car,
   Waves,
   Bird,
   Footprints,
@@ -85,7 +84,7 @@ export default function DiscoverPage() {
                   {t("discover.categories.topAttractions")}
                 </Link>
                 <Link
-                  href="/discover/events"
+                  href="/events"
                   className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
                   <Calendar size={18} /> {t("discover.categories.events")}
@@ -96,13 +95,6 @@ export default function DiscoverPage() {
                 >
                   <Utensils size={18} fill="black" />{" "}
                   {t("discover.categories.foodAndDrink")}
-                </Link>
-                <Link
-                  href="/discover/getting-around"
-                  className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
-                >
-                  <Car size={18} fill="black" />{" "}
-                  {t("discover.categories.gettingAround")}
                 </Link>
                 <Link
                   href="/discover/trekking-and-hiking"

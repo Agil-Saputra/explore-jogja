@@ -540,7 +540,7 @@ export default function CreatePlanPage() {
                       <div className="flex items-center justify-center gap-1 mt-1">
                         <button
                           onClick={() =>
-                            setStartHour((h) => Math.max(0, h - 1))
+                            setStartHour((h) => (h - 1 + 24) % 24)
                           }
                           className="w-6 h-6 rounded-full flex items-center justify-center text-gray-400 hover:bg-white transition-colors text-xs"
                         >
@@ -551,7 +551,7 @@ export default function CreatePlanPage() {
                         </span>
                         <button
                           onClick={() =>
-                            setStartHour((h) => Math.min(23, h + 1))
+                            setStartHour((h) => (h + 1) % 24)
                           }
                           className="w-6 h-6 rounded-full flex items-center justify-center text-gray-400 hover:bg-white transition-colors text-xs"
                         >
@@ -569,7 +569,7 @@ export default function CreatePlanPage() {
                       </span>
                       <div className="flex items-center justify-center gap-1 mt-1">
                         <button
-                          onClick={() => setEndHour((h) => Math.max(0, h - 1))}
+                          onClick={() => setEndHour((h) => (h - 1 + 24) % 24)}
                           className="w-6 h-6 rounded-full flex items-center justify-center text-gray-400 hover:bg-white transition-colors text-xs"
                         >
                           <ChevronLeft size={14} />
@@ -578,7 +578,7 @@ export default function CreatePlanPage() {
                           {formatTime(endHour, endMinute)}
                         </span>
                         <button
-                          onClick={() => setEndHour((h) => Math.min(23, h + 1))}
+                          onClick={() => setEndHour((h) => (h + 1) % 24)}
                           className="w-6 h-6 rounded-full flex items-center justify-center text-gray-400 hover:bg-white transition-colors text-xs"
                         >
                           <ChevronRight size={14} />

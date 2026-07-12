@@ -149,7 +149,69 @@
   "history": {
     "legacyTitle": "Warisan Budaya yang Hidup",
     "legacyP1": "Yogyakarta bukan sekadar kota yang membeku dalam sejarah. Masa lalunya hidup melalui ritual harian masyarakatnya — nada merdu gamelan yang bergema dari Keraton, seni membatik yang diturunkan dari generasi ke generasi, dan upacara kerajaan besar yang terus menandai perjalanan waktu.",
-    "legacyP2": "Saat ini, sebagai Daerah Istimewa Indonesia, Yogyakarta berdiri sebagai bukti kekuatan budaya yang abadi, meraih gelarnya yang layak sebagai Ibu Kota Kebudayaan Indonesia."
+    "legacyP2": "Saat ini, sebagai Daerah Istimewa Indonesia, Yogyakarta berdiri sebagai bukti kekuatan budaya yang abadi, meraih gelarnya yang layak sebagai Ibu Kota Kebudayaan Indonesia.",
+    "timeline": {
+      "giyanti": {
+        "shortLabel": "PERJANJIAN GIYANTI",
+        "title": "Perjanjian Giyanti",
+        "description": "Ditandatangani pada 13 Februari 1755 di Desa Giyanti, perjanjian ini menjadi titik balik sejarah Tanah Jawa setelah bertahun-tahun konflik suksesi yang dipicu politik pecah belah VOC. Pangeran Mangkubumi, yang sebelumnya berjuang melawan Kompeni bersama Pangeran Sambernyawa, akhirnya menerima tawaran damai dan diangkat sebagai Sultan Hamengkubuwono I atas separuh wilayah Kesultanan Mataram. Kesultanan Mataram pun resmi terbelah menjadi dua kekuasaan: Kasunanan Surakarta di bawah Pakubuwono III dan Kesultanan Yogyakarta di bawah Hamengkubuwono I. Peristiwa ini menandai lahirnya Yogyakarta sebagai entitas kerajaan yang berdiri sendiri, sekaligus meletakkan fondasi identitas budaya dan politik yang bertahan hingga hari ini."
+      },
+      "pembangunanKeraton": {
+        "shortLabel": "PEMBANGUNAN KERATON",
+        "title": "Pembangunan Keraton Yogyakarta",
+        "description": "Tak lama setelah dinobatkan, Sri Sultan Hamengkubuwono I memulai pembangunan pusat pemerintahan baru bagi kesultanan yang baru lahir. Setelah sempat menetap sementara di pesanggrahan Ambar Ketawang, sang Sultan akhirnya memindahkan seluruh keluarga dan pusat kekuasaannya ke keraton megah yang baru rampung dibangun pada 7 Oktober 1756. Kompleks keraton ini dirancang dengan filosofi kosmologis Jawa yang mendalam, menyatukan unsur Gunung Merapi di utara dan Laut Selatan di selatan dalam satu garis imajiner yang kini dikenal sebagai Sumbu Filosofi. Momen perpindahan bersejarah inilah yang hingga kini diperingati setiap tahun sebagai hari jadi Kota Yogyakarta."
+      },
+      "gegerSepehi": {
+        "shortLabel": "GEGER SEPEHI",
+        "title": "Peristiwa Geger Sepehi",
+        "description": "Pada 20 Juni 1812, pasukan Inggris yang sebagian besar terdiri dari serdadu Sepoy asal India, di bawah komando Thomas Stamford Raffles dan Kolonel Rollo Gillespie, menyerbu dan menjarah Keraton Yogyakarta akibat ketegangan politik dengan Sultan Hamengkubuwono II. Serangan yang berlangsung singkat namun brutal ini menghancurkan pertahanan keraton dan menyebabkan kerugian material serta budaya yang sangat besar. Ribuan pusaka, naskah kuno, dan harta pusaka keraton dijarah dan sebagian besar dibawa ke Inggris, di mana banyak di antaranya masih tersimpan di museum-museum Eropa hingga sekarang. Peristiwa yang dikenal sebagai Geger Sepehi ini meninggalkan luka mendalam dalam ingatan kolektif masyarakat Yogyakarta terhadap kolonialisme."
+      },
+      "perangDiponegoro": {
+        "shortLabel": "PERANG DIPONEGORO",
+        "title": "Awal Perang Jawa",
+        "description": "Dipicu oleh pemasangan patok jalan kolonial yang melintasi tanah leluhurnya di Tegalrejo tanpa izin, Pangeran Diponegoro mengangkat senjata melawan pemerintah Hindia Belanda pada tahun 1825. Perlawanan ini dengan cepat berkembang menjadi pemberontakan besar yang melibatkan bangsawan, ulama, dan rakyat jelata di seluruh Jawa Tengah dan sekitarnya, memanfaatkan taktik gerilya yang menyulitkan pasukan kolonial. Perang Jawa yang berkecamuk hingga tahun 1830 ini menjadi salah satu perang paling mahal dan mematikan dalam sejarah kolonial Belanda di Nusantara, menewaskan ratusan ribu jiwa. Meski akhirnya berakhir dengan penangkapan licik terhadap Diponegoro, perlawanannya membekas kuat sebagai simbol semangat juang dan mengubah secara mendasar tatanan sosial-politik Kesultanan Yogyakarta."
+      },
+      "amanat1945": {
+        "shortLabel": "AMANAT 5 SEPTEMBER",
+        "title": "Integrasi ke Republik Indonesia",
+        "description": "Hanya sehari setelah Proklamasi Kemerdekaan Indonesia dikumandangkan, Sri Sultan Hamengkubuwono IX dan Sri Paduka Paku Alam VIII segera mengirimkan telegram dukungan kepada pemerintah pusat di Jakarta, sebuah keputusan berani mengingat status keduanya sebagai penguasa monarki. Dukungan lisan ini kemudian dikukuhkan secara resmi dan tertulis pada 5 September 1945 melalui Amanat 5 September, sebuah maklumat bersejarah yang menyatakan bahwa Kasultanan Yogyakarta dan Kadipaten Pakualaman melebur menjadi Daerah Istimewa Yogyakarta sebagai bagian tak terpisahkan dari Republik Indonesia. Langkah politik yang penuh risiko ini menjadi salah satu fondasi kuat legitimasi Republik yang masih muda, sekaligus mengukuhkan posisi istimewa Yogyakarta dalam struktur ketatanegaraan Indonesia hingga kini."
+      },
+      "ibukotaRI": {
+        "shortLabel": "IBUKOTA REPUBLIK",
+        "title": "Yogyakarta Menjadi Ibukota RI",
+        "description": "Memasuki awal 1946, situasi keamanan di Jakarta memburuk drastis akibat kedatangan pasukan Sekutu dan NICA (Netherlands Indies Civil Administration) yang mengancam eksistensi pemerintahan Republik yang masih belia. Atas undangan Sri Sultan Hamengkubuwono IX, Presiden Soekarno dan Wakil Presiden Mohammad Hatta beserta seluruh jajaran pemerintahan dipindahkan secara rahasia menggunakan kereta api dari Jakarta menuju Yogyakarta, tiba pada 4 Januari 1946. Selama hampir empat tahun berikutnya, Yogyakarta menjalankan fungsi sebagai ibu kota Republik Indonesia, menjadi pusat diplomasi, pertahanan, dan pemerintahan di tengah gejolak revolusi kemerdekaan. Peran krusial ini pula yang mengukuhkan julukan Yogyakarta sebagai 'Kota Perjuangan' dalam narasi besar sejarah bangsa."
+      },
+      "seranganUmum": {
+        "shortLabel": "SERANGAN UMUM",
+        "title": "Serangan Umum 1 Maret",
+        "description": "Di tengah klaim Belanda kepada dunia internasional bahwa Republik Indonesia dan Tentara Nasional Indonesia telah lumpuh total pasca Agresi Militer Belanda II, Letnan Kolonel Soeharto bersama pasukan TNI dan rakyat Yogyakarta menyusun rencana serangan kilat yang berani. Pada pagi hari 1 Maret 1949, pasukan gerilya menyerbu dari berbagai penjuru dan berhasil menguasai kota Yogyakarta selama sekitar enam jam sebelum akhirnya mundur secara terkendali. Meski bersifat sementara, keberhasilan operasi ini menjadi pukulan telak bagi propaganda Belanda dan berhasil membuktikan kepada Perserikatan Bangsa-Bangsa serta dunia internasional bahwa kedaulatan Republik Indonesia masih hidup dan tentaranya tetap solid melawan pendudukan."
+      },
+      "pembentukanDIY": {
+        "shortLabel": "PEMBENTUKAN DIY",
+        "title": "Penetapan Daerah Istimewa Yogyakarta",
+        "description": "Sebagai bentuk pengakuan resmi negara atas jasa dan pengorbanan luar biasa Yogyakarta selama masa revolusi kemerdekaan, khususnya perannya sebagai ibu kota Republik dan basis perjuangan, pemerintah pusat menerbitkan Undang-Undang Nomor 3 Tahun 1950. Melalui undang-undang ini, status Daerah Istimewa Yogyakarta dikukuhkan setingkat provinsi dengan keistimewaan khusus yang tidak dimiliki daerah lain di Indonesia, termasuk hak otonomi dalam pengaturan pertanahan, tata ruang, kebudayaan, serta mekanisme pengisian jabatan kepala daerah yang secara tradisional dipegang oleh Sultan Yogyakarta dan Paku Alam yang bertakhta. Pengaturan istimewa ini menjadi cikal bakal sistem pemerintahan unik yang terus berlaku hingga era modern."
+      },
+      "gempaBumi": {
+        "shortLabel": "GEMPA BUMI",
+        "title": "Tragedi Gempa Bumi Yogyakarta",
+        "description": "Pada Sabtu pagi, 27 Mei 2006, gempa tektonik berkekuatan 5,9 skala Richter mengguncang Yogyakarta dan wilayah sekitarnya dengan pusat gempa dangkal di dekat Kabupaten Bantul, menyebabkan kerusakan yang jauh lebih parah daripada perkiraan kekuatannya. Dalam hitungan detik, ratusan ribu rumah warga rata dengan tanah, infrastruktur publik lumpuh, dan sejumlah situs bersejarah termasuk Kompleks Candi Prambanan mengalami kerusakan struktural signifikan. Bencana ini merenggut lebih dari 5.000 nyawa dan melukai puluhan ribu lainnya, menjadikannya salah satu tragedi kemanusiaan terbesar dalam sejarah modern Yogyakarta. Proses rekonstruksi pascagempa yang melibatkan gotong royong masyarakat, pemerintah, dan lembaga internasional kemudian menjadi bukti ketangguhan dan semangat bangkit warga Yogyakarta."
+      },
+      "uuKeistimewaan": {
+        "shortLabel": "UU KEISTIMEWAAN",
+        "title": "Pengesahan UU Keistimewaan DIY",
+        "description": "Setelah melalui perdebatan panjang dan sensitif seputar mekanisme pengisian jabatan kepala daerah antara sistem pemilihan dan penetapan berdasarkan garis keturunan, DPR RI akhirnya mengesahkan Undang-Undang Nomor 13 Tahun 2012 tentang Keistimewaan Daerah Istimewa Yogyakarta pada 31 Agustus 2012. Undang-undang ini secara definitif mengukuhkan mekanisme penetapan, bukan pemilihan, di mana Sultan Yogyakarta yang bertakhta secara otomatis menjabat sebagai Gubernur DIY dan Adipati Paku Alam yang bertakhta sebagai Wakil Gubernur. Selain mengatur soal kelembagaan, UUK juga memberikan kewenangan istimewa dalam bidang pertanahan (Sultan Ground dan Pakualaman Ground), tata ruang, kebudayaan, dan pengelolaan Dana Keistimewaan yang signifikan untuk pembangunan daerah."
+      },
+      "warisanDunia": {
+        "shortLabel": "WARISAN DUNIA UNESCO",
+        "title": "Sumbu Filosofi Diakui UNESCO",
+        "description": "Setelah proses pengajuan dan penilaian yang panjang, UNESCO secara resmi menetapkan Sumbu Filosofi Yogyakarta dengan nama internasional 'The Cosmological Axis of Yogyakarta and its Historic Landmarks' sebagai Warisan Budaya Dunia dalam Sidang Komite Warisan Dunia ke-45 di Riyadh, Arab Saudi, pada 18 September 2023. Garis imajiner sepanjang sekitar enam kilometer yang membentang dari Panggung Krapyak di selatan, melintasi Keraton Yogyakarta dan Tugu Pal Putih, hingga menghubungkan Gunung Merapi di utara ini mewujudkan filosofi kehidupan manusia Jawa mulai dari asal-usul hingga kembali kepada Sang Pencipta. Pengakuan bergengsi ini tidak hanya menegaskan nilai universal luar biasa dari tata ruang kota Yogyakarta, tetapi juga membawa tanggung jawab besar untuk pelestarian warisan budaya tersebut bagi generasi mendatang."
+      },
+      "hubKreatif": {
+        "shortLabel": "HUB KREATIF DIGITAL",
+        "title": "Ekosistem Pekerja Remote dan Teknologi",
+        "description": "Memasuki tahun ini, lanskap ekonomi dan sosial Yogyakarta mengalami transformasi signifikan seiring menguatnya posisinya sebagai salah satu pusat gravitasi bagi digital nomad, pengembang perangkat lunak, dan pelaku industri kreatif dari dalam maupun luar negeri. Ruang-ruang kerja bersama (coworking space) bermunculan di berbagai sudut kota, berdampingan dengan kampung-kampung tradisional dan kawasan cagar budaya, menciptakan perpaduan unik antara kearifan lokal yang kental dengan gaya hidup dan budaya kerja fleksibel ala kota metropolitan global. Fenomena ini turut didorong oleh biaya hidup yang relatif terjangkau, konektivitas internet yang membaik, dan atmosfer kota pelajar yang selalu ramah bagi ide-ide baru, menjadikan Yogyakarta magnet yang semakin kuat bagi startup, agensi digital, dan komunitas kreatif lintas disiplin."
+      }
+    }
   },
   "planYourVisit": {
     "title": "Rencanakan Kunjungan",
@@ -158,7 +220,19 @@
     "createTripPlan": "Buat Rencana Perjalanan",
     "gettingHereTitle": "Semua tentang cara ke sini",
     "gettingHereDesc": "Ada banyak cara untuk sampai ke Yogyakarta. Dengan menyewa mobil, naik kereta api atau terbang, atau dengan tur berpemandu. Lihat rekomendasi kami.",
-    "seeMore": "Selengkapnya"
+    "seeMore": "Selengkapnya",
+    "gettingAroundTitle": "Berkeliling Jogja",
+    "gettingAroundDesc": "Berkeliling Yogyakarta mudah dan terjangkau. Kota ini menawarkan berbagai pilihan transportasi yang sesuai untuk setiap kebutuhan wisatawan, dari bus umum modern hingga becak tradisional. Baik Anda menjelajahi pusat kota yang ramai maupun bepergian ke objek wisata sekitar, Anda akan menemukan cara yang nyaman untuk berkeliling.",
+    "gettingAroundDecorativeText": "Selalu ada cara untuk menjelajahi Jogja!",
+    "transportBusTitle": "Naik Bus / Transportasi Umum",
+    "transportBusDesc": "Trans Jogja adalah sistem bus umum utama kota, menghubungkan landmark utama seperti Malioboro, Prambanan, dan bandara. Tarif sekitar Rp 3.500 dengan kartu isi ulang. Bus beroperasi dari jam 05:30 sampai 21:30 setiap hari.",
+    "transportRideHailTitle": "Ojek Online (Grab / Gojek)",
+    "transportRideHailDesc": "Grab dan Gojek adalah aplikasi ojek online paling populer di Yogyakarta. Anda bisa memesan mobil atau ojek motor untuk perjalanan point-to-point yang terjangkau. Perjalanan biasa di dalam kota berkisar Rp 15.000–30.000.",
+    "transportBecakTitle": "Naik Becak",
+    "transportBecakDesc": "Becak tradisional adalah cara menarik untuk menjelajahi kota tua, terutama di sekitar Malioboro dan kawasan Kraton. Sepakati harga sebelum naik — perjalanan pendek biasanya Rp 20.000–40.000.",
+    "transportMotorbikeTitle": "Sewa Motor",
+    "transportMotorbikeDesc": "Menyewa motor memberi Anda kebebasan paling besar untuk menjelajahi sesuai keinginan. Sewa harian berkisar Rp 70.000–100.000. SIM internasional disarankan. Sempurna untuk jalan-jalan ke pantai dan candi.",
+    "busSchedule": "Jadwal bus"
   },
   "createPlan": {
     "monthNames": [

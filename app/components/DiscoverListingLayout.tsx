@@ -24,6 +24,10 @@ export interface ListingItem {
   fullAddress?: string;
   categories?: string | null;
   averageRating?: string;
+  /** Total number of user reviews */
+  reviewCount?: number | null;
+  /** Google Places price level: 0=Free, 1=Inexpensive, 2=Moderate, 3=Expensive, 4=Very Expensive */
+  priceLevel?: number | null;
   mainImage?: string;
 }
 
@@ -55,6 +59,17 @@ export interface DiscoverListingLayoutProps {
 const INITIAL_COUNT = 8;
 const LOAD_MORE_COUNT = 8;
 
+const PRICE_OPTIONS = [
+  { label: "Semua Harga", value: -1 },
+  { label: "Gratis", value: 0 },
+  { label: "Murah", value: 1 },
+  { label: "Sedang", value: 2 },
+  { label: "Mahal", value: 3 },
+  { label: "Sangat Mahal", value: 4 },
+];
+
+type SortOption = "default" | "rating" | "reviews";
+
 function slugify(name: string): string {
   return name
     .toLowerCase()
@@ -74,10 +89,20 @@ export default function DiscoverListingLayout({
   renderCardFooter,
 }: DiscoverListingLayoutProps) {
   const [sortOpen, setSortOpen] = useState(false);
+  const [sortByOpen, setSortByOpen] = useState(false);
+  const [priceOpen, setPriceOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
+  const [sortBy, setSortBy] = useState<SortOption>("default");
+  const [priceFilter, setPriceFilter] = useState<number>(-1);
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
   const { t } = useLocale();
   const sentinelRef = useRef<HTMLDivElement>(null);
+
+  // Check if any items have priceLevel data
+  const hasPriceLevels = useMemo(
+    () => items.some((item) => item.priceLevel != null),
+    [items]
+  );
 
   // Collect unique categories
   const allCategories = useMemo(() => {
@@ -90,24 +115,48 @@ export default function DiscoverListingLayout({
     return ["All", ...Array.from(catSet).sort()];
   }, [items]);
 
-  // Filter items by selected category
+  // Filter by category then by price level, then sort
   const filteredItems = useMemo(() => {
-    if (activeFilter === "All") return items;
-    return items.filter((item) =>
-      item.categories
-        ? item.categories
-          .split(",")
-          .map((c) => c.trim())
-          .includes(activeFilter)
-        : false,
-    );
-  }, [items, activeFilter]);
+    let result = items;
 
-  // Reset visible count when filter changes
+    // Category filter
+    if (activeFilter !== "All") {
+      result = result.filter((item) =>
+        item.categories
+          ? item.categories
+              .split(",")
+              .map((c) => c.trim())
+              .includes(activeFilter)
+          : false,
+      );
+    }
+
+    // Price level filter
+    if (priceFilter !== -1) {
+      result = result.filter((item) => item.priceLevel === priceFilter);
+    }
+
+    // Sort
+    if (sortBy === "rating") {
+      result = [...result].sort((a, b) => {
+        const rA = parseFloat(a.averageRating?.replace(",", ".") ?? "0") || 0;
+        const rB = parseFloat(b.averageRating?.replace(",", ".") ?? "0") || 0;
+        return rB - rA;
+      });
+    } else if (sortBy === "reviews") {
+      result = [...result].sort(
+        (a, b) => (b.reviewCount ?? 0) - (a.reviewCount ?? 0),
+      );
+    }
+
+    return result;
+  }, [items, activeFilter, priceFilter, sortBy]);
+
+  // Reset visible count when filter/sort changes
   useEffect(() => {
-    const t = setTimeout(() => setVisibleCount(INITIAL_COUNT), 0);
-    return () => clearTimeout(t);
-  }, [activeFilter]);
+    const timer = setTimeout(() => setVisibleCount(INITIAL_COUNT), 0);
+    return () => clearTimeout(timer);
+  }, [activeFilter, priceFilter, sortBy]);
 
   // Items currently visible on screen
   const visibleItems = useMemo(
@@ -185,48 +234,128 @@ export default function DiscoverListingLayout({
         </h1>
         <p className="text-gray-500 text-[15px] mb-8 max-w-xl">{subtitle}</p>
 
-        {/* Filter dropdown — only show if there are categories */}
-        {allCategories.length > 1 && (
-          <div className="relative inline-block mb-10">
+        {/* All filters row — category, sort, price side-by-side */}
+        <div className="flex flex-wrap items-start gap-3 mb-10">
+
+          {/* Category dropdown */}
+          {allCategories.length > 1 && (
+            <div className="relative inline-block">
+              <button
+                onClick={() => { setSortOpen(!sortOpen); setSortByOpen(false); setPriceOpen(false); }}
+                className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-[15px] font-medium hover:border-gray-400 transition-colors shadow-sm"
+              >
+                <span>{activeFilter}</span>
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform duration-200 ${sortOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {sortOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setSortOpen(false)} />
+                  <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-50 min-w-[200px] max-h-[320px] overflow-y-auto py-2">
+                    {allCategories.map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => { setActiveFilter(cat); setSortOpen(false); }}
+                        className={`block w-full text-left px-4 py-2 text-[14px] font-medium transition-colors ${
+                          activeFilter === cat
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Sort dropdown */}
+          <div className="relative inline-block">
             <button
-              onClick={() => setSortOpen(!sortOpen)}
+              onClick={() => { setSortByOpen(!sortByOpen); setSortOpen(false); setPriceOpen(false); }}
               className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-[15px] font-medium hover:border-gray-400 transition-colors shadow-sm"
             >
-              <span>{activeFilter}</span>
+              <span>
+                {sortBy === "default" && "Urutkan"}
+                {sortBy === "rating" && "Review Terbaik"}
+                {sortBy === "reviews" && "Review Terbanyak"}
+              </span>
               <ChevronDown
                 size={16}
-                className={`transition-transform duration-200 ${sortOpen ? "rotate-180" : ""}`}
+                className={`transition-transform duration-200 ${sortByOpen ? "rotate-180" : ""}`}
               />
             </button>
 
-            {sortOpen && (
+            {sortByOpen && (
               <>
-                {/* Backdrop */}
-                <div
-                  className="fixed inset-0 z-40"
-                  onClick={() => setSortOpen(false)}
-                />
-                <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-50 min-w-[200px] max-h-[320px] overflow-y-auto py-2">
-                  {allCategories.map((cat) => (
+                <div className="fixed inset-0 z-40" onClick={() => setSortByOpen(false)} />
+                <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-50 min-w-[200px] py-2">
+                  {([
+                    { value: "default", label: "Default" },
+                    { value: "rating",  label: "Review Terbaik" },
+                    { value: "reviews", label: "Review Terbanyak" },
+                  ] as { value: SortOption; label: string }[]).map((opt) => (
                     <button
-                      key={cat}
-                      onClick={() => {
-                        setActiveFilter(cat);
-                        setSortOpen(false);
-                      }}
-                      className={`block w-full text-left px-4 py-2 text-[14px] font-medium transition-colors ${activeFilter === cat
+                      key={opt.value}
+                      onClick={() => { setSortBy(opt.value); setSortByOpen(false); }}
+                      className={`block w-full text-left px-4 py-2 text-[14px] font-medium transition-colors ${
+                        sortBy === opt.value
                           ? "bg-gray-900 text-white"
                           : "text-gray-700 hover:bg-gray-100"
-                        }`}
+                      }`}
                     >
-                      {cat}
+                      {opt.label}
                     </button>
                   ))}
                 </div>
               </>
             )}
           </div>
-        )}
+
+          {/* Price dropdown — only shown when data has price levels */}
+          {hasPriceLevels && (
+            <div className="relative inline-block">
+              <button
+                onClick={() => { setPriceOpen(!priceOpen); setSortOpen(false); setSortByOpen(false); }}
+                className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-[15px] font-medium hover:border-gray-400 transition-colors shadow-sm"
+              >
+                <span>
+                  {PRICE_OPTIONS.find((o) => o.value === priceFilter)?.label ?? "Harga"}
+                </span>
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform duration-200 ${priceOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {priceOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setPriceOpen(false)} />
+                  <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-50 min-w-[200px] py-2">
+                    {PRICE_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => { setPriceFilter(opt.value); setPriceOpen(false); }}
+                        className={`block w-full text-left px-4 py-2 text-[14px] font-medium transition-colors ${
+                          priceFilter === opt.value
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </section>
 
       {/* Cards grid */}

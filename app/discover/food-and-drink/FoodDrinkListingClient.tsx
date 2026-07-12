@@ -19,6 +19,8 @@ export default function FoodDrinkListingClient({
     fullAddress: r.fullAddress,
     categories: r.categories || null,
     averageRating: r.averageRating,
+    reviewCount: r.reviewCount,
+    priceLevel: r.priceLevel,
     mainImage: r.mainImage,
   }));
 

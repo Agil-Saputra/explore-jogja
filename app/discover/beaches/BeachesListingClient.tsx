@@ -19,6 +19,8 @@ export default function BeachesListingClient({
     fullAddress: beach.fullAddress,
     categories: beach.categories || null,
     averageRating: beach.averageRating,
+    reviewCount: beach.reviewCount,
+    priceLevel: beach.priceLevel,
     mainImage: beach.mainImage,
   }));
 

@@ -19,6 +19,8 @@ export default function TrekkingListingClient({
     fullAddress: place.fullAddress,
     categories: place.categories || null,
     averageRating: place.averageRating,
+    reviewCount: place.reviewCount,
+    priceLevel: place.priceLevel,
     mainImage: place.mainImage,
   }));
 

@@ -690,7 +690,7 @@ export default function MapsClient({ features }: MapsClientProps) {
           `}
         >
           <div
-            className={`bg-white/90 backdrop-blur-xl border border-white/60 shadow-2xl overflow-hidden transition-all duration-500
+            className={`bg-white/90 backdrop-blur-xl border border-white/60 shadow-2xl overflow-hidden transition-all duration-500 flex flex-col
             ${panelExpanded ? "rounded-t-3xl md:rounded-2xl max-h-[70vh] md:max-h-[calc(100vh-8rem)]" : "rounded-t-3xl md:rounded-2xl max-h-16 md:max-h-16"}`}
           >
             {/* Panel Header */}
@@ -754,7 +754,11 @@ export default function MapsClient({ features }: MapsClientProps) {
                 </div>
 
                 {/* Destinations List */}
-                <div className="overflow-y-auto max-h-[calc(70vh-8rem)] md:max-h-[calc(100vh-18rem)] px-4 py-3 space-y-2">
+                <div 
+                  className="overflow-y-auto flex-1 min-h-0 px-4 py-3 space-y-2 overscroll-contain touch-pan-y"
+                  onTouchMove={(e) => e.stopPropagation()}
+                  onWheel={(e) => e.stopPropagation()}
+                >
                   {filteredNearby.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                       <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mb-3">

@@ -94,6 +94,12 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+
+    appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "NextPWA",
+  },
 };
 
 export default function RootLayout({

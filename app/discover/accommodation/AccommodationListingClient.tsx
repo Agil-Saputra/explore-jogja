@@ -19,6 +19,8 @@ export default function AccommodationListingClient({
     fullAddress: acc.fullAddress,
     categories: acc.categories || null,
     averageRating: acc.averageRating,
+    reviewCount: acc.reviewCount,
+    priceLevel: acc.priceLevel,
     mainImage: acc.mainImage,
   }));
 

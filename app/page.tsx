@@ -346,11 +346,11 @@ export default function HeroSection() {
           ref={textRef}
           className="absolute top-[15%] md:top-[20%] z-10 flex flex-col items-center text-center w-full px-4"
         >
-          <h1 className="text-5xl md:text-8xl text-slate-100 font-extrabold tracking-tight font-caveat text-black mb-4 drop-shadow-sm">
+          <h1 className="text-5xl md:text-[4.8rem] text-slate-100 tracking-tight font-jawapalsu text-black mb-4 drop-shadow-sm">
             {t("home.heroTitle")}
           </h1>
           <p className="text-lg md:text-2xl text-gray-600 font-medium mb-8">
-            <span className="text-gray-500 font-caveat">
+            <span className="text-gray-500 font-jakarta italic">
               {t("home.heroSubtitle")}
             </span>
           </p>
@@ -511,9 +511,9 @@ export default function HeroSection() {
                   </span>
                 ))}
             </h2>
-            <button className="my-12 w-fit bg-[#2C2C2C] hover:bg-black text-white px-8 py-3 rounded-full font-medium transition-colors">
+            <a href="/discover" className="my-12 w-fit bg-[#2C2C2C] hover:bg-black text-white px-8 py-3 rounded-full font-medium transition-colors">
               {t("home.learnMore")}
-            </button>
+            </a>
 
             <div className="w-full flex justify-end md:block hidden">
               <div className="flex flex-col items-end mb-12 relative absolute -bottom-10 right-0">
@@ -569,8 +569,6 @@ export default function HeroSection() {
         id="culinary-section"
         className="relative w-full bg-white z-20 overflow-hidden"
       >
-
-        
 
         <div
           ref={horizWrapperRef}
@@ -630,7 +628,6 @@ export default function HeroSection() {
                 key={img.src}
                 className="flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[38vw] h-[380px] md:h-[500px] rounded-2xl overflow-hidden relative snap-start"
               >
-                <SlidingImageReveal className="w-full h-full">
                   <Image
                     src={img.src}
                     alt={img.alt}
@@ -647,7 +644,6 @@ export default function HeroSection() {
                       }
                       : {})}
                   />
-                </SlidingImageReveal>
               </div>
             ))}
           </div>
@@ -660,7 +656,7 @@ export default function HeroSection() {
                 {t("home.culinaryDesc")}
               </SimpleOpacityReveal>
               <a
-                href="/discover"
+                href="/maps"
                 className="w-fit bg-[#2C2C2C] hover:bg-black text-white px-8 py-3 rounded-full font-medium transition-colors font-jakarta"
               >
                 {t("home.exploreCulinary")}
@@ -717,7 +713,7 @@ export default function HeroSection() {
             {t("home.planDesc")}
           </p>
           <a
-            href="/quiz"
+            href="/plan-your-visit"
             className="my-12 w-fit bg-white hover:bg-white/80 text-gray-900 px-8 py-3 rounded-full font-medium transition-colors"
           >
             {t("home.planVisitBtn")}

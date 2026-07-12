@@ -28,6 +28,7 @@ interface GPlaceResult {
   geometry: { location: { lat: number; lng: number } };
   rating?: number;
   user_ratings_total?: number;
+  price_level?: number;
   photos?: GPlacePhoto[];
   types?: string[];
 }
@@ -40,6 +41,7 @@ interface GPlaceDetails {
   website?: string;
   rating?: number;
   user_ratings_total?: number;
+  price_level?: number;
   geometry: { location: { lat: number; lng: number } };
   photos?: GPlacePhoto[];
   types?: string[];
@@ -58,6 +60,8 @@ export interface CafePlace {
   phone: string | null;
   reviewCount: number | null;
   averageRating: string;
+  /** Google Places price level: 0 = Free, 1 = Inexpensive, 2 = Moderate, 3 = Expensive, 4 = Very Expensive */
+  priceLevel: number | null;
   googleMapsUrl: string;
   latitude: number;
   longitude: number;
@@ -140,6 +144,7 @@ async function placeDetails(placeId: string): Promise<GPlaceDetails | null> {
     "website",
     "rating",
     "user_ratings_total",
+    "price_level",
     "geometry",
     "photos",
     "types",
@@ -181,6 +186,7 @@ function normaliseCafe(
     phone: det?.formatted_phone_number ?? null,
     reviewCount: src.user_ratings_total ?? null,
     averageRating: src.rating?.toFixed(1) ?? "N/A",
+    priceLevel: src.price_level ?? det?.price_level ?? null,
     googleMapsUrl:
       det?.url ??
       `https://www.google.com/maps/place/?q=place_id:${src.place_id}`,

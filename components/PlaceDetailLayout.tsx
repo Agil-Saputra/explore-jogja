@@ -175,43 +175,59 @@ function ReviewsMarquee({
           />
 
           {/* Animated row */}
-          <div ref={marqueeRef} className="flex gap-5 w-max py-2 pl-10 md:pl-16 lg:pl-24">
+          <div ref={marqueeRef} className="flex gap-5 w-max py-2 pl-10 md:pl-16 lg:pl-24 items-stretch">
             {cards.map((review, i) => (
-              <div
-                key={i}
-                className="shrink-0 w-[300px] sm:w-[340px] md:w-[380px] bg-white rounded-2xl border border-gray-200/60 p-6 md:p-7 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300 min-h-[220px]"
-              >
-                {/* Review text */}
-                <p className="text-[14px] md:text-[15px] font-semibold text-gray-800 leading-relaxed mb-6">
-                  &ldquo;{review.review}&rdquo;
-                </p>
-
-                {/* Reviewer info */}
-                <div className="flex items-center gap-3 mt-auto">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[14px] font-bold text-gray-500 uppercase shrink-0 border border-gray-200">
-                    {review.name.charAt(0)}
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <p className="font-semibold text-[14px] text-gray-900 leading-none">
-                      {review.name}
-                    </p>
-                    <p className="text-[12px] text-gray-400">
-                      Visitor
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <ReviewCard key={i} review={review} />
             ))}
           </div>
         </div>
       ) : (
-        <div className="px-6 md:px-10 lg:px-16">
-          <div className="bg-white rounded-2xl p-7 text-gray-400 text-[14px]">
-            No reviews available for this {noun}.
-          </div>
+        <div className="px-6 md:px-10 lg:px-16 py-10 text-center">
+          <p className="text-gray-500 text-[15px]">
+            No reviews yet for this {noun}.
+          </p>
         </div>
       )}
     </section>
+  );
+}
+
+function ReviewCard({ review }: { review: { name: string; review: string } }) {
+  const [expanded, setExpanded] = useState(false);
+  const isLong = review.review.length > 200;
+
+  return (
+    <div className="shrink-0 w-[300px] sm:w-[340px] md:w-[380px] bg-white rounded-2xl border border-gray-200/60 p-6 md:p-7 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300 min-h-[220px]">
+      <div>
+        <p
+          className={`text-[14px] md:text-[15px] font-semibold text-gray-800 leading-relaxed ${
+            expanded ? "" : "line-clamp-12"
+          }`}
+        >
+          &ldquo;{review.review}&rdquo;
+        </p>
+        {isLong && (
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="text-[13px] font-semibold text-gray-900 mt-2 hover:underline"
+          >
+            {expanded ? "Read less" : "Read more"}
+          </button>
+        )}
+      </div>
+
+      <div className="flex items-center gap-3 mt-6">
+        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[14px] font-bold text-gray-500 uppercase shrink-0 border border-gray-200">
+          {review.name.charAt(0)}
+        </div>
+        <div className="flex flex-col gap-0.5">
+          <p className="font-semibold text-[14px] text-gray-900 leading-none">
+            {review.name}
+          </p>
+          <p className="text-[12px] text-gray-400">Visitor</p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -225,8 +241,11 @@ export default function PlaceDetailLayout({
   allItems: PlaceItem[];
   category: CategoryMeta;
 }) {
-  const [imageIndex, setImageIndex] = useState(0);
   const [otherOffset, setOtherOffset] = useState(0);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+  const [cardStepPx, setCardStepPx] = useState(0);
+  const galleryWrapRef = useRef<HTMLDivElement>(null);
+  const galleryTrackRef = useRef<HTMLDivElement>(null);
 
   const otherItems = useMemo(
     () => (item ? allItems.filter((i) => i.name !== item.name) : []),
@@ -237,6 +256,22 @@ export default function PlaceDetailLayout({
     () => otherItems.slice(otherOffset, otherOffset + 4),
     [otherItems, otherOffset],
   );
+
+  /* ── measure container for gallery step ── */
+  useEffect(() => {
+    const el = galleryWrapRef.current;
+    if (!el) return;
+    const GAP = 20;
+    const measure = () => {
+      const w = el.clientWidth;
+      // 3 cards visible: cardW = (w - 2*gap) / 3; step = cardW + gap
+      setCardStepPx((w - GAP * 2) / 3 + GAP);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   /* ── not found ── */
   if (!item) {
@@ -265,10 +300,11 @@ export default function PlaceDetailLayout({
     ? parseFloat(item.averageRating.replace(",", "."))
     : null;
 
-  /* ── image slider handlers ── */
-  const prevImage = () =>
-    setImageIndex((i) => (i - 1 + allImages.length) % allImages.length);
-  const nextImage = () => setImageIndex((i) => (i + 1) % allImages.length);
+  /* ── gallery nav helpers ── */
+  const prevGallery = () => setGalleryIndex((i) => Math.max(0, i - 1));
+  const nextGallery = (len: number) =>
+    // cap at len-3 so the last 3 images always fill the viewport
+    setGalleryIndex((i) => Math.min(Math.max(0, len - 3), i + 1));
 
   /* ── other items carousel handlers ── */
   const prevOther = () => setOtherOffset((o) => Math.max(0, o - 4));
@@ -388,55 +424,81 @@ export default function PlaceDetailLayout({
         </div>
       </section>
 
-      {/* ══ IMAGE GALLERY SLIDER ══════════════════════════════ */}
+      {/* ══ IMAGE GALLERY — slide one image per arrow ═════════ */}
       {allImages.length > 0 && (
-        <section className="bg-cream py-12 md:py-16 px-6 md:px-10 lg:px-16">
-          <div className="flex-1 mx-auto flex flex-col md:flex-row gap-6 md:gap-10 items-start">
-            {/* Left — large image */}
-            <div className="w-full md:w-[65%] shrink-0">
-              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg bg-gray-100">
-                <Image
-                  src={allImages[imageIndex]}
-                  alt={`${item.name} — photo ${imageIndex + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 65vw"
-                  className="object-cover"
-                  priority={imageIndex === 0}
-                />
+        <section className="bg-cream py-12 md:py-16">
+          {/* Header row */}
+          <div className="px-6 md:px-10 lg:px-16 flex items-center justify-between mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight font-jakarta">
+              {item.name} Gallery
+            </h2>
+            {allImages.length > 1 && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={prevGallery}
+                  disabled={galleryIndex === 0}
+                  aria-label="Previous image"
+                  className="w-10 h-10 rounded-full border border-gray-300 bg-white hover:bg-gray-100 flex items-center justify-center text-gray-600 transition-colors shadow-sm disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={() => nextGallery(allImages.length)}
+                  disabled={galleryIndex >= Math.max(0, allImages.length - 3)}
+                  aria-label="Next image"
+                  className="w-10 h-10 rounded-full border border-gray-300 bg-white hover:bg-gray-100 flex items-center justify-center text-gray-600 transition-colors shadow-sm disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight size={18} />
+                </button>
+                <span className="text-[13px] text-gray-400 font-medium select-none ml-1">
+                  {galleryIndex + 1} / {allImages.length}
+                </span>
               </div>
-            </div>
+            )}
+          </div>
 
-            {/* Right — name + controls */}
-            <div className="flex-1 flex flex-col justify-between self-stretch min-h-[200px] md:min-h-0 md:h-auto md:aspect-auto"
-              style={{ minHeight: "inherit" }}
+          {/* Viewport — clips the track, no user scroll */}
+          <div
+            ref={galleryWrapRef}
+            className="overflow-hidden pl-6 md:pl-10 lg:pl-16 pr-6 md:pr-10 lg:pr-16"
+          >
+            {/* Sliding track */}
+            <div
+              ref={galleryTrackRef}
+              className="flex gap-5 pb-2"
+              style={{
+                transform: `translateX(-${galleryIndex * cardStepPx}px)`,
+                transition: "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
             >
-              {/* Name at top */}
-              <h3 className="text-xl md:text-2xl font-bold font-jakarta tracking-tight text-gray-900 leading-snug">
-                {item.name} Gallery
-              </h3>
-
-              {/* Nav arrows + counter at bottom */}
-              {allImages.length > 1 && (
-                <div className="flex items-center gap-3 mt-6 md:mt-auto">
-                  <button
-                    onClick={prevImage}
-                    aria-label="Previous image"
-                    className="w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 transition-colors"
-                  >
-                    <ChevronLeft size={18} />
-                  </button>
-                  <button
-                    onClick={nextImage}
-                    aria-label="Next image"
-                    className="w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 transition-colors"
-                  >
-                    <ChevronRight size={18} />
-                  </button>
-                  <span className="text-[14px] text-gray-400 font-medium select-none ml-1">
-                    Image {imageIndex + 1} / {allImages.length}
-                  </span>
+              {allImages.map((src, idx) => (
+                <div
+                  key={idx}
+                  className="group relative shrink-0 rounded-2xl overflow-hidden bg-gray-900 aspect-[4/5] cursor-pointer"
+                  style={{
+                    width: cardStepPx > 0 ? `${cardStepPx - 20}px` : "calc(33.333% - 14px)",
+                    minWidth: "240px",
+                    animationDelay: `${idx * 60}ms`,
+                    animation: "cardFadeIn 0.5s ease-out forwards",
+                    opacity: 0,
+                  }}
+                >
+                  <Image
+                    src={src}
+                    alt={`${item.name} — photo ${idx + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 80vw, 33vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    priority={idx === 0}
+                  />
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent group-hover:from-black/70 transition-all duration-500" />
+                  {/* Photo number badge */}
+                  <div className="absolute bottom-4 left-4 text-white/80 text-[12px] font-semibold select-none">
+                    {idx + 1} / {allImages.length}
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </section>

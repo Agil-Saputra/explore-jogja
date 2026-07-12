@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { MapPin, Clock } from "lucide-react";
 import { useLocale } from "@/components/LocaleContext";
 import type { ContentfulEvent } from "@/lib/contentful";
@@ -58,13 +59,13 @@ export default function EventsClient({ events }: EventsClientProps) {
         return (
           <EventCard
             key={event.id}
+            id={event.id}
             day={day}
             monthYear={monthYear}
             weekday={weekday}
             title={event.title}
             location={event.location}
             time={time}
-            link={event.link}
           />
         );
       })}
@@ -74,21 +75,21 @@ export default function EventsClient({ events }: EventsClientProps) {
 
 // ── Event Card ────────────────────────────────────────────────────────────────
 function EventCard({
+  id,
   day,
   monthYear,
   weekday,
   title,
   location,
   time,
-  link,
 }: {
+  id: string;
   day: string;
   monthYear: string;
   weekday: string;
   title: string;
   location: string;
   time: string;
-  link: string | null;
 }) {
   const { t } = useLocale();
 
@@ -133,18 +134,12 @@ function EventCard({
     </>
   );
 
-  return link ? (
-    <a
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer"
+  return (
+    <Link
+      href={`/events/${id}`}
       className="bg-[#EBE9E4] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-sm transition-shadow"
     >
       {content}
-    </a>
-  ) : (
-    <div className="bg-[#EBE9E4] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-sm transition-shadow">
-      {content}
-    </div>
+    </Link>
   );
 }

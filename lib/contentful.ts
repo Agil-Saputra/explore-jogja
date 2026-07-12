@@ -24,7 +24,7 @@ export interface EventSkeleton {
     startDate: EntryFieldTypes.Date;
     endDate: EntryFieldTypes.Date;
     location: EntryFieldTypes.Text;
-    description: EntryFieldTypes.Text;
+    description: EntryFieldTypes.RichText;
     image: EntryFieldTypes.AssetLink;
     link: EntryFieldTypes.Text;
   };
@@ -47,7 +47,7 @@ export interface ContentfulEvent {
   startDate: string; // ISO date string
   endDate: string | null;
   location: string;
-  description: string | null;
+  description: import("@contentful/rich-text-types").Document | null;
   imageUrl: string | null;
   imageAlt: string | null;
   link: string | null;
@@ -119,6 +119,30 @@ export async function getAllSlugs(): Promise<string[]> {
   return entries.items.map((entry) => entry.fields.slug as string);
 }
 
+// ── Fetch a single event by ID (for the event detail page) ──────────────────
+export async function getEventById(
+  id: string
+): Promise<ContentfulEvent | null> {
+  try {
+    const entry = await client.getEntry<EventSkeleton>(id);
+    if (!entry) return null;
+
+    return {
+      id: entry.sys.id,
+      title: entry.fields.title as string,
+      startDate: entry.fields.startDate as string,
+      endDate: (entry.fields.endDate as string) ?? null,
+      location: entry.fields.location as string,
+      description: (entry.fields.description as import("@contentful/rich-text-types").Document) ?? null,
+      imageUrl: resolveImageUrl(entry.fields.image),
+      imageAlt: resolveImageAlt(entry.fields.image),
+      link: (entry.fields.link as string) ?? null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 // ── Fetch all events (for the events listing page) ───────────────────────────
 export async function getEvents(): Promise<ContentfulEvent[]> {
   const entries = await client.getEntries<EventSkeleton>({
@@ -132,7 +156,7 @@ export async function getEvents(): Promise<ContentfulEvent[]> {
     startDate: entry.fields.startDate as string,
     endDate: (entry.fields.endDate as string) ?? null,
     location: entry.fields.location as string,
-    description: (entry.fields.description as string) ?? null,
+    description: (entry.fields.description as import("@contentful/rich-text-types").Document) ?? null,
     imageUrl: resolveImageUrl(entry.fields.image),
     imageAlt: resolveImageAlt(entry.fields.image),
     link: (entry.fields.link as string) ?? null,

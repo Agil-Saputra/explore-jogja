@@ -6,130 +6,109 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { SlidingImageReveal } from "../app/components/RevealElements";
 
+import { useLocale } from "@/components/LocaleContext";
+
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 const timelineData = [
   {
-    "year": "1755",
-    "shortLabel": "PERJANJIAN GIYANTI",
-    "title": "Perjanjian Giyanti",
-    "description": "Kesultanan Mataram dibagi menjadi dua kekuasaan: Kesultanan Yogyakarta dan Kasunanan Surakarta. Peristiwa ini menandai lahirnya Yogyakarta sebagai kota kerajaan yang independen.",
-    "images": [
+    year: "1755",
+    id: "giyanti",
+    images: [
       "/assets/history/perjanjian-giyanti.jpg",
       "/assets/sultan-hb-i.jpg"
     ]
   },
   {
-    "year": "1756",
-    "shortLabel": "PEMBANGUNAN KERATON",
-    "title": "Pembangunan Keraton Yogyakarta",
-    "description": "Sri Sultan Hamengkubuwono I pindah dari pesanggrahan Ambar Ketawang ke keraton yang baru selesai dibangun. Peristiwa perpindahan pada 7 Oktober 1756 ini diperingati sebagai hari jadi Kota Yogyakarta.",
-    "images": [
+    year: "1756",
+    id: "pembangunanKeraton",
+    images: [
       "/assets/history/pembangunan-keraton.jpg",
       "/assets/tugu-pal-putih.jpg"
     ]
   },
   {
-    "year": "1812",
-    "shortLabel": "GEGER SEPEHI",
-    "title": "Peristiwa Geger Sepehi",
-    "description": "Pasukan Inggris di bawah pimpinan Thomas Stamford Raffles menyerang dan menjarah Keraton Yogyakarta. Peristiwa ini mengakibatkan kerugian besar bagi keraton, termasuk dibawanya naskah-naskah kuno ke Inggris.",
-    "images": [
+    year: "1812",
+    id: "gegerSepehi",
+    images: [
       "/assets/history/geger-sepehi.webp"
     ]
   },
   {
-    "year": "1825",
-    "shortLabel": "PERANG DIPONEGORO",
-    "title": "Awal Perang Jawa",
-    "description": "Pangeran Diponegoro memimpin perlawanan besar melawan pemerintah kolonial Hindia Belanda. Perang yang berlangsung hingga 1830 ini membawa dampak besar bagi tatanan sosial dan politik di Yogyakarta.",
-    "images": [
+    year: "1825",
+    id: "perangDiponegoro",
+    images: [
       "/assets/history/perang-jawa.jpg",
       "/assets/java-war.jpg"
     ]
   },
   {
-    "year": "1945",
-    "shortLabel": "AMANAT 5 SEPTEMBER",
-    "title": "Integrasi ke Republik Indonesia",
-    "description": "Sehari setelah kemerdekaan RI, Sri Sultan Hamengkubuwono IX dan Sri Paduka Paku Alam VIII menyatakan dukungan. Pada 5 September, mereka mengeluarkan amanat resmi bahwa Yogyakarta menjadi bagian dari Republik Indonesia.",
-    "images": [
+    year: "1945",
+    id: "amanat1945",
+    images: [
       "/assets/history/jogja-1945.jpg",
       "/assets/amanat-1945.jpg"
     ]
   },
   {
-    "year": "1946",
-    "shortLabel": "IBUKOTA REPUBLIK",
-    "title": "Yogyakarta Menjadi Ibukota RI",
-    "description": "Karena situasi keamanan di Jakarta yang semakin memburuk akibat kedatangan tentara NICA, ibukota Republik Indonesia dipindahkan sementara ke Yogyakarta mulai tanggal 4 Januari 1946.",
-    "images": [
+    year: "1946",
+    id: "ibukotaRI",
+    images: [
       "/assets/history/jogja-ibukota.webp",
       "/assets/stasiun-tugu.jpg"
     ]
   },
   {
-    "year": "1949",
-    "shortLabel": "SERANGAN UMUM",
-    "title": "Serangan Umum 1 Maret",
-    "description": "TNI melakukan serangan balasan besar-besaran dan berhasil menguasai Yogyakarta selama 6 jam dari tangan Belanda. Peristiwa ini sukses membuktikan kepada dunia internasional bahwa RI dan tentaranya masih ada.",
-    "images": [
+    year: "1949",
+    id: "seranganUmum",
+    images: [
       "/assets/history/serangan-umum.jpg",
       "/assets/monumen-so-1-maret.jpg"
     ]
   },
   {
-    "year": "1950",
-    "shortLabel": "PEMBENTUKAN DIY",
-    "title": "Penetapan Daerah Istimewa Yogyakarta",
-    "description": "Pemerintah Indonesia secara resmi menetapkan Yogyakarta sebagai Daerah Istimewa setingkat provinsi melalui Undang-Undang Nomor 3 Tahun 1950, sebagai penghargaan atas perannya dalam kemerdekaan.",
-    "images": [
+    year: "1950",
+    id: "pembentukanDIY",
+    images: [
       "/assets/lambang-diy.jpg"
     ]
   },
   {
-    "year": "2006",
-    "shortLabel": "GEMPA BUMI",
-    "title": "Tragedi Gempa Bumi Yogyakarta",
-    "description": "Gempa tektonik berkekuatan 5,9 SR mengguncang kawasan Yogyakarta dan sekitarnya pada 27 Mei. Bencana ini merusak ratusan ribu rumah dan fasilitas bersejarah, serta memakan lebih dari 5.000 korban jiwa.",
-    "images": [
+    year: "2006",
+    id: "gempaBumi",
+    images: [
       "/assets/history/gempa-2006.jpg",
       "/assets/candi-prambanan-damage.jpg"
     ]
   },
   {
-    "year": "2012",
-    "shortLabel": "UU KEISTIMEWAAN",
-    "title": "Pengesahan UU Keistimewaan DIY",
-    "description": "Pemerintah pusat mengesahkan Undang-Undang Nomor 13 Tahun 2012 tentang Keistimewaan DIY. UU ini secara resmi mengukuhkan posisi Sultan dan Paku Alam yang bertakhta sebagai Gubernur dan Wakil Gubernur DIY.",
-    "images": [
+    year: "2012",
+    id: "uuKeistimewaan",
+    images: [
       "/assets/history/uu-keistimewaan.webp",
       "/assets/kraton-modern.jpg"
     ]
   },
   {
-    "year": "2023",
-    "shortLabel": "WARISAN DUNIA UNESCO",
-    "title": "Sumbu Filosofi Diakui UNESCO",
-    "description": "Sumbu Filosofi Yogyakarta (The Cosmological Axis of Yogyakarta and its Historic Landmarks) secara resmi ditetapkan sebagai Warisan Budaya Dunia oleh UNESCO, mengukuhkan nilai tata ruang kota yang sarat akan makna filosofi kehidupan Jawa.",
-    "images": [
+    year: "2023",
+    id: "warisanDunia",
+    images: [
       "/assets/sumbu-filosofi-jogja.jpg",
       "/assets/unesco-heritage.jpg"
     ]
   },
   {
-    "year": "2026",
-    "shortLabel": "HUB KREATIF DIGITAL",
-    "title": "Ekosistem Pekerja Remote dan Teknologi",
-    "description": "Memasuki tahun ini, lanskap ekonomi Jogja semakin bergeser menjadi pusat bagi digital nomad, pengembang perangkat lunak, dan industri kreatif. Tradisi yang masih kental kini berdampingan erat dengan budaya kerja fleksibel, menjadikannya magnet bagi <i>startup</i> dan agensi digital.",
-    "images": [
+    year: "2026",
+    id: "hubKreatif",
+    images: [
       "/assets/coworking-space-2026.jpg",
       "/assets/tech-community-jogja.jpg"
     ]
   }
 ];
+
 
 // Helper to dynamically generate a perfectly sweeping S-Curve based on items length
 const generatePath = (count: number) => {
@@ -146,6 +125,7 @@ const generatePath = (count: number) => {
 };
 
 export default function HistoryTimeline() {
+  const { t } = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -248,7 +228,7 @@ export default function HistoryTimeline() {
                       <div className="relative w-full aspect-video overflow-hidden shadow-inner group cursor-pointer">
                         <Image
                           src={data.images[0]}
-                          alt={data.title}
+                          alt={t(`history.timeline.${data.id}.title`)}
                           fill
                           className="object-cover transition-transform duration-700 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, 50vw"
@@ -259,10 +239,10 @@ export default function HistoryTimeline() {
                       {/* Title and Description */}
                       <div>
                         <h3 className="text-2xl md:text-3xl font-caveat font-bold text-gray-900 mb-3 mt-4">
-                          {data.title}
+                          {t(`history.timeline.${data.id}.title`)}
                         </h3>
                         <p className="text-gray-600 leading-relaxed md:text-lg">
-                          {data.description}
+                          {t(`history.timeline.${data.id}.description`)}
                         </p>
                       </div>
                     </div>

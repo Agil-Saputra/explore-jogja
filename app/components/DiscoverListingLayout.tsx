@@ -217,7 +217,7 @@ export default function DiscoverListingLayout({
       {/* Header section */}
       <section className="pt-28 md:pt-36 px-6 md:px-10 lg:px-14">
         {/* Back link */}
-        <Link
+        <a
           href="/discover"
           className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors text-[15px] font-medium mb-6 group"
         >
@@ -226,7 +226,7 @@ export default function DiscoverListingLayout({
             className="group-hover:-translate-x-1 transition-transform"
           />
           <span>{t("discoverListing.backToDiscover")}</span>
-        </Link>
+        </a>
 
         {/* Title */}
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-jakarta mb-3">
@@ -371,7 +371,7 @@ export default function DiscoverListingLayout({
               : null;
 
             return (
-              <Link
+              <a
                 key={item.id}
                 href={`${basePath}/${slug}`}
                 className="block"
@@ -424,7 +424,7 @@ export default function DiscoverListingLayout({
                       : defaultFooter(item, tags)}
                   </div>
                 </article>
-              </Link>
+              </a>
             );
           })}
         </div>

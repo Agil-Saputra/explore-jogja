@@ -258,7 +258,7 @@ export default function Navbar() {
             />
 
             {NAV_ITEMS.map((item, index) => (
-              <Link
+              <a
                 key={item.href}
                 href={item.href}
                 ref={(el) => { inlineLinkRefs.current[index] = el; }}
@@ -268,7 +268,7 @@ export default function Navbar() {
                   }`}
               >
                 {t(item.labelKey)}
-              </Link>
+              </a>
             ))}
           </div>
         </nav>

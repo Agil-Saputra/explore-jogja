@@ -1,11 +1,12 @@
 /**
  * app/maps/page.tsx — Server Component
  *
- * Fetches all place categories from the Google Places API in parallel,
- * normalises them into GeoJSON-style features, and passes the data to
- * the MapsClient client component for rendering.
+ * Navigates to /maps immediately, then streams in map data via Suspense.
+ * MapsFetcher is the async node that awaits the Google Places API;
+ * the page shell (MapsSkeleton) is sent to the browser right away.
  */
 
+import { Suspense } from "react";
 import {
   getAestheticCafes,
   getAccommodations,
@@ -14,12 +15,16 @@ import {
   getTrekkingAndHiking,
 } from "@/lib/googlePlaces";
 import MapsClient, { MapFeature } from "./MapsClient";
+import MapsLoadingSkeleton from "./loading";  
+
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80";
 
-export default async function MapsPage() {
-  // Fetch all categories in parallel – server-side, so API key stays secret
+// ─── Async data-fetching component ──────────────────────────────────────────
+// Suspended by the <Suspense> boundary below; renders only after all fetches
+// resolve. The parent page shell is sent to the browser immediately.
+async function MapsFetcher() {
   const [cafes, accommodations, beaches, foodDrink, trekking] =
     await Promise.allSettled([
       getAestheticCafes(),
@@ -29,12 +34,10 @@ export default async function MapsPage() {
       getTrekkingAndHiking(),
     ]);
 
-  // Helper to safely unwrap a settled promise
   function settled<T>(result: PromiseSettledResult<T[]>): T[] {
     return result.status === "fulfilled" ? result.value : [];
   }
 
-  // Map each category's results into the shared MapFeature shape
   const buildFeatures = (
     places: Awaited<ReturnType<typeof getAestheticCafes>>,
     featureType: string,
@@ -69,4 +72,13 @@ export default async function MapsPage() {
   ];
 
   return <MapsClient features={features} />;
+}
+
+// ─── Page shell — renders immediately on navigation ──────────────────────────
+export default function MapsPage() {
+  return (
+    <Suspense fallback={<MapsLoadingSkeleton />}>
+      <MapsFetcher />
+    </Suspense>
+  );
 }

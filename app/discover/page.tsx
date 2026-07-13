@@ -64,58 +64,58 @@ export default function DiscoverPage() {
               </div>
 
               <div id="discover-categories" className="flex flex-wrap gap-3">
-                <Link
+                <a
                   href="/discover/accommodation"
                   className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
                   <Bed size={18} /> {t("discover.categories.accommodation")}
-                </Link>
-                <Link
+                </a>
+                <a
                   href="/discover/activities"
                   className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
                   <Navigation size={18} /> {t("discover.categories.activities")}
-                </Link>
-                <Link
+                </a>
+                <a
                   href="/discover/top-attractions"
                   className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
                   <MapPin size={18} fill="black" />{" "}
                   {t("discover.categories.topAttractions")}
-                </Link>
-                <Link
+                </a>
+                < a
                   href="/events"
                   className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
                   <Calendar size={18} /> {t("discover.categories.events")}
-                </Link>
-                <Link
+                </a>
+                <a
                   href="/discover/food-and-drink"
                   className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
                   <Utensils size={18} fill="black" />{" "}
                   {t("discover.categories.foodAndDrink")}
-                </Link>
-                <Link
+                </a>
+                <a
                   href="/discover/trekking-and-hiking"
                   className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
                   <Footprints size={18} />{" "}
                   {t("discover.categories.trekkingAndHiking")}
-                </Link>
-                <Link
+                </a>
+                <a
                   href="/discover/beaches"
                   className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
                   <Waves size={18} /> {t("discover.categories.beaches")}
-                </Link>
-                <Link
+                </a>
+                <a
                   href="/discover/aesthetic-cafes"
                   className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
                   <Bird size={18} fill="black" />{" "}
                   {t("discover.categories.aestheticCafes")}
-                </Link>
+                </a>
               </div>
             </div>
           </div>

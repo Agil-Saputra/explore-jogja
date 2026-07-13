@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import PlaceDetailLayout, {
   type PlaceItem,
   type CategoryMeta,
@@ -7,6 +8,7 @@ import {
   slugify,
   type PlaceResult,
 } from "@/lib/googlePlaces";
+import PlaceDetailLayoutSkeleton from "@/components/PlaceDetailLayoutSkeleton";
 
 /* ─── Normaliser ─────────────────────────────────────────────── */
 function toPlaceItem(p: PlaceResult): PlaceItem {
@@ -42,19 +44,24 @@ const category: CategoryMeta = {
   reviewsNoun: "beach",
 };
 
-/* ─── Page ───────────────────────────────────────────────────── */
-export default async function BeachDetailPage({
+/* ─── Async data-fetching component ─────────────────────────── */
+async function BeachDetailFetcher({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const places = await getBeaches();
+  const allItems = places.map(toPlaceItem);
+  const item = allItems.find((i) => slugify(i.name) === slug) ?? null;
+  return <PlaceDetailLayout item={item} allItems={allItems} category={category} />;
+}
+
+/* ─── Page shell — renders immediately on navigation ─────────── */
+export default function BeachDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-
-  const places = await getBeaches();
-  const allItems = places.map(toPlaceItem);
-  const item = allItems.find((i) => slugify(i.name) === slug) ?? null;
-
   return (
-    <PlaceDetailLayout item={item} allItems={allItems} category={category} />
+    <Suspense fallback={<PlaceDetailLayoutSkeleton />}>
+      <BeachDetailFetcher params={params} />
+    </Suspense>
   );
 }

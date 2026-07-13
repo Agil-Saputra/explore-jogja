@@ -190,7 +190,7 @@ export default async function ArticleDetailPage({
 
         {/* Back link at bottom */}
         <div className="mt-16 pt-10 border-t border-gray-200">
-          <Link
+          <a
             href="/articles"
             className="inline-flex items-center gap-2 text-gray-700 font-semibold hover:text-gray-900 transition-colors group"
           >
@@ -199,7 +199,7 @@ export default async function ArticleDetailPage({
               className="group-hover:-translate-x-1 transition-transform"
             />
             Back to all articles
-          </Link>
+          </a>
         </div>
       </article>
 

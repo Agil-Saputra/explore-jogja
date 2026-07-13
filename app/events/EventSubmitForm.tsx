@@ -163,7 +163,7 @@ export default function EventSubmitForm() {
             value={titleEn}
             onChange={(e) => setTitleEn(e.target.value)}
             disabled={isLoading}
-            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 placeholder:text-gray-400 text-[15px] disabled:opacity-50"
+            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  placeholder:text-gray-400 text-[15px] disabled:opacity-50"
           />
           <textarea
             id="descriptionEn"
@@ -172,7 +172,7 @@ export default function EventSubmitForm() {
             value={descriptionEn}
             onChange={(e) => setDescriptionEn(e.target.value)}
             disabled={isLoading}
-            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 placeholder:text-gray-400 text-[15px] resize-none disabled:opacity-50"
+            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  placeholder:text-gray-400 text-[15px] resize-none disabled:opacity-50"
           />
           <input
             id="host"
@@ -181,7 +181,7 @@ export default function EventSubmitForm() {
             value={host}
             onChange={(e) => setHost(e.target.value)}
             disabled={isLoading}
-            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 placeholder:text-gray-400 text-[15px] disabled:opacity-50"
+            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  placeholder:text-gray-400 text-[15px] disabled:opacity-50"
           />
         </div>
       </div>
@@ -200,7 +200,7 @@ export default function EventSubmitForm() {
                 onChange={(e) => setStartTime(e.target.value)}
                 required
                 disabled={isLoading}
-                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
+                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
               />
             </div>
             <div className="relative">
@@ -211,7 +211,7 @@ export default function EventSubmitForm() {
                 onChange={(e) => setStartDateVal(e.target.value)}
                 required
                 disabled={isLoading}
-                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
+                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
               />
             </div>
           </div>
@@ -224,7 +224,7 @@ export default function EventSubmitForm() {
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 disabled={isLoading}
-                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
+                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
               />
             </div>
             <div className="relative">
@@ -234,7 +234,7 @@ export default function EventSubmitForm() {
                 value={endDateVal}
                 onChange={(e) => setEndDateVal(e.target.value)}
                 disabled={isLoading}
-                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
+                className="w-full bg-white rounded-xl pl-5 pr-10 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  text-[15px] text-gray-700 disabled:opacity-50 [color-scheme:light]"
               />
             </div>
           </div>
@@ -317,7 +317,7 @@ export default function EventSubmitForm() {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             disabled={isLoading}
-            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 text-[15px] appearance-none cursor-pointer disabled:opacity-50 text-gray-700"
+            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  text-[15px] appearance-none cursor-pointer disabled:opacity-50 text-gray-700"
           >
             <option value="" disabled>Select a location</option>
             <option value="Prambanan">Prambanan</option>
@@ -343,7 +343,7 @@ export default function EventSubmitForm() {
             value={contactName}
             onChange={(e) => setContactName(e.target.value)}
             disabled={isLoading}
-            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 placeholder:text-gray-400 text-[15px] disabled:opacity-50"
+            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  placeholder:text-gray-400 text-[15px] disabled:opacity-50"
           />
           <input
             id="contactPhone"
@@ -352,7 +352,7 @@ export default function EventSubmitForm() {
             value={contactPhone}
             onChange={(e) => setContactPhone(e.target.value)}
             disabled={isLoading}
-            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 placeholder:text-gray-400 text-[15px] disabled:opacity-50"
+            className="w-full bg-white rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#2B2B2B]/20 ring-2 ring-[#2B2B2B]/10  placeholder:text-gray-400 text-[15px] disabled:opacity-50"
           />
         </div>
       </div>

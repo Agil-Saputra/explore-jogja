@@ -576,24 +576,24 @@ export default function HeroSection() {
         >
 
           {/* Heading — normal vertical flow, NOT inside the pinned area */}
-        <div className="px-8 pt-16 lg:pt-32 pb-12 lg:pb-20">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-            <div className="w-full">
-              <h2
-                ref={quoteRef4}
-                className="relative z-90 text-3xl md:text-6xl lg:text-7xl text-left font-bold text-gray-800 font-jakarta max-w-[30ch] flex flex-wrap gap-x-2 md:gap-x-3 gap-y-1 md:gap-y-2"
-              >
-                {t("home.culinaryQuote")
-                  .split(" ")
-                  .map((word, index) => (
-                    <span key={index} className="word inline-block">
-                      {word}
-                    </span>
-                  ))}
-              </h2>
+          <div className="px-8 pt-16 lg:pt-32 pb-12 lg:pb-20">
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+              <div className="w-full">
+                <h2
+                  ref={quoteRef4}
+                  className="relative z-90 text-3xl md:text-6xl lg:text-7xl text-left font-bold text-gray-800 font-jakarta max-w-[30ch] flex flex-wrap gap-x-2 md:gap-x-3 gap-y-1 md:gap-y-2"
+                >
+                  {t("home.culinaryQuote")
+                    .split(" ")
+                    .map((word, index) => (
+                      <span key={index} className="word inline-block">
+                        {word}
+                      </span>
+                    ))}
+                </h2>
+              </div>
             </div>
           </div>
-        </div>
 
           <div
             ref={horizStripRef}
@@ -628,22 +628,22 @@ export default function HeroSection() {
                 key={img.src}
                 className="flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[38vw] h-[380px] md:h-[500px] rounded-2xl overflow-hidden relative snap-start"
               >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 38vw"
-                    {...(index === 4
-                      ? {
-                        onLoad: () => {
-                          requestAnimationFrame(() =>
-                            ScrollTrigger.refresh()
-                          );
-                        },
-                      }
-                      : {})}
-                  />
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 38vw"
+                  {...(index === 4
+                    ? {
+                      onLoad: () => {
+                        requestAnimationFrame(() =>
+                          ScrollTrigger.refresh()
+                        );
+                      },
+                    }
+                    : {})}
+                />
               </div>
             ))}
           </div>

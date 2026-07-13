@@ -202,7 +202,7 @@ function ArticleCard({
   const imgSrc = article.bannerImageUrl ?? fallbackImage;
 
   return (
-    <Link
+    <a
       href={`/articles/${article.slug}`}
       className={`group relative block rounded-2xl overflow-hidden ${
         aspectTall
@@ -230,6 +230,6 @@ function ArticleCard({
           Read Article →
         </span>
       </div>
-    </Link>
+    </a>
   );
 }

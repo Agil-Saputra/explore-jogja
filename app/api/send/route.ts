@@ -21,10 +21,13 @@ export async function POST(request: Request) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: "Explore Jogja <onboarding@resend.dev>",
+      from:"Explore Jogja <noreply@explorejogja.id>",
       to: [email],
       subject: `Your Jogja Itinerary: ${itinerary.title}`,
       react: EmailTemplate({ itinerary }),
+      headers: {
+    "List-Unsubscribe": "<mailto:unsubscribe@explorejogja.id>",
+  },
     });
 
     if (error) {

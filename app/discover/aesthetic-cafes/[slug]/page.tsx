@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import { getAestheticCafes, slugify, CafePlace } from "@/lib/googlePlaces";
 import PlaceDetailLayout, {
   type PlaceItem,
   type CategoryMeta,
 } from "@/components/PlaceDetailLayout";
+import PlaceDetailLayoutSkeleton from "@/components/PlaceDetailLayoutSkeleton";
 
 // ─── Normaliser: CafePlace → PlaceItem ───────────────────────────────────────
 function toPlaceItem(c: CafePlace): PlaceItem {
@@ -38,18 +40,24 @@ const category: CategoryMeta = {
   reviewsNoun: "cafe",
 };
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-export default async function CafeDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+// ─── Async data-fetching component ───────────────────────────────────────────
+async function CafeDetailFetcher({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const cafes = await getAestheticCafes();
   const allItems = cafes.map(toPlaceItem);
   const item = allItems.find((i) => slugify(i.name) === slug) ?? null;
+  return <PlaceDetailLayout item={item} allItems={allItems} category={category} />;
+}
 
+// ─── Page shell — renders immediately on navigation ──────────────────────────
+export default function CafeDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   return (
-    <PlaceDetailLayout item={item} allItems={allItems} category={category} />
+    <Suspense fallback={<PlaceDetailLayoutSkeleton />}>
+      <CafeDetailFetcher params={params} />
+    </Suspense>
   );
 }

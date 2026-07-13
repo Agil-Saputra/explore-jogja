@@ -280,12 +280,12 @@ export default function PlaceDetailLayout({
         <h1 className="text-3xl font-bold font-jakarta">
           {category.singularLabel} not found
         </h1>
-        <Link
+        <a
           href={category.backHref}
           className="text-gray-500 hover:text-gray-900 underline underline-offset-4 text-[15px]"
         >
           ← {category.backLabel}
-        </Link>
+        </a>
       </main>
     );
   }
@@ -317,7 +317,7 @@ export default function PlaceDetailLayout({
       {/* ══ HERO ══════════════════════════════════════════════ */}
       <section className="pt-28 md:pt-36 px-6 md:px-10 lg:px-16 pb-16 md:pb-24">
         {/* Back link */}
-        <Link
+        <a
           href={category.backHref}
           className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors text-[15px] font-medium mb-8 group"
         >
@@ -326,7 +326,7 @@ export default function PlaceDetailLayout({
             className="group-hover:-translate-x-1 transition-transform"
           />
           <span>{category.backLabel}</span>
-        </Link>
+        </a>
 
         <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start">
           {/* Left column */}

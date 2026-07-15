@@ -16,7 +16,11 @@ import { createTutorialTooltip } from "@/components/TutorialTooltip";
 const TOUR_STORAGE_KEY = "create-plan-tour-completed";
 
 // Maps each tour step index to the wizard step it requires in the DOM
-const TOUR_WIZARD_STEP = [1, 1, 1, 1, 2, 3, 4, 5] as const;
+// Indices: 0=step1(calendar+active-hours), 1=companions, 2=budget, 3=interests, 4=summary
+const TOUR_WIZARD_STEP = [1, 2, 3, 4, 5] as const;
+
+// First tour step index for each wizard step
+const WIZARD_FIRST_TOUR_STEP: Record<number, number> = { 1: 0, 2: 1, 3: 2, 4: 3, 5: 4 };
 
 // Stable tooltip component — created outside render so the reference never changes
 const CustomTooltip = createTutorialTooltip("createPlanTutorial");
@@ -64,12 +68,25 @@ export default function CreatePlanTutorial({ onWizardStepChange }: Props) {
           const next = index + 1;
           const nextWizard = TOUR_WIZARD_STEP[next];
           const curWizard = TOUR_WIZARD_STEP[index];
+
           if (nextWizard !== undefined && nextWizard !== curWizard) {
-            // Navigate wizard first, then advance tour step after DOM settles
+            // Last tour step for this wizard step — stop tour, advance wizard,
+            // then resume tour at the first step of the next wizard step.
+            setShouldRun(false);
             onWizardStepChange(nextWizard);
-            setTimeout(() => setTourStep(next), 300);
-          } else {
+            setTimeout(() => {
+              setTourStep(next);
+              setShouldRun(true);
+            }, 400);
+          } else if (nextWizard !== undefined) {
+            // Still within the same wizard step — simply advance tour index.
             setTourStep(next);
+          } else {
+            // Reached the very last tour step — mark as finished.
+            localStorage.setItem(TOUR_STORAGE_KEY, "true");
+            setShowRestartButton(true);
+            setShouldRun(false);
+            onWizardStepChange(1);
           }
         } else if (action === ACTIONS.PREV) {
           const prev = index - 1;
@@ -77,8 +94,13 @@ export default function CreatePlanTutorial({ onWizardStepChange }: Props) {
             const prevWizard = TOUR_WIZARD_STEP[prev];
             const curWizard = TOUR_WIZARD_STEP[index];
             if (prevWizard !== undefined && prevWizard !== curWizard) {
+              // Going back to a previous wizard step
+              setShouldRun(false);
               onWizardStepChange(prevWizard);
-              setTimeout(() => setTourStep(prev), 300);
+              setTimeout(() => {
+                setTourStep(prev);
+                setShouldRun(true);
+              }, 400);
             } else {
               setTourStep(prev);
             }
@@ -92,40 +114,18 @@ export default function CreatePlanTutorial({ onWizardStepChange }: Props) {
   const steps = useMemo<Step[]>(
     () => [
       {
-        // Step badge + title — always visible while the wizard is active (steps 1–5)
-        target: "#create-plan-header",
-        title: t("createPlanTutorial.steps.0.title"),
-        content: t("createPlanTutorial.steps.0.content"),
-        placement: "bottom",
-        disableBeacon: true,
-      },
-      {
-        // Calendar card — visible on wizard step 1
-        target: "#create-plan-calendar",
+        // Calendar + Active Hours — merged into one step covering the whole wizard step 1 area
+        target: "#create-plan-step1",
         title: t("createPlanTutorial.steps.1.title"),
         content: t("createPlanTutorial.steps.1.content"),
-        placement: "bottom",
-      },
-      {
-        // Active-hours picker — visible on wizard step 1
-        target: "#create-plan-active-hours",
-        title: t("createPlanTutorial.steps.2.title"),
-        content: t("createPlanTutorial.steps.2.content"),
-        placement: "top",
-      },
-      {
-        // Bottom nav buttons — visible on wizard steps 1–4
-        target: "#create-plan-nav",
-        title: t("createPlanTutorial.steps.3.title"),
-        content: t("createPlanTutorial.steps.3.content"),
-        placement: "top",
+        placement: "right",
       },
       {
         // Companion picker — visible on wizard step 2
         target: "#create-plan-companions",
         title: t("createPlanTutorial.steps.4.title"),
         content: t("createPlanTutorial.steps.4.content"),
-        placement: "bottom",
+        placement: "right",
       },
       {
         // Budget slider — visible on wizard step 3
@@ -152,11 +152,11 @@ export default function CreatePlanTutorial({ onWizardStepChange }: Props) {
     [t],
   );
 
-  const { Tour } = useJoyride({
+  const { Tour, step } = useJoyride({
     steps,
     run: shouldRun,
     stepIndex: tourStep,
-    continuous: true,
+    continuous: false,
     scrollToFirstStep: true,
     onEvent: handleEvent,
     tooltipComponent: CustomTooltip,

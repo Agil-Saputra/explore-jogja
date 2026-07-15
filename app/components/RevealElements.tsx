@@ -13,7 +13,7 @@ if (typeof window !== "undefined") {
 export function SlidingImageReveal({ children, className = "" }: { children: React.ReactNode, className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  
+
   useGSAP(() => {
     // The overlay is initially covering the image.
     // It shrinks from scaleX: 1 down to scaleX: 0 from the center, revealing the image
@@ -35,8 +35,8 @@ export function SlidingImageReveal({ children, className = "" }: { children: Rea
     <div ref={containerRef} className={`relative overflow-hidden ${className}`}>
       {children}
       {/* Overlay div directly on top of the image */}
-      <div 
-        ref={overlayRef} 
+      <div
+        ref={overlayRef}
         className="absolute inset-0 z-10 bg-white pointer-events-none"
       />
     </div>
@@ -70,8 +70,8 @@ export function SlidingSvgReveal({ children, className = "" }: { children: React
     <div ref={containerRef} className={`relative inline-block ${className}`}>
       {children}
       {/* Overlay div directly on top of the SVG */}
-      <div 
-        ref={overlayRef} 
+      <div
+        ref={overlayRef}
         className="absolute inset-0 z-10 bg-white pointer-events-none"
       />
     </div>
@@ -105,7 +105,7 @@ export function WordReveal({ text, className = "" }: { text: string, className?:
   return (
     <p ref={textRef} className={`flex flex-wrap ${className}`}>
       {text.split(/\s+/).map((word, idx) => (
-        <span key={idx} className="word inline-block opacity-0 mr-[0.3em] last:mr-0 drop-shadow-sm">{word}</span>
+        <span key={idx} className="word inline-block mr-[0.3em] last:mr-0 drop-shadow-sm">{word}</span>
       ))}
     </p>
   );

@@ -36,32 +36,7 @@ interface EmailTemplateProps {
   itinerary: Itinerary;
 }
 
-const DAY_COLORS = [
-  "#171717",
-  "#8B5CF6",
-  "#F97316",
-  "#10B981",
-  "#EC4899",
-  "#EAB308",
-  "#06B6D4",
-  "#F43F5E",
-];
 
-const CATEGORY_EMOJI: Record<string, string> = {
-  temple: "🛕",
-  palace: "🏛️",
-  nature: "🌿",
-  food: "🍜",
-  art: "🎨",
-  shopping: "🛍️",
-  spiritual: "🧘",
-  nightlife: "🎶",
-  photography: "📸",
-  museum: "🏛️",
-  park: "🌳",
-  beach: "🏖️",
-  village: "🏘️",
-};
 
 export function EmailTemplate({ itinerary }: EmailTemplateProps) {
 
@@ -133,58 +108,69 @@ export function EmailTemplate({ itinerary }: EmailTemplateProps) {
         {/* Days */}
         <div style={{ padding: "32px 40px" }}>
           {itinerary.days.map((day, dayIdx) => {
-            const color = DAY_COLORS[dayIdx % DAY_COLORS.length];
+            const color =  "#171717";
             return (
               <div key={day.dayNumber} style={{ marginBottom: "32px" }}>
                 {/* Day header */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "12px",
-                    marginBottom: "16px",
-                  }}
+                <table
+                  role="presentation"
+                  cellPadding={0}
+                  cellSpacing={0}
+                  border={0}
+                  width="100%"
+                  style={{ marginBottom: "16px" }}
                 >
-                  <div
-                    style={{
-                      width: "36px",
-                      height: "36px",
-                      backgroundColor: color,
-                      borderRadius: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "16px",
-                      fontWeight: 800,
-                      color: "#ffffff",
-                      flexShrink: 0,
-                    }}
-                  >
-                    {day.dayNumber}
-                  </div>
-                  <div>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "17px",
-                        fontWeight: 700,
-                        color: "#111111",
-                      }}
-                    >
-                      {day.theme}
-                    </p>
-                    <p
-                      style={{
-                        margin: "2px 0 0",
-                        fontSize: "12px",
-                        color: "#9ca3af",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {day.date}
-                    </p>
-                  </div>
-                </div>
+                  <tbody>
+                    <tr>
+                      <td
+                        width="36"
+                        valign="middle"
+                        style={{
+                          width: "36px",
+                          paddingRight: "12px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "36px",
+                            height: "36px",
+                            backgroundColor: color,
+                            borderRadius: "10px",
+                            textAlign: "center",
+                            lineHeight: "36px",
+                            fontSize: "16px",
+                            fontWeight: 800,
+                            color: "#ffffff",
+                          }}
+                        >
+                          {day.dayNumber}
+                        </div>
+                      </td>
+                      <td valign="middle">
+                        <p
+                          style={{
+                            margin: 0,
+                            fontSize: "17px",
+                            fontWeight: 700,
+                            color: "#111111",
+                          }}
+                        >
+                          {day.theme}
+                        </p>
+                        <p
+                          style={{
+                            margin: "2px 0 0",
+                            fontSize: "12px",
+                            color: "#9ca3af",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {day.date}
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
 
                 {/* Transport */}
                 {day.transportation && (
@@ -240,32 +226,34 @@ export function EmailTemplate({ itinerary }: EmailTemplateProps) {
                         />
                       </div>
                     )}
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "flex-start",
-                        gap: "8px",
-                      }}
+                    <table
+                      role="presentation"
+                      cellPadding={0}
+                      cellSpacing={0}
+                      border={0}
+                      width="100%"
                     >
-                      <p style={{ margin: 0, fontSize: "15px", fontWeight: 700, color: "#111111" }}>
-                        <span style={{ marginRight: "8px", fontSize: "18px" }}>
-                          {CATEGORY_EMOJI[dest.category] || "📍"}
-                        </span>
-                        {dest.name}
-                      </p>
-                      <p
-                        style={{
-                          margin: 0,
-                          fontSize: "12px",
-                          color: "#9ca3af",
-                          whiteSpace: "nowrap" as const,
-                          flexShrink: 0,
-                        }}
-                      >
-                        ⏰ {dest.time} – {dest.endTime}
-                      </p>
-                    </div>
+                      <tbody>
+                        <tr>
+                          <td valign="top" style={{ paddingRight: "8px" }}>
+                            <p style={{ margin: 0, fontSize: "15px", fontWeight: 700, color: "#111111" }}>
+                              {dest.name}
+                            </p>
+                          </td>
+                          <td valign="top" align="right" style={{ whiteSpace: "nowrap" }}>
+                            <p
+                              style={{
+                                margin: 0,
+                                fontSize: "12px",
+                                color: "#9ca3af",
+                              }}
+                            >
+                              ⏰ {dest.time} – {dest.endTime}
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                     <p
                       style={{
                         margin: "8px 0 0",

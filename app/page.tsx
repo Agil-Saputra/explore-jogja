@@ -14,7 +14,7 @@ import {
 import { Footer } from "./components/Footer";
 import YogyakartaMap from "@/components/YogyakartaMap";
 import { useLocale } from "@/components/LocaleContext";
-import { useHorizontalGalleryScroll } from "./hooks/useHorizontalGalleryScroll";
+import { useCulinaryMarquee } from "./hooks/useCulinaryMarquee";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -35,9 +35,8 @@ export default function HeroSection() {
   const quoteRef4 = useRef<HTMLHeadingElement>(null);
   const parallaxBannerRef = useRef<HTMLDivElement>(null);
   const parallaxBgRef = useRef<HTMLDivElement>(null);
-  // Horizontal gallery refs — wrapper is the pin trigger, strip is translated on X
-  const horizWrapperRef = useRef<HTMLDivElement>(null);
-  const horizStripRef = useRef<HTMLDivElement>(null);
+  // Culinary marquee ref — the strip that contains two copies of the images
+  const culinaryMarqueeRef = useRef<HTMLDivElement>(null);
 
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -296,11 +295,8 @@ export default function HeroSection() {
     }
   });
 
-  // Horizontal gallery scroll — pin + translate at desktop, native scroll on mobile
-  useHorizontalGalleryScroll(
-    horizWrapperRef as React.RefObject<HTMLElement | null>,
-    horizStripRef as React.RefObject<HTMLElement | null>
-  );
+  // Infinite marquee with scroll-velocity boost
+  useCulinaryMarquee(culinaryMarqueeRef as React.RefObject<HTMLElement | null>);
 
   return (
     <>
@@ -456,7 +452,7 @@ export default function HeroSection() {
                 <div className="flex flex-col items-center mb-12 relative px-4 absolute -bottom-10 right-0">
                   <WordReveal
                     text={t("home.quote1Annotation")}
-                    className="font-caveat leading-snug text-xl md:text-3xl max-w-lg text-center justify-center uppercase leading-snug font-semibold text-gray-800"
+                    className="font-caveat leading-snug text-xl md:text-3xl max-w-lg text-center justify-center uppercase leading-snug font-semibold text-gray-800 line-clamp-2"
                   />
 
                   {/* Custom Arrow */}
@@ -569,104 +565,149 @@ export default function HeroSection() {
         id="culinary-section"
         className="relative w-full bg-white z-20 overflow-hidden"
       >
-
-        <div
-          ref={horizWrapperRef}
-          className="horiz-gallery-wrapper relative w-full"
-        >
-
-          {/* Heading — normal vertical flow, NOT inside the pinned area */}
-          <div className="px-8 pt-16 lg:pt-32 pb-12 lg:pb-20">
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-              <div className="w-full">
-                <h2
-                  ref={quoteRef4}
-                  className="relative z-90 text-3xl md:text-6xl lg:text-7xl text-left font-bold text-gray-800 font-jakarta max-w-[30ch] flex flex-wrap gap-x-2 md:gap-x-3 gap-y-1 md:gap-y-2"
-                >
-                  {t("home.culinaryQuote")
-                    .split(" ")
-                    .map((word, index) => (
-                      <span key={index} className="word inline-block">
-                        {word}
-                      </span>
-                    ))}
-                </h2>
-              </div>
+        {/* Heading */}
+        <div className="px-8 pt-16 lg:pt-32 pb-12 lg:pb-20">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            <div className="w-full">
+              <h2
+                ref={quoteRef4}
+                className="relative z-90 text-3xl md:text-6xl lg:text-7xl text-left font-bold text-gray-800 font-jakarta max-w-[30ch] flex flex-wrap gap-x-2 md:gap-x-3 gap-y-1 md:gap-y-2"
+              >
+                {t("home.culinaryQuote")
+                  .split(" ")
+                  .map((word, index) => (
+                    <span key={index} className="word inline-block">
+                      {word}
+                    </span>
+                  ))}
+              </h2>
             </div>
           </div>
+        </div>
 
+        {/* Infinite marquee — viewport clips overflow, strip loops seamlessly */}
+        <div className="relative overflow-hidden">
+          {/* Left fade edge */}
           <div
-            ref={horizStripRef}
-            className="horiz-gallery-strip flex gap-4 md:gap-6 px-8 overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory lg:snap-none"
+            className="absolute left-0 top-0 bottom-0 w-16 md:w-32 z-10 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to right, #ffffff 0%, transparent 100%)",
+            }}
+          />
+          {/* Right fade edge */}
+          <div
+            className="absolute right-0 top-0 bottom-0 w-16 md:w-32 z-10 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to left, #ffffff 0%, transparent 100%)",
+            }}
+          />
+
+          {/*
+           * The strip holds two identical copies of the image list.
+           * GSAP translates it from 0 to -totalWidth (= scrollWidth/2)
+           * and loops with modifiers, creating a seamless infinite loop.
+           */}
+          <div
+            ref={culinaryMarqueeRef}
+            className="flex gap-4 md:gap-6 w-max py-2"
             style={{ willChange: "transform" }}
           >
-            {(
+            {([
               [
                 {
-                  src: "/assets/culinary-gudeg.png",
+                  src: "/assets/foods/gudeg.jpg",
                   alt: "Traditional Jogja Gudeg — signature Javanese jackfruit stew",
                 },
                 {
-                  src: "/assets/bakpia.webp",
+                  src: "/assets/foods/bakpia.jpeg",
                   alt: "Bakpia — iconic Yogyakarta sweet pastry snack",
                 },
                 {
-                  src: "/assets/sate-klathak-jogja.jpg",
+                  src: "/assets/foods/sate-klatak.jpg",
                   alt: "Sate Klathak — charcoal-grilled skewers unique to Jogja",
                 },
                 {
-                  src: "/assets/culinary-ambience.png",
-                  alt: "Warm culinary ambience of a traditional Jogja restaurant",
+                  src: "/assets/foods/ronde.avif",
+                  alt: "Wedang Ronde — warm ginger drink with glutinous rice balls",
                 },
                 {
-                  src: "/assets/culinary-street.png",
-                  alt: "Vibrant street food scene along Malioboro",
+                  src: "/assets/foods/joss.jpeg",
+                  alt: "Kopi Joss — traditional Jogja charcoal-ember coffee",
                 },
-              ] as { src: string; alt: string }[]
-            ).map((img, index) => (
+                {
+                  src: "/assets/foods/rujak-es-krim.avif",
+                  alt: "Rujak Es Krim — fruit salad served with ice cream, a Jogja specialty",
+                },
+                {
+                  src: "/assets/foods/uwuh.webp",
+                  alt: "Wedang Uwuh — spiced herbal tea made from leaves, twigs, and roots",
+                },
+              ],
+              // Duplicate set for seamless looping
+              [
+                {
+                  src: "/assets/foods/gudeg.jpg",
+                  alt: "Traditional Jogja Gudeg — signature Javanese jackfruit stew",
+                },
+                {
+                  src: "/assets/foods/bakpia.jpeg",
+                  alt: "Bakpia — iconic Yogyakarta sweet pastry snack",
+                },
+                {
+                  src: "/assets/foods/sate-klatak.jpg",
+                  alt: "Sate Klathak — charcoal-grilled skewers unique to Jogja",
+                },
+                {
+                  src: "/assets/foods/ronde.avif",
+                  alt: "Wedang Ronde — warm ginger drink with glutinous rice balls",
+                },
+                {
+                  src: "/assets/foods/joss.jpeg",
+                  alt: "Kopi Joss — traditional Jogja charcoal-ember coffee",
+                },
+                {
+                  src: "/assets/foods/rujak-es-krim.avif",
+                  alt: "Rujak Es Krim — fruit salad served with ice cream, a Jogja specialty",
+                },
+                {
+                  src: "/assets/foods/uwuh.webp",
+                  alt: "Wedang Uwuh — spiced herbal tea made from leaves, twigs, and roots",
+                },
+              ],
+            ] as { src: string; alt: string }[][]).flat().map((img, index) => (
               <div
-                key={img.src}
-                className="flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[38vw] h-[380px] md:h-[500px] rounded-2xl overflow-hidden relative snap-start"
+                key={`${img.src}-${index}`}
+                className="flex-shrink-0 w-[72vw] sm:w-[52vw] md:w-[42vw] lg:w-[32vw] h-[300px] md:h-[420px] rounded-2xl overflow-hidden relative"
+                aria-hidden={index >= 7 ? true : undefined}
               >
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 38vw"
-                  {...(index === 4
-                    ? {
-                      onLoad: () => {
-                        requestAnimationFrame(() =>
-                          ScrollTrigger.refresh()
-                        );
-                      },
-                    }
-                    : {})}
+                  sizes="(max-width: 640px) 72vw, (max-width: 768px) 52vw, (max-width: 1024px) 42vw, 32vw"
                 />
               </div>
             ))}
           </div>
-
-
-          {/* Description & CTA — normal vertical flow below the gallery */}
-          <div className="px-8 pb-16 lg:pb-32 pt-12 lg:pt-20">
-            <div className="flex-1 flex flex-col gap-6">
-              <SimpleOpacityReveal className="text-base md:text-xl text-gray-600 font-medium leading-relaxed">
-                {t("home.culinaryDesc")}
-              </SimpleOpacityReveal>
-              <a
-                href="/maps"
-                className="w-fit bg-[#2C2C2C] hover:bg-black text-white px-8 py-3 rounded-full font-medium transition-colors font-jakarta"
-              >
-                {t("home.exploreCulinary")}
-              </a>
-            </div>
-          </div>
-
         </div>
 
-
+        {/* Description & CTA */}
+        <div className="px-8 pb-16 lg:pb-32 pt-12 lg:pt-20">
+          <div className="flex-1 flex flex-col gap-6">
+            <SimpleOpacityReveal className="text-base md:text-xl text-gray-600 font-medium leading-relaxed">
+              {t("home.culinaryDesc")}
+            </SimpleOpacityReveal>
+            <a
+              href="/maps"
+              className="w-fit bg-[#2C2C2C] hover:bg-black text-white px-8 py-3 rounded-full font-medium transition-colors font-jakarta"
+            >
+              {t("home.exploreCulinary")}
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* Jogjakarta Map */}
@@ -675,7 +716,7 @@ export default function HeroSection() {
       {/* Parallax Banner Section */}
       <div
         ref={parallaxBannerRef}
-        className="relative w-full px-24 overflow-hidden"
+        className="relative w-full px-4 overflow-hidden"
         style={{ height: "720px" }}
       >
         {/* Parallax Background */}
@@ -696,7 +737,7 @@ export default function HeroSection() {
         </div>
 
         {/* Banner Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
           <h2
             ref={quoteRef3}
             className="relative text-3xl md:text-7xl text-center justify-center font-bold text-white/80 font-jakarta max-w-[30ch] flex flex-wrap gap-x-2 md:gap-x-4 gap-y-1 md:gap-y-2 "
@@ -709,7 +750,7 @@ export default function HeroSection() {
                 </span>
               ))}
           </h2>
-          <p className="text-white/80 text-base md:text-lg mt-4 font-medium">
+          <p className="text-white/80 text-base md:text-lg text-center mt-4 font-medium">
             {t("home.planDesc")}
           </p>
           <a

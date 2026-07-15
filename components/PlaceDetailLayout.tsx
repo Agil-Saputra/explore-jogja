@@ -450,9 +450,6 @@ export default function PlaceDetailLayout({
                 >
                   <ChevronRight size={18} />
                 </button>
-                <span className="text-[13px] text-gray-400 font-medium select-none ml-1">
-                  {galleryIndex + 1} / {allImages.length}
-                </span>
               </div>
             )}
           </div>

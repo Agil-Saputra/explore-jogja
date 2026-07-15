@@ -50,21 +50,21 @@ export const metadata: Metadata = {
   
   // 2. Canonical URL (Prevents duplicate content penalties)
   alternates: {
-    canonical: "https://www.yourdomain.com", 
+    canonical: "https://www.explorejogja.id", 
   },
 
   // 3. Open Graph (For sharing on Facebook, WhatsApp, LinkedIn, etc.)
   openGraph: {
     type: "website",
     locale: "en_US", // Change to "id_ID" if your site is in Indonesian
-    url: "https://www.yourdomain.com",
+    url: "https://www.explorejogja.com",
     title: "Explore Jogja | Your Ultimate Travel Guide to Yogyakarta",
     description:
       "Discover the best of Yogyakarta. Explore iconic temples, find hidden beaches, taste local culinary delights, and plan your perfect Jogja adventure.",
     siteName: "Explore Jogja",
     images: [
       {
-        url: "https://www.yourdomain.com/images/og-image-jogja.jpg", // Must be an absolute URL
+        url: "https://www.explorejogja.com/images/og-image-jogja.jpg", // Must be an absolute URL
         width: 1200,
         height: 630,
         alt: "Beautiful view of Prambanan Temple at sunset",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     title: "Explore Jogja | Your Ultimate Travel Guide to Yogyakarta",
     description:
       "Discover the best of Yogyakarta. Explore iconic temples, find hidden beaches, and plan your perfect Jogja adventure.",
-    images: ["https://www.yourdomain.com/images/twitter-image-jogja.jpg"], // Must be an absolute URL
+    images: ["https://www.explorejogja.com/images/twitter-image-jogja.jpg"], // Must be an absolute URL
     creator: "@explorejogja", // Replace with your actual Twitter handle
   },
 

@@ -42,7 +42,7 @@ const DISTRICT_DATA: Record<
     population: "985,770",
     area: "506.85 km²",
     capital: "Bantul",
-    image: "/assets/gunung-kidul-beach.avif",
+    image: "/assets/districts/bantul.jpg",
   },
   GunungKidul: {
     displayName: "Gunung Kidul",
@@ -54,7 +54,7 @@ const DISTRICT_DATA: Record<
     population: "747,161",
     area: "1,485.36 km²",
     capital: "Wonosari",
-    image: "/assets/landscape.png",
+    image: "/assets/districts/gunungkidul.avif",
   },
   KotaYogyakarta: {
     displayName: "Kota Yogyakarta",
@@ -66,7 +66,7 @@ const DISTRICT_DATA: Record<
     population: "373,589",
     area: "32.5 km²",
     capital: "Yogyakarta",
-    image: "/assets/Malioboro-Yogyakarta.jpg",
+    image: "/assets/districts/kotajogja.jpg",
   },
   KulonProgo: {
     displayName: "Kulon Progo",
@@ -78,7 +78,7 @@ const DISTRICT_DATA: Record<
     population: "436,395",
     area: "586.27 km²",
     capital: "Wates",
-    image: "/assets/aerial-view-of-the-tugu-jogja.jpeg",
+    image: "/assets/districts/kulonprogo.png",
   },
   Sleman: {
     displayName: "Sleman",
@@ -90,7 +90,7 @@ const DISTRICT_DATA: Record<
     population: "1,180,479",
     area: "574.82 km²",
     capital: "Sleman",
-    image: "/assets/candi-prambanan.webp",
+    image: "/assets/districts/sleman.avif",
   },
 };
 

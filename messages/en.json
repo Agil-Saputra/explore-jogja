@@ -9,12 +9,12 @@
       "planYourVisit": "Plan Your Visit",
       "map": "Map",
       "articles": "Stories & Guides",
-      "events" : "Events",
+      "events": "Events",
       "history": "History"
     },
     "footer": {
-      "title": "Visit Yogyakarta",
-      "email": "info@visityogyakarta.id"
+      "title": "Explore Yogyakarta",
+      "email": "info@exploretyogyakarta.id"
     }
   },
   "home": {
@@ -35,9 +35,9 @@
     "planVisitBtn": "Plan Your Visit"
   },
   "footer": {
-    "title": "Visit Yogyakarta",
-    "address": "Visit Yogyakarta — 640 Yogyakarta — INDONESIA",
-    "email": "info@visitjogja.id",
+    "title": "Explore Yogyakarta",
+    "address": "Explore Yogyakarta — 640 Yogyakarta — INDONESIA",
+    "email": "info@explorejogja.id",
     "newsletterPlaceholder": "Sign up for our newsletter"
   },
   "discover": {
@@ -249,7 +249,15 @@
       "November",
       "December"
     ],
-    "dayLabels": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "dayLabels": [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ],
     "back": "Back",
     "next": "Next",
     "step1Title": "When are you travelling?",
@@ -364,7 +372,7 @@
       "cafe": "Cafe",
       "restaurant": "Restaurant",
       "beach": "Beach",
-      "trekking" : "Trekking"
+      "trekking": "Trekking"
     },
     "searchPlaceholder": "Search places...",
     "findingYou": "Finding you...",
@@ -380,7 +388,7 @@
     "yourLocation": "Your Location"
   },
   "chat": {
-    "welcome": "Sugeng Rawuh! 👋",
+    "welcome": "Sugeng Rawuh!",
     "welcomeDesc": "I'm your personal guide to Yogyakarta's rich heritage, culture, and hidden treasures. How can I help?",
     "placeholder": "Ask about Yogyakarta...",
     "thinking": "Thinking...",

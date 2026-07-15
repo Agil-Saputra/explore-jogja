@@ -16,6 +16,30 @@
   --font-jawapalsu: "Jawapalsu", serif;
   --color-cream: #FAF9F6;
   --color-light-cream: #FAF9F6;
+
+  /* Footer taped design tokens */
+  --color-highlight-light: #DADBF8;
+  --color-accent-light: #D9EAE3;
+  --color-primary-light: #FFCFE1;
+  --color-secondary-light: #FFFCE5;
+  --color-primary: #FF0F67;
+  --color-primary-content: #fff;
+  --color-secondary: #FFF07C;
+  --color-secondary-content: #0A0A0A;
+  --color-accent: #439775;
+  --color-accent-content: #0A0A0A;
+  --color-neutral: #222222;
+  --color-neutral-content: #FFFFFF;
+  --color-base-100: #f0f0f0;
+  --color-base-200: #ffffff;
+  --color-base-300: #F2F2F2;
+  --color-base-content: #0A0A0A;
+  --color-info: #3ABFF8;
+  --color-success: #36D399;
+  --color-warning: #FBBD23;
+  --color-error: #F87272;
+  --color-highlight: #454ADE;
+  --color-muted: #777777;
 }
 
 @keyframes ken-burns {
@@ -96,6 +120,7 @@
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -107,6 +132,7 @@
     opacity: 0;
     transform: translateX(20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -114,8 +140,15 @@
 }
 
 @keyframes pulse-soft {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 .animate-slide-in-left {
@@ -136,6 +169,7 @@
     opacity: 0;
     transform: translateY(24px) scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -144,19 +178,42 @@
 
 /* ── Music player animation ── */
 @keyframes musicBar {
-  0% { height: 20%; }
-  100% { height: 100%; }
+  0% {
+    height: 20%;
+  }
+
+  100% {
+    height: 100%;
+  }
 }
 
-.animate-music-bar-1 { animation: musicBar 0.8s ease-in-out infinite alternate; }
-.animate-music-bar-2 { animation: musicBar 1.1s ease-in-out infinite alternate-reverse; }
-.animate-music-bar-3 { animation: musicBar 0.9s ease-in-out infinite alternate; }
-.animate-music-bar-4 { animation: musicBar 1.2s ease-in-out infinite alternate-reverse; }
+.animate-music-bar-1 {
+  animation: musicBar 0.8s ease-in-out infinite alternate;
+}
+
+.animate-music-bar-2 {
+  animation: musicBar 1.1s ease-in-out infinite alternate-reverse;
+}
+
+.animate-music-bar-3 {
+  animation: musicBar 0.9s ease-in-out infinite alternate;
+}
+
+.animate-music-bar-4 {
+  animation: musicBar 1.2s ease-in-out infinite alternate-reverse;
+}
 
 /* ── Culinary horizontal scroll hint ── */
 @keyframes bounceX {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(6px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
 }
 
 .animate-bounce-x {
@@ -169,6 +226,7 @@
     opacity: 0;
     transform: translateY(4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

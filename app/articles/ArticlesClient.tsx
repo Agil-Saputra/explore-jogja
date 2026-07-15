@@ -40,9 +40,9 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
   return (
     <>
       {/* ── Filter Bar ── */}
-      <section className="bg-cream flex justify-between md:flex-row flex-col max-w-7xl mx-auto gap-6">
+      <section className="bg-cream flex justify-between md:flex-row flex-col max-w-7xl mx-auto gap-6 px-6">
         {/* Search input */}
-        <div className="relative flex flex-1 w-full items-center">
+        <div className="relative flex  w-full items-center">
           <Search
             size={16}
             className="absolute left-3.5 text-gray-400 pointer-events-none"
@@ -52,7 +52,7 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t("articles.searchPlaceholder")}
-            className="pl-10 pr-4 py-2.5 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-all w-48 md:w-full"
+            className="pl-10 pr-4 py-2.5 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-all w-full "
           />
           {searchQuery && (
             <button
@@ -90,7 +90,7 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
 
       <section className="max-w-7xl mx-auto pb-6">
         {isFilterOpen && (
-          <div className="w-full mt-3 flex flex-wrap gap-2 animate-[fadeIn_0.3s_ease]">
+          <div className="w-full mt-3 flex flex-wrap gap-2 animate-[fadeIn_0.3s_ease] px-6">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}

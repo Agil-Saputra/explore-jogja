@@ -37,7 +37,7 @@
   "footer": {
     "title": "Kunjungi Yogyakarta",
     "address": "Kunjungi Yogyakarta — 640 Yogyakarta — INDONESIA",
-    "email": "info@visitjogja.id",
+    "email": "info@explorejogja.id",
     "newsletterPlaceholder": "Daftar untuk buletin kami"
   },
   "discover": {
@@ -249,7 +249,15 @@
       "November",
       "Desember"
     ],
-    "dayLabels": ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"],
+    "dayLabels": [
+      "Min",
+      "Sen",
+      "Sel",
+      "Rab",
+      "Kam",
+      "Jum",
+      "Sab"
+    ],
     "back": "Kembali",
     "next": "Lanjut",
     "step1Title": "Kapan Anda bepergian?",
@@ -380,7 +388,7 @@
     "yourLocation": "Lokasi Anda"
   },
   "chat": {
-    "welcome": "Sugeng Rawuh! 👋",
+    "welcome": "Sugeng Rawuh!",
     "welcomeDesc": "Saya pemandu pribadi Anda untuk warisan budaya, kebudayaan, dan harta karun tersembunyi Yogyakarta. Ada yang bisa saya bantu?",
     "placeholder": "Tanya tentang Yogyakarta...",
     "thinking": "Berpikir...",

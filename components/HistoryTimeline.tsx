@@ -212,8 +212,7 @@ export default function HistoryTimeline() {
                 {/* The Card */}
                 <div
                   className={`w-full max-w-xl pointer-events-auto rounded-xl sticky top-24 shadow-2xl ${isEven ? "md:mr-auto" : "md:ml-auto"}`}
-                  // Limit the card to roughly 50% width on larger screens to avoid the SVG path
-                  style={{ maxWidth: "calc(50% - 3rem)" }}
+
                 >
                   <SlidingImageReveal className="w-full rounded-xl">
                     <div className="w-full flex flex-col bg-white/90 backdrop-blur-sm p-6 md:p-8 border border-white/40">

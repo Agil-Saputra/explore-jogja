@@ -11,7 +11,7 @@ export default function HistoryMusicPlayer() {
     // Attempt auto-play when component mounts
     const audio = audioRef.current;
     if (audio) {
-      audio.volume = 0.5; // Set volume to 50%
+      audio.volume = 0.2; // Set volume to 50%
       const playPromise = audio.play();
       
       if (playPromise !== undefined) {

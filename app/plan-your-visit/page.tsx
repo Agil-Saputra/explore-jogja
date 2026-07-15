@@ -90,7 +90,7 @@ export default function PlanYourVisit() {
           </div>
 
           {/* Right Column (Stacked Images) */}
-          <div className="relative w-full aspect-[4/3] lg:h-[650px] flex items-center justify-center">
+          <div className="relative w-full aspect-[4/3] lg:h-[650px] flex items-center justify-center max-md:hidden">
             {/* Image 1 — top left, tilted left */}
             <div
               className="absolute rounded-2xl overflow-hidden shadow-xl"
@@ -158,7 +158,7 @@ export default function PlanYourVisit() {
         {/* Getting Around Section */}
         <section
           id="plan-visit-getting-around"
-          className="px-8 py-16 mt-32"
+          className="px-8 py-16 md:mt-32"
         >
           {/* Top area: Text left + Image right (like reference) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -167,7 +167,7 @@ export default function PlanYourVisit() {
               style={{ clipPath: "inset(0 round 2rem)" }}
             >
               <Image
-                src="/assets/trans-jogja-bus.png"
+                src="/assets/trans-jogja-bus.jpeg"
                 alt="Trans Jogja Bus"
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-700"

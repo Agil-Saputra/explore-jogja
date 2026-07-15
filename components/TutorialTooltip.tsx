@@ -68,7 +68,7 @@ export function createTutorialTooltip(namespace: string) {
               padding: "16px 20px 0",
             }}
           >
-                {step.title && (
+            {step.title && (
               <h3
                 style={{
                   fontSize: 20,
@@ -104,7 +104,7 @@ export function createTutorialTooltip(namespace: string) {
 
           {/* Content */}
           <div style={{ padding: "16px 20px 8px" }}>
-        
+
             <p
               style={{
                 fontSize: 14,
@@ -161,7 +161,7 @@ export function createTutorialTooltip(namespace: string) {
               )}
 
               {index == 0 && (
-               <button
+                <button
                   {...skipProps}
                   style={{
                     display: "flex",
@@ -187,7 +187,7 @@ export function createTutorialTooltip(namespace: string) {
                     e.currentTarget.style.color = "#666";
                   }}
                 >
-                  Skip Tutorial
+                  Okay
                 </button>
               )}
             </div>

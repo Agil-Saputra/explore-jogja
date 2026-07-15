@@ -60,7 +60,7 @@ export default function ThingsToDo() {
   const current = thingsToDoData[activeIndex];
 
   return (
-    <section className="things-to-do-section mt-32 text-black py-20 md:pb-28 ">
+    <section className="things-to-do-section md:mt-32  text-black py-20 md:pb-28 ">
       {/* Top header area */}
       <div className="px-8 md:px-12 lg:px-16 mb-12 md:mb-16">
         <div className="flex flex-col md:flex-row gap-8 md:gap-16 lg:gap-24 items-start">

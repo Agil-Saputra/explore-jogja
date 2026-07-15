@@ -407,7 +407,7 @@ export default function CreatePlanPage() {
 
             {/* ─── STEP 1: Calendar + Active Hours ─── */}
             {currentStep === 1 && (
-              <div className="w-full max-w-md">
+              <div id="create-plan-step1" className="w-full max-w-md">
                 {/* Progress bar */}
                 <div className="w-full h-2 rounded-full bg-gray-200 mb-8 overflow-hidden">
                   <div

@@ -2,7 +2,7 @@
 
 import { Ref, forwardRef, useState, useEffect } from "react";
 import Image, { ImageProps } from "next/image";
-import { motion, useMotionValue } from "framer-motion";
+import { motion, useMotionValue, Variants } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
@@ -47,7 +47,7 @@ export const PhotoGallery = ({
   };
 
   // Animation variants for each photo
-  const photoVariants = {
+  const photoVariants: Variants = {
     hidden: () => ({
       x: 0,
       y: 0,

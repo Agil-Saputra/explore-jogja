@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { X, RotateCcw, Search } from "lucide-react";
 import { useLocale } from "@/components/LocaleContext";
 import type { ContentfulArticle } from "@/lib/contentful";
@@ -40,7 +39,7 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
   return (
     <>
       {/* ── Filter Bar ── */}
-      <section className="bg-cream flex justify-between md:flex-row flex-col max-w-7xl mx-auto gap-6 px-6">
+      <section className="bg-cream flex justify-between md:flex-row flex-col max-w-7xl mx-auto gap-6 max-md:\px-6">
         {/* Search input */}
         <div className="relative flex  w-full items-center">
           <Search

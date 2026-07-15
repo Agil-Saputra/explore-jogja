@@ -8,7 +8,6 @@ import React, {
   useCallback,
 } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ChevronDown, ArrowLeft, Star } from "lucide-react";
 import { Footer } from "@/app/components/Footer";
 import { useLocale } from "@/components/LocaleContext";

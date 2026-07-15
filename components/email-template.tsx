@@ -107,7 +107,7 @@ export function EmailTemplate({ itinerary }: EmailTemplateProps) {
 
         {/* Days */}
         <div style={{ padding: "32px 40px" }}>
-          {itinerary.days.map((day, dayIdx) => {
+          {itinerary.days.map((day) => {
             const color =  "#171717";
             return (
               <div key={day.dayNumber} style={{ marginBottom: "32px" }}>

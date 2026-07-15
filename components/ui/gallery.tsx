@@ -5,7 +5,6 @@ import Image, { ImageProps } from "next/image";
 import { motion, useMotionValue } from "framer-motion";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 export const PhotoGallery = ({
   animationDelay = 0.5,
@@ -56,7 +55,7 @@ export const PhotoGallery = ({
       scale: 1,
       // Keep the same z-index throughout animation
     }),
-    visible: (custom: { x: any; y: any; order: number }) => ({
+    visible: (custom: { x: string | number; y: string | number; order: number }) => ({
       x: custom.x,
       y: custom.y,
       rotate: 0, // No rotation
@@ -179,6 +178,7 @@ const MotionImage = motion(
     props: ImageProps,
     ref: Ref<HTMLImageElement>
   ) {
+    // eslint-disable-next-line jsx-a11y/alt-text
     return <Image ref={ref} {...props} />;
   })
 );
@@ -208,11 +208,12 @@ export const Photo = ({
   useEffect(() => {
     const randomRotation =
       getRandomNumberInRange(1, 4) * (direction === "left" ? -1 : 1);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRotation(randomRotation);
   }, [direction]);
 
   function handleMouse(event: {
-    currentTarget: { getBoundingClientRect: () => any };
+    currentTarget: { getBoundingClientRect: () => DOMRect };
     clientX: number;
     clientY: number;
   }) {

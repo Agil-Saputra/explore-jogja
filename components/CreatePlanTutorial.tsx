@@ -19,9 +19,6 @@ const TOUR_STORAGE_KEY = "create-plan-tour-completed";
 // Indices: 0=step1(calendar+active-hours), 1=companions, 2=budget, 3=interests, 4=summary
 const TOUR_WIZARD_STEP = [1, 2, 3, 4, 5] as const;
 
-// First tour step index for each wizard step
-const WIZARD_FIRST_TOUR_STEP: Record<number, number> = { 1: 0, 2: 1, 3: 2, 4: 3, 5: 4 };
-
 // Stable tooltip component — created outside render so the reference never changes
 const CustomTooltip = createTutorialTooltip("createPlanTutorial");
 
@@ -152,7 +149,7 @@ export default function CreatePlanTutorial({ onWizardStepChange }: Props) {
     [t],
   );
 
-  const { Tour, step } = useJoyride({
+  const { Tour } = useJoyride({
     steps,
     run: shouldRun,
     stepIndex: tourStep,

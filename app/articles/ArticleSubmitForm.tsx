@@ -160,6 +160,7 @@ export default function ArticleSubmitForm() {
           />
           {imagePreview ? (
             <div className="relative rounded-2xl overflow-hidden border border-gray-200">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imagePreview}
                 alt="Banner preview"

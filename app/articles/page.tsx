@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Footer } from "../components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { getArticles } from "@/lib/contentful";

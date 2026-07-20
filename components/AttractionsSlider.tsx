@@ -25,7 +25,7 @@ const attractionsData = [
     title: "Gunung Kidul Coastal Wonders",
   },
   {
-    image: "/assets/Malioboro-Yogyakarta.jpg",
+    image: "/assets/malioboro.jpg",
     title: "Malioboro Street Heritage",
   },
   {

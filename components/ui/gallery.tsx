@@ -97,7 +97,7 @@ export const PhotoGallery = ({
       y: "8px",
       zIndex: 30,
       direction: "right" as Direction,
-      src: "/assets/Malioboro-Yogyakarta.jpg",
+      src: "/assets/malioboro.jpg",
     },
     {
       id: 4,

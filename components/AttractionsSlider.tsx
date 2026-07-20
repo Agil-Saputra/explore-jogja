@@ -73,7 +73,7 @@ export default function AttractionsSlider() {
         <div className="px-8 pt-16 lg:pt-32 pb-12 lg:pb-20">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             {/* Title + View All */}
-            <div className="flex items-end gap-6 relative">
+            <div className="flex items-end gap-6 relative justify-between w-full">
               <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold font-jakarta text-gray-900">
                 {t("attractionsSlider.title")}
               </h2>
@@ -83,12 +83,12 @@ export default function AttractionsSlider() {
               >
                 {t("attractionsSlider.viewAll")}
               </a>
-              <div className="flex flex-col items-start justify-end mb-16 px-4 absolute -bottom-10 -right-54">
+              <div className="flex flex-col items-center justify-end mb-16 px-4 absolute -bottom-10 -right-0 z-[90]">
                 <p className="font-caveat text-2xl text-center uppercase leading-snug font-semibold text-gray-800 max-w-[20ch]">
                   {t("attractionsSlider.decorativeText")}
                 </p>
                 {/* Custom Arrow */}
-                <div className=" transform translate-y-2 translate-x-4 scale-75 rotate-[90deg]">
+                <div className=" transform -translate-y-2 translate-x-4 scale-75 rotate-[0deg]">
                   <svg
                     width="60"
                     height="60"

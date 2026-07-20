@@ -13,37 +13,36 @@ import { useLocale } from "@/components/LocaleContext";
 
 const thingsToDoData = [
   {
-    image: "/assets/Malioboro-Yogyakarta.jpg",
-    title: "Malioboro Street",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Makam_Raja_Mataram_Kotagede.jpg",
+    title: "Jogja Heritage Track & Kotagede Walk",
     description:
-      "Often described as the heartbeat of Yogyakarta, Malioboro Street is the city's most iconic thoroughfare — a vibrant tapestry of culture, commerce, and heritage that has been...",
+      "Hop on the free electric Jogja Heritage Track bus along the philosophical axis linking Tugu Monument to the Kraton, then wander into Kotagede's old silver district on foot. Travelers who've done the walking-tour version rave about getting genuinely lost in the kampung's narrow alleys with a local guide who treats it more like showing a friend around than reciting a script...",
   },
   {
-    image: "/assets/ramayana-ballet.jpg",
-    title: "Ramayana Ballet",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Disaster_tourism_merapi.jpg",
+    title: "Merapi Lava Tour by Jeep",
     description:
-      "Witness the spectacular Ramayana Ballet performed against the stunning backdrop of Prambanan Temple. This mesmerizing open-air performance brings ancient Hindu mythology to life through...",
+      "Climb into a vintage open-top Willys jeep and get rattled up the ash-grey slopes of an active volcano before sunrise. Reviewers consistently describe it as dusty, bumpy, and genuinely tiring on the body — and then say watching the sunrise from above the clouds at the crater's edge made every bruise worth it...",
   },
   {
-    image: "/assets/gunung-kidul-beach.avif",
-    title: "Gunung Kidul Beaches",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Pindul_Cave,_Indonesia.JPG",
+    title: "Cave Tubing at Goa Pindul",
     description:
-      "Discover pristine white-sand beaches tucked along the dramatic limestone cliffs of Gunung Kidul. From the famous Timang Beach to the hidden gem of Jogan Waterfall Beach...",
+      "Float on an inner tube through a 300-metre limestone cave on the back of an underground river, guided by a local who literally paddles you along with his legs. People who've tried it talk about drifting past ancient stalactites in near-total darkness before the guide cuts the lights completely for a moment of silence...",
   },
   {
-    image: "/assets/keraton.webp",
-    title: "Keraton Palace Visit",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Kotagede_silversmiths.jpg",
+    title: "Kotagede Silversmithing Workshop",
     description:
-      "Step into the living royal court of the Yogyakarta Sultanate. The Keraton has been the cultural epicenter of Javanese civilization since 1755, offering visitors a glimpse into the region's...",
+      "Slip into the backstreets of Kotagede to sit with a family of silversmiths and hammer, shape, and polish your own ring or pendant from 925 silver. Visitors who've taken the short course describe it less as a demonstration and more as being handed the tools and guided through nearly every step yourself...",
   },
   {
-    image: "/assets/candi-prambanan.webp",
-    title: "Prambanan Temple",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tebing_Breksi_in_the_afternoon.jpg",
+    title: "Tebing Breksi Limestone Cliffs",
     description:
-      "Marvel at the largest Hindu temple complex in Indonesia, a UNESCO World Heritage Site rising majestically from the Prambanan Plain. Its towering spires and intricate reliefs tell stories of...",
+      "Climb the carved terraces of a former volcanic-breccia quarry turned open-air amphitheater on Yogyakarta's eastern edge. What was once a mining site is now known among locals as one of the best free sunset spots around, with hand-cut stone reliefs and sweeping views over the Prambanan plain...",
   },
 ];
-
 export default function ThingsToDo() {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
@@ -63,7 +62,7 @@ export default function ThingsToDo() {
     <section className="things-to-do-section md:mt-32  text-black py-20 md:pb-28 ">
       {/* Top header area */}
       <div className="px-8 md:px-12 lg:px-16 mb-12 md:mb-16">
-        <div className="flex flex-col md:flex-row gap-8 md:gap-16 lg:gap-24 items-start">
+        <div className="flex flex-col lg:flex-row gap-8 md:gap-16 lg:gap-24 items-start">
           {/* Left: Big heading */}
           <div className="flex-shrink-0">
             <h2 className="text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[0.95] font-jakarta text-black ">

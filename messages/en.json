@@ -67,7 +67,7 @@
   "thingsToDo": {
     "title": "Things To Do",
     "subtitle": "Discover hidden gems in Yogyakarta",
-    "description": "From impromptu discoveries to mapped-out adventures, there's no shortage of things to keep your attention and stretch your imagination across Yogyakarta. Explore the rich history and stunning landscapes that define this beautiful city, from the iconic Malioboro to the sensational southern beaches and everything in between that keeps visitors coming back time after time.",
+    "description": "From impromptu discoveries to mapped-out adventures, there's no shortage of things to keep your attention and stretch your imagination across Yogyakarta. Explore the rich history and stunning landscapes that define this beautiful city  and everything in between that keeps visitors coming back time after time.",
     "viewDetails": "View Details"
   },
   "yogyakartaMap": {
@@ -101,10 +101,19 @@
     "title": "All About Yogyakarta",
     "subtitle": "Your guide to Yogyakarta's rich culture, stunning landscapes, and unforgettable experiences.",
     "description": "Explore a curated selection of articles covering Yogyakarta's cultural heritage, culinary delights, natural wonders, and travel guides.",
+    "heroTitle": "Stories & Guides",
+    "heroDesc": "Explore hand-picked stories, local tips, and guides to help you experience the best of Yogyakarta — from ancient temples to vibrant street food.",
     "searchPlaceholder": "Search articles...",
     "filter": "Filter",
     "all": "All",
     "loadMore": "Load More",
+    "noResults": "No articles found",
+    "noResultsHint": "Try a different search term",
+    "readArticle": "Read Article",
+    "allArticles": "All Articles",
+    "editorial": "Explore Jogja Editorial",
+    "noContent": "No content available.",
+    "backToAll": "Back to all articles",
     "categories": {
       "Culture": "Culture",
       "Heritage": "Heritage",
@@ -114,6 +123,28 @@
       "Adventure": "Adventure",
       "Lifestyle": "Lifestyle",
       "Events": "Events"
+    },
+    "submitForm": {
+      "title": "Share Your Own Story",
+      "subtitle": "Every story matters. Share yours and become part of a community built on real experiences.",
+      "articleContent": "Article Content",
+      "titlePlaceholder": "Article title",
+      "contentPlaceholder": "Write your article here...",
+      "bannerImage": "Banner Image",
+      "dropFiles": "Drop files here",
+      "maxSize": "Max 5MB (JPG, PNG).",
+      "chooseImage": "Choose Image",
+      "authorInfo": "Author Info",
+      "namePlaceholder": "Your name",
+      "emailPlaceholder": "Email address",
+      "submit": "Submit",
+      "sending": "Sending…",
+      "successTitle": "Article Submitted!",
+      "successDesc": "Your article has been submitted and is pending review.",
+      "submitAnother": "Submit Another Article",
+      "errorNoImage": "Please upload a banner image.",
+      "errorGeneric": "Something went wrong. Please try again.",
+      "errorNetwork": "Network error. Please check your connection and try again."
     }
   },
   "events": {
@@ -150,6 +181,7 @@
     "legacyTitle": "A Living Cultural Legacy",
     "legacyP1": "Yogyakarta is not merely a city frozen in history. Its past lives on through the daily rituals of its people—the dulcet tones of the gamelan echoing from the Keraton, the meticulous art of batik-making passed down through generations, and the grand royal ceremonies that continue to mark the passage of time.",
     "legacyP2": "Today, as a Special Region of Indonesia, Yogyakarta stands as a testament to the enduring power of culture, earning its rightful title as the Cultural Capital of Indonesia.",
+    "musicTooltip": "Play music for a better history reading experience",
     "timeline": {
       "giyanti": {
         "shortLabel": "TREATY OF GIYANTI",

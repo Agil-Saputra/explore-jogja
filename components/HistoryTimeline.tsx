@@ -183,7 +183,7 @@ export default function HistoryTimeline() {
       </div>
 
       {/* Timeline Checkpoints */}
-      <div className="relative z-10 w-full flex flex-col pointer-events-none">
+      <div className="relative z-10 w-full flex flex-col pointer-events-none max-md:gap-[20rem]">
         {timelineData.map((data, i) => {
           const isEven = i % 2 === 0;
 
@@ -201,7 +201,7 @@ export default function HistoryTimeline() {
                   ref={(el) => {
                     if (el) dotRefs.current[i] = el;
                   }}
-                  className="absolute top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-black rounded-full border-4 border-[#F5F1E5] shadow-md z-20"
+                  className="absolute top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-black rounded-full border-4 border-[#F5F1E5] shadow-md z-0"
                   style={{
                     // Align roughly with the SVG control points peak (80% and 20%)
                     left: isEven ? "80%" : "20%",

@@ -2,10 +2,12 @@
 
 import React, { useRef, useState } from "react";
 import { Upload, X, CheckCircle, Loader2, AlertCircle } from "lucide-react";
+import { useLocale } from "@/components/LocaleContext";
 
 type SubmitState = "idle" | "loading" | "success" | "error";
 
 export default function ArticleSubmitForm() {
+  const { t } = useLocale();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
@@ -37,7 +39,7 @@ export default function ArticleSubmitForm() {
     setSubmitState("loading");
 
     if (!imageFile) {
-      setErrorMsg("Please upload a banner image.");
+      setErrorMsg(t("articles.submitForm.errorNoImage"));
       setSubmitState("error");
       return;
     }
@@ -58,14 +60,14 @@ export default function ArticleSubmitForm() {
       const json = await res.json();
 
       if (!res.ok) {
-        setErrorMsg(json?.error ?? "Something went wrong. Please try again.");
+        setErrorMsg(json?.error ?? t("articles.submitForm.errorGeneric"));
         setSubmitState("error");
         return;
       }
 
       setSubmitState("success");
     } catch {
-      setErrorMsg("Network error. Please check your connection and try again.");
+      setErrorMsg(t("articles.submitForm.errorNetwork"));
       setSubmitState("error");
     }
   }
@@ -77,9 +79,11 @@ export default function ArticleSubmitForm() {
           <CheckCircle className="w-8 h-8 text-green-600" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-[#2B2B2B] mb-2">Article Submitted!</h3>
+          <h3 className="text-2xl font-bold text-[#2B2B2B] mb-2">
+            {t("articles.submitForm.successTitle")}
+          </h3>
           <p className="text-gray-600 text-[15px]">
-            Your article has been submitted and is pending review.
+            {t("articles.submitForm.successDesc")}
           </p>
         </div>
         <button
@@ -93,7 +97,7 @@ export default function ArticleSubmitForm() {
           }}
           className="bg-[#2B2B2B] text-white px-8 py-3 rounded-full text-[14px] font-bold hover:bg-black transition-colors"
         >
-          Submit Another Article
+          {t("articles.submitForm.submitAnother")}
         </button>
       </div>
     );
@@ -104,8 +108,10 @@ export default function ArticleSubmitForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-12 max-w-[900px] mx-auto py-12">
       <div className="text-center mb-4">
-        <h2 className="text-3xl font-bold mb-2 font-caveat uppercase">Share Your Own Story</h2>
-        <p className="text-gray-600">Every story matters. Share yours and become part of a community built on real experiences.</p>
+        <h2 className="text-3xl font-bold mb-2 font-caveat uppercase">
+          {t("articles.submitForm.title")}
+        </h2>
+        <p className="text-gray-600">{t("articles.submitForm.subtitle")}</p>
       </div>
 
       {submitState === "error" && errorMsg && (
@@ -117,12 +123,14 @@ export default function ArticleSubmitForm() {
 
       {/* Article Details */}
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:gap-8 items-start gap-4">
-        <span className="text-[15px] font-bold mt-3">Article Content</span>
+        <span className="text-[15px] font-bold mt-3">
+          {t("articles.submitForm.articleContent")}
+        </span>
         <div className="flex flex-col gap-3">
           <input
             id="title"
             type="text"
-            placeholder="Article title"
+            placeholder={t("articles.submitForm.titlePlaceholder")}
             required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -131,7 +139,7 @@ export default function ArticleSubmitForm() {
           />
           <textarea
             id="content"
-            placeholder="Write your article here..."
+            placeholder={t("articles.submitForm.contentPlaceholder")}
             rows={8}
             required
             value={content}
@@ -144,7 +152,9 @@ export default function ArticleSubmitForm() {
 
       {/* Banner Image */}
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:gap-8 items-start gap-4">
-        <span className="text-[15px] font-bold mt-4">Banner Image</span>
+        <span className="text-[15px] font-bold mt-4">
+          {t("articles.submitForm.bannerImage")}
+        </span>
         <div>
           <input
             ref={fileInputRef}
@@ -187,8 +197,12 @@ export default function ArticleSubmitForm() {
               }}
             >
               <Upload className="w-6 h-6 text-gray-400" />
-              <span className="text-[14px] text-gray-500">Drop files here</span>
-              <span className="text-[12px] text-gray-400 -mt-1 mb-2 text-center">Max 5MB (JPG, PNG).</span>
+              <span className="text-[14px] text-gray-500">
+                {t("articles.submitForm.dropFiles")}
+              </span>
+              <span className="text-[12px] text-gray-400 -mt-1 mb-2 text-center">
+                {t("articles.submitForm.maxSize")}
+              </span>
               <button
                 type="button"
                 onClick={(e) => {
@@ -198,7 +212,7 @@ export default function ArticleSubmitForm() {
                 disabled={isLoading}
                 className="bg-[#EBE9E4] text-[#2B2B2B] px-6 py-2.5 rounded-full text-[14px] font-medium hover:bg-gray-300 transition-colors"
               >
-                Choose Image
+                {t("articles.submitForm.chooseImage")}
               </button>
             </div>
           )}
@@ -207,12 +221,14 @@ export default function ArticleSubmitForm() {
 
       {/* Author Info */}
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:gap-8 items-start gap-4">
-        <span className="text-[15px] font-bold mt-4">Author Info</span>
+        <span className="text-[15px] font-bold mt-4">
+          {t("articles.submitForm.authorInfo")}
+        </span>
         <div className="flex flex-col gap-3">
           <input
             id="author"
             type="text"
-            placeholder="Your name"
+            placeholder={t("articles.submitForm.namePlaceholder")}
             required
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
@@ -222,7 +238,7 @@ export default function ArticleSubmitForm() {
           <input
             id="email"
             type="email"
-            placeholder="Email address"
+            placeholder={t("articles.submitForm.emailPlaceholder")}
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -244,10 +260,10 @@ export default function ArticleSubmitForm() {
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                Sending…
+                {t("articles.submitForm.sending")}
               </>
             ) : (
-              "Submit "
+              t("articles.submitForm.submit")
             )}
           </button>
         </div>

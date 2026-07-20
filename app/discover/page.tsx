@@ -127,7 +127,7 @@ export default function DiscoverPage() {
             <SlidingImageReveal className="w-full h-full rounded-[1.5rem] overflow-hidden rounded-xl ">
               <video
                 src="/assets/jogja-aerial-view.mp4"
-                className="md:min-h-[700px] object-cover"
+                className="md:min-h-[700px] object-cover cursor-none"
                 autoPlay
                 loop
                 muted

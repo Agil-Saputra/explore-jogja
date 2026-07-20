@@ -69,10 +69,11 @@ function resolveImageAlt(asset: unknown): string | null {
 }
 
 // ── Fetch all blog posts (for the listing page) ──────────────────────────────
-export async function getArticles(): Promise<ContentfulArticle[]> {
+export async function getArticles(locale?: string): Promise<ContentfulArticle[]> {
   const entries = await client.getEntries<BlogPostSkeleton>({
     content_type: "blogPost",
     order: ["-sys.createdAt"],
+    ...(locale ? { locale } : {}),
   });
   console.log(entries)
   return entries.items.map((entry) => ({
@@ -88,12 +89,14 @@ export async function getArticles(): Promise<ContentfulArticle[]> {
 
 // ── Fetch a single blog post by slug (for the detail page) ──────────────────
 export async function getArticleBySlug(
-  slug: string
+  slug: string,
+  locale?: string
 ): Promise<ContentfulArticle | null> {
   const entries = await client.getEntries<BlogPostSkeleton>({
     content_type: "blogPost",
     "fields.slug": slug,
     limit: 1,
+    ...(locale ? { locale } : {}),
   });
 
   const entry = entries.items[0];

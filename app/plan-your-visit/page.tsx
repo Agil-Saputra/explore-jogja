@@ -125,7 +125,7 @@ export default function PlanYourVisit() {
               }}
             >
               <Image
-                src="/assets/ramayana-ballet.jpg"
+                src="/assets/districts/gunungkidul.avif"
                 alt="Ramayana Ballet performance"
                 fill
                 className="object-cover"

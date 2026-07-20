@@ -1,12 +1,16 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowLeft, Calendar } from "lucide-react";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import type { Options } from "@contentful/rich-text-react-renderer";
 import { getArticleBySlug, getAllSlugs } from "@/lib/contentful";
 import { Footer } from "../../components/Footer";
+import {
+  ArticleBackButton,
+  ArticleMeta,
+  ArticleNoContent,
+  ArticleBackLink,
+} from "./ArticleDetailClient";
 
 /* ── Static params ── */
 export async function generateStaticParams() {
@@ -124,6 +128,8 @@ export default async function ArticleDetailPage({
 
   if (!article) notFound();
 
+  const publishedDate = new Date().toISOString();
+
   return (
     <main className="min-h-screen bg-cream text-gray-900">
       {/* ── Hero Banner ── */}
@@ -142,15 +148,9 @@ export default async function ArticleDetailPage({
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-        {/* Back button */}
+        {/* Back button (client — translated) */}
         <div className="absolute top-8 left-6 md:left-16 z-10">
-          <Link
-            href="/articles"
-            className="inline-flex items-center gap-2 text-white/90 hover:text-white bg-white/15 backdrop-blur-md border border-white/25 rounded-full px-4 py-2 text-sm font-medium transition-all hover:bg-white/25"
-          >
-            <ArrowLeft size={15} />
-            All Articles
-          </Link>
+          <ArticleBackButton />
         </div>
 
         {/* Title over hero */}
@@ -163,21 +163,8 @@ export default async function ArticleDetailPage({
 
       {/* ── Article Body ── */}
       <article className="max-w-3xl mx-auto px-6 md:px-8 py-14">
-        {/* Meta row */}
-        <div className="flex items-center gap-4 mb-10 pb-8 border-b border-gray-200">
-          <span className="inline-flex items-center gap-1.5 text-gray-500 text-sm">
-            <Calendar size={14} />
-            Explore Jogja Editorial
-          </span>
-          <span className="w-1 h-1 rounded-full bg-gray-300" />
-          <span className="text-sm text-gray-400">
-            {new Date().toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </span>
-        </div>
+        {/* Meta row (client — translated date & editorial label) */}
+        <ArticleMeta isoDate={publishedDate} />
 
         {/* Rich text content */}
         {article.content ? (
@@ -185,21 +172,12 @@ export default async function ArticleDetailPage({
             {documentToReactComponents(article.content, richTextOptions)}
           </div>
         ) : (
-          <p className="text-gray-400 italic">No content available.</p>
+          <ArticleNoContent />
         )}
 
-        {/* Back link at bottom */}
+        {/* Back link at bottom (client — translated) */}
         <div className="mt-16 pt-10 border-t border-gray-200">
-          <Link
-            href="/articles"
-            className="inline-flex items-center gap-2 text-gray-700 font-semibold hover:text-gray-900 transition-colors group"
-          >
-            <ArrowLeft
-              size={16}
-              className="group-hover:-translate-x-1 transition-transform"
-            />
-            Back to all articles
-          </Link>
+          <ArticleBackLink />
         </div>
       </article>
 

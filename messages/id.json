@@ -67,7 +67,7 @@
   "thingsToDo": {
     "title": "Aktivitas Seru",
     "subtitle": "Temukan permata tersembunyi di Yogyakarta",
-    "description": "Dari penemuan spontan hingga petualangan terencana, tidak ada kekurangan hal untuk menarik perhatian dan meregangkan imajinasi Anda di Yogyakarta. Jelajahi sejarah yang kaya dan lanskap menakjubkan yang mendefinisikan kota indah ini, dari Malioboro yang ikonik hingga pantai selatan yang sensasional dan segala hal di antaranya yang membuat pengunjung kembali berkali-kali.",
+    "description": "Dari penemuan spontan hingga petualangan terencana, tidak ada kekurangan hal untuk menarik perhatian dan meregangkan imajinasi Anda di Yogyakarta. Jelajahi sejarah yang kaya dan lanskap menakjubkan yang mendefinisikan kota indah ini dan segala hal di antaranya yang membuat pengunjung kembali berkali-kali.",
     "viewDetails": "Lihat Detail"
   },
   "yogyakartaMap": {
@@ -101,10 +101,19 @@
     "title": "Semua Tentang Yogyakarta",
     "subtitle": "Panduan Anda tentang budaya kaya Yogyakarta, lanskap menakjubkan, dan pengalaman tak terlupakan.",
     "description": "Jelajahi pilihan artikel tentang warisan budaya, kelezatan kuliner, keajaiban alam, dan panduan wisata Yogyakarta.",
+    "heroTitle": "Cerita & Panduan",
+    "heroDesc": "Jelajahi cerita pilihan, tips lokal, dan panduan untuk membantu Anda merasakan yang terbaik dari Yogyakarta — dari candi kuno hingga jajanan kaki lima yang semarak.",
     "searchPlaceholder": "Cari artikel...",
     "filter": "Filter",
     "all": "Semua",
     "loadMore": "Muat Lebih Banyak",
+    "noResults": "Tidak ada artikel ditemukan",
+    "noResultsHint": "Coba kata kunci yang berbeda",
+    "readArticle": "Baca Artikel",
+    "allArticles": "Semua Artikel",
+    "editorial": "Editorial Explore Jogja",
+    "noContent": "Konten tidak tersedia.",
+    "backToAll": "Kembali ke semua artikel",
     "categories": {
       "Culture": "Budaya",
       "Heritage": "Warisan",
@@ -114,6 +123,28 @@
       "Adventure": "Petualangan",
       "Lifestyle": "Gaya Hidup",
       "Events": "Acara"
+    },
+    "submitForm": {
+      "title": "Bagikan Cerita Anda",
+      "subtitle": "Setiap cerita berarti. Bagikan milik Anda dan jadilah bagian dari komunitas yang dibangun atas pengalaman nyata.",
+      "articleContent": "Konten Artikel",
+      "titlePlaceholder": "Judul artikel",
+      "contentPlaceholder": "Tulis artikel Anda di sini...",
+      "bannerImage": "Gambar Banner",
+      "dropFiles": "Letakkan file di sini",
+      "maxSize": "Maks 5MB (JPG, PNG).",
+      "chooseImage": "Pilih Gambar",
+      "authorInfo": "Info Penulis",
+      "namePlaceholder": "Nama Anda",
+      "emailPlaceholder": "Alamat email",
+      "submit": "Kirim",
+      "sending": "Mengirim…",
+      "successTitle": "Artikel Terkirim!",
+      "successDesc": "Artikel Anda telah dikirimkan dan sedang menunggu tinjauan.",
+      "submitAnother": "Kirim Artikel Lain",
+      "errorNoImage": "Silakan unggah gambar banner.",
+      "errorGeneric": "Terjadi kesalahan. Silakan coba lagi.",
+      "errorNetwork": "Kesalahan jaringan. Periksa koneksi Anda dan coba lagi."
     }
   },
   "events": {
@@ -150,6 +181,7 @@
     "legacyTitle": "Warisan Budaya yang Hidup",
     "legacyP1": "Yogyakarta bukan sekadar kota yang membeku dalam sejarah. Masa lalunya hidup melalui ritual harian masyarakatnya — nada merdu gamelan yang bergema dari Keraton, seni membatik yang diturunkan dari generasi ke generasi, dan upacara kerajaan besar yang terus menandai perjalanan waktu.",
     "legacyP2": "Saat ini, sebagai Daerah Istimewa Indonesia, Yogyakarta berdiri sebagai bukti kekuatan budaya yang abadi, meraih gelarnya yang layak sebagai Ibu Kota Kebudayaan Indonesia.",
+    "musicTooltip": "Putar musik untuk pengalaman membaca sejarah yang lebih baik",
     "timeline": {
       "giyanti": {
         "shortLabel": "PERJANJIAN GIYANTI",

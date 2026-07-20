@@ -1,10 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { X, RotateCcw, Search } from "lucide-react";
 import { useLocale } from "@/components/LocaleContext";
 import type { ContentfulArticle } from "@/lib/contentful";
+
+/** Map app locale codes to Contentful locale codes */
+const CONTENTFUL_LOCALE: Record<string, string> = {
+  en: "en-US",
+  id: "id-ID",
+};
 
 const CATEGORIES = [
   "All",
@@ -17,15 +23,42 @@ const CATEGORIES = [
 ];
 
 interface ArticlesClientProps {
+  /** Initial articles fetched server-side (always English / default locale) */
   articles: ContentfulArticle[];
 }
 
-export default function ArticlesClient({ articles }: ArticlesClientProps) {
-  const { t } = useLocale();
+export default function ArticlesClient({ articles: initialArticles }: ArticlesClientProps) {
+  const { t, locale } = useLocale();
+  const [articles, setArticles] = useState<ContentfulArticle[]>(initialArticles);
+  const [isLoadingLocale, setIsLoadingLocale] = useState(false);
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Re-fetch articles from Contentful when locale changes
+  const fetchArticles = useCallback(async (appLocale: string) => {
+    const contentfulLocale = CONTENTFUL_LOCALE[appLocale];
+    if (!contentfulLocale) return;
+
+    setIsLoadingLocale(true);
+    try {
+      const res = await fetch(`/api/articles?locale=${contentfulLocale}`);
+      if (res.ok) {
+        const data: ContentfulArticle[] = await res.json();
+        setArticles(data);
+      }
+    } catch {
+      // silently keep existing articles on fetch failure
+    } finally {
+      setIsLoadingLocale(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchArticles(locale);
+  }, [locale, fetchArticles]);
 
   const filteredArticles = articles.filter((a) => {
     const matchesSearch =
@@ -112,11 +145,21 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
       {/* ── Article Cards Grid ── */}
       <section className="bg-cream px-6 md:px-16 pb-16">
         <div className="max-w-7xl mx-auto">
-          {visibleArticles.length === 0 ? (
+          {isLoadingLocale ? (
+            /* Skeleton loader while fetching localized articles */
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-pulse">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl bg-gray-200 min-h-[280px]"
+                />
+              ))}
+            </div>
+          ) : visibleArticles.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-gray-400">
               <Search size={48} className="mb-4 opacity-30" />
-              <p className="text-lg font-medium">No articles found</p>
-              <p className="text-sm mt-1">Try a different search term</p>
+              <p className="text-lg font-medium">{t("articles.noResults")}</p>
+              <p className="text-sm mt-1">{t("articles.noResultsHint")}</p>
             </div>
           ) : (
             <>
@@ -124,10 +167,17 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
               {visibleArticles.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-4 mb-4">
                   {visibleArticles[0] && (
-                    <ArticleCard article={visibleArticles[0]} />
+                    <ArticleCard
+                      article={visibleArticles[0]}
+                      readLabel={t("articles.readArticle")}
+                    />
                   )}
                   {visibleArticles[1] && (
-                    <ArticleCard article={visibleArticles[1]} aspectTall />
+                    <ArticleCard
+                      article={visibleArticles[1]}
+                      aspectTall
+                      readLabel={t("articles.readArticle")}
+                    />
                   )}
                 </div>
               )}
@@ -136,7 +186,11 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
               {visibleArticles.length > 2 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   {visibleArticles.slice(2, 5).map((a) => (
-                    <ArticleCard key={a.id} article={a} />
+                    <ArticleCard
+                      key={a.id}
+                      article={a}
+                      readLabel={t("articles.readArticle")}
+                    />
                   ))}
                 </div>
               )}
@@ -145,7 +199,11 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
               {visibleArticles.length > 5 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   {visibleArticles.slice(5, 7).map((a) => (
-                    <ArticleCard key={a.id} article={a} />
+                    <ArticleCard
+                      key={a.id}
+                      article={a}
+                      readLabel={t("articles.readArticle")}
+                    />
                   ))}
                 </div>
               )}
@@ -154,7 +212,11 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
               {visibleArticles.length > 7 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   {visibleArticles.slice(7, 10).map((a) => (
-                    <ArticleCard key={a.id} article={a} />
+                    <ArticleCard
+                      key={a.id}
+                      article={a}
+                      readLabel={t("articles.readArticle")}
+                    />
                   ))}
                 </div>
               )}
@@ -162,7 +224,7 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
           )}
 
           {/* Load More */}
-          {visibleCount < filteredArticles.length && (
+          {!isLoadingLocale && visibleCount < filteredArticles.length && (
             <div className="flex justify-center mt-10">
               <button
                 onClick={() => setVisibleCount((c) => c + 6)}
@@ -174,7 +236,8 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
             </div>
           )}
 
-          {visibleCount >= filteredArticles.length &&
+          {!isLoadingLocale &&
+            visibleCount >= filteredArticles.length &&
             filteredArticles.length > 0 && (
               <div className="flex justify-center mt-10">
                 <button className="flex items-center gap-2 border-2 border-gray-900 rounded-full px-8 py-3 text-sm font-bold hover:bg-gray-900 hover:text-white transition-all">
@@ -193,9 +256,11 @@ export default function ArticlesClient({ articles }: ArticlesClientProps) {
 function ArticleCard({
   article,
   aspectTall = false,
+  readLabel,
 }: {
   article: ContentfulArticle;
   aspectTall?: boolean;
+  readLabel: string;
 }) {
   const fallbackImage = "/assets/main-image.webp";
   const imgSrc = article.bannerImageUrl ?? fallbackImage;
@@ -226,7 +291,7 @@ function ArticleCard({
           {article.title}
         </h3>
         <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-xs md:text-sm font-medium px-3 py-1 rounded-full border border-white/30">
-          Read Article →
+          {readLabel} →
         </span>
       </div>
     </a>

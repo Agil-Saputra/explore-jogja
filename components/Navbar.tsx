@@ -227,8 +227,8 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 md:px-8 py-4 md:py-6 font-sans w-full">
-        <nav className="flex items-center bg-white/50 backdrop-blur-2xl rounded-full px-4 md:px-6 py-2 md:py-2.5 shadow-sm border border-white/20">
+      <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 lg:px-8 py-4 lg:py-6 font-sans w-full">
+        <nav className="flex items-center bg-white/50 backdrop-blur-2xl rounded-full px-4 lg:px-6 py-2 lg:py-2.5 shadow-sm border border-white/20">
           <button
             onClick={() => setIsMenuOpen(true)}
             onMouseEnter={() => setIsCollapsed(false)}
@@ -248,7 +248,7 @@ export default function Navbar() {
               menuRef.current = el;
               inlineNavRef.current = el;
             }}
-            className="hidden md:flex items-center overflow-hidden gap-1 ml-8 relative"
+            className="hidden lg:flex items-center overflow-hidden gap-1 ml-8 relative"
           >
             {/* Sliding pill background */}
             <div
@@ -274,7 +274,7 @@ export default function Navbar() {
         </nav>
 
         <div
-          className={`hidden md:flex items-center gap-3 transition-opacity duration-500 ease-in-out ${isCollapsed ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
+          className={`hidden lg:flex items-center gap-3 transition-opacity duration-500 ease-in-out ${isCollapsed ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
             }`}
         >
           <button
@@ -311,14 +311,14 @@ export default function Navbar() {
 
       {/* Dropdown Menu Panel */}
       <div
-        className={`fixed top-4 left-4 right-4 md:top-6 md:left-8 md:right-8 z-50 bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top ${isMenuOpen
+        className={`fixed top-4 left-4 right-4 lg:top-6 lg:left-8 lg:right-8 z-50 bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top ${isMenuOpen
           ? "opacity-100 pointer-events-auto translate-y-0 scale-100"
           : "opacity-0 pointer-events-none -translate-y-4 scale-[0.97]"
           }`}
         style={{ maxHeight: "calc(100vh - 2rem)" }}
       >
         {/* Panel Header — close button at top right */}
-        <div className="flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8 pb-2">
+        <div className="flex items-center justify-between px-6 lg:px-10 pt-6 lg:pt-8 pb-2">
           <span className="text-[13px] font-semibold uppercase tracking-widest text-gray-400">{t("navbar.menu")}</span>
           <button
             onClick={() => setIsMenuOpen(false)}
@@ -332,7 +332,7 @@ export default function Navbar() {
         </div>
 
         {/* Menu Items */}
-        <div ref={overlayNavRef} className="flex flex-col px-6 md:px-10 py-6 md:py-8 relative">
+        <div ref={overlayNavRef} className="flex flex-col px-6 lg:px-10 py-6 lg:py-8 relative">
           {/* Sliding pill background for overlay */}
           <div
             ref={overlayPillRef}
@@ -346,7 +346,7 @@ export default function Navbar() {
               href={item.href}
               ref={(el) => { overlayLinkRefs.current[index] = el; }}
               onClick={() => setIsMenuOpen(false)}
-              className={`relative z-10 text-2xl md:text-[2rem] font-semibold transition-colors py-3 md:py-4 rounded-xl px-3 -mx-3 ${pathname === item.href
+              className={`relative z-10 text-2xl lg:text-[2rem] font-semibold transition-colors py-3 lg:py-4 rounded-xl px-3 -mx-3 ${pathname === item.href
                 ? "text-black"
                 : "text-gray-800 hover:text-gray-500"
                 }`}
@@ -357,7 +357,7 @@ export default function Navbar() {
         </div>
 
         {/* Panel Footer */}
-        <div className="mt-auto border-t border-gray-100 px-6 md:px-10 py-5 md:py-6">
+        <div className="mt-auto border-t border-gray-100 px-6 lg:px-10 py-5 lg:py-6">
           <div className="mb-6">
             <h3 className="font-bold text-gray-900 text-[15px]">{t("navbar.footer.title")}</h3>
             <p className="text-gray-500 text-[14px] mt-0.5">{t("navbar.footer.email")}</p>

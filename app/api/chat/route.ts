@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     }
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "claude-haiku-4-5",
       messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
       max_tokens: 500,
       temperature: 0.7,

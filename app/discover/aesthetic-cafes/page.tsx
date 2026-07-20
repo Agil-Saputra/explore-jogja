@@ -30,7 +30,7 @@ function mapStaticData(raw: (typeof staticCafes)[number]): CafePlace {
     website: raw.Website ?? null,
     mainImage: raw.MainImage ?? "",
     additionalImages: raw.AdditionalImages ?? [],
-    reviews: (raw["Top 5 Reviews"] ?? []).map((r) => ({
+    reviews: ((raw["Top 5 Reviews"] as any[]) ?? []).map((r) => ({
       name: r.name,
       review: r.review,
     })),

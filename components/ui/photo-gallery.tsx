@@ -27,7 +27,7 @@ const PHOTOS = [
   },
   {
     id: "photo-3",
-    src: "/assets/the-kraton-of-yogyakarta.jpg",
+    src: "/assets/districts/gunungkidul.avif",
     alt: "Design research",
     rotation: -3,
     x: -10,

@@ -27,7 +27,7 @@ const PHOTOS = [
   },
   {
     id: "photo-3",
-    src: "/assets/districts/gunungkidul.avif",
+    src: "/assets/kotagede.webp",
     alt: "Design research",
     rotation: -3,
     x: -10,

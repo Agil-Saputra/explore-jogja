@@ -45,13 +45,13 @@ async function MapsFetcher() {
       getTopAttractions(),
     ]);
 
-  function settled(result: PromiseSettledResult<StaticPlace[]>, fallback: StaticPlace[]): StaticPlace[] {
+  function settled(result: PromiseSettledResult<any>, fallback: any[]): any[] {
     const data = result.status === "fulfilled" ? result.value : [];
     return data.length > 0 ? data : fallback;
   }
 
   const buildFeatures = (
-    places: StaticPlace[],
+    places: any[],
     featureType: string,
   ): MapFeature[] =>
     places

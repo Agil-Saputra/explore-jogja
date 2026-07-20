@@ -33,7 +33,7 @@ export default function TrekkingListingClient({
         street: place["Street"] ?? null,
         fullAddress: place["Fulladdress"] ?? null,
         categories: place["Categories"] ?? null,
-        averageRating: place["Average Rating"] ?? null,
+        averageRating: place["Average Rating"] ? String(place["Average Rating"]).replace(",", ".") : undefined,
         reviewCount: place["Review Count"] ?? null,
         priceLevel: null,
         mainImage: place["Main Image"] ?? null,

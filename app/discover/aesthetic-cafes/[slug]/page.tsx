@@ -25,13 +25,13 @@ function mapStatic(raw: (typeof staticCafes)[number]): CafePlace {
     latitude: raw.Latitude,
     longitude: raw.Longitude,
     website: raw.Website ?? null,
-    mainImage: raw.MainImage ?? "",
-    additionalImages: raw.AdditionalImages ?? [],
-    reviews: (raw["Top 5 Reviews"] ?? []).map((r) => ({
+    mainImage: raw["Main Image"] ?? "",
+    additionalImages: raw["Additional Images"] ?? [],
+    reviews: ((raw["Top 5 Reviews"] as any[]) ?? []).map((r) => ({
       name: r.name,
       review: r.review,
     })),
-    description: raw.description ?? "",
+    description: (raw as any).description ?? "",
   };
 }
 

@@ -35,7 +35,7 @@ function mapStatic(
       name: r.name,
       review: r.review,
     })),
-    description: raw.description ?? "",
+    description: (raw as any).description ?? "",
   };
 }
 

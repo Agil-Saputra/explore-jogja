@@ -33,7 +33,7 @@ function mapStatic(
     website: raw.Website ?? null,
     mainImage: raw["Main Image"] ?? "",
     additionalImages: raw["Additional Images"] ?? [],
-    reviews: (raw["Top 5 Reviews"] ?? []).map((r) => ({
+    reviews: ((raw["Top 5 Reviews"] as any[]) ?? []).map((r) => ({
       name: r.name,
       review: r.review,
     })),

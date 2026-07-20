@@ -27,7 +27,7 @@ const PHOTOS = [
   },
   {
     id: "photo-3",
-    src: "/assets/malioboro.jpg ",
+    src: "/assets/the-kraton-of-yogyakarta.jpg ",
     alt: "Design research",
     rotation: -3,
     x: -10,

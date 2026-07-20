@@ -256,7 +256,7 @@ export default function PlanResultPage({
         <div className="flex-shrink-0 border-b border-gray-100 bg-white/80 backdrop-blur-md z-10">
           {regenErrorBanner}
           <div className="px-6 py-5">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col items-start lg:flex-row  lg:items-center justify-between mb-4 w-full gap-4" >
               <div className="flex items-center gap-3">
                 <Link
                   href="/plan-your-visit"

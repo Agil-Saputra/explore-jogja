@@ -7,6 +7,7 @@ import { Footer } from "../components/Footer";
 import { useLocale } from "@/components/LocaleContext";
 import PlanHistoryModal from "@/components/PlanHistoryModal";
 import { getPlans, type SavedPlan } from "@/lib/planStorage";
+import PhotoGallery from "@/components/ui/photo-gallery";
 
 export default function PlanYourVisit() {
   const { t } = useLocale();
@@ -89,70 +90,12 @@ export default function PlanYourVisit() {
             </div>
           </div>
 
-          {/* Right Column (Stacked Images) */}
-          <div className="relative w-full aspect-[4/3] lg:h-[650px] flex items-center justify-center max-md:hidden">
-            {/* Image 1 — top left, tilted left */}
-            <div
-              className="absolute rounded-2xl overflow-hidden shadow-xl"
-              style={{
-                width: "60%",
-                aspectRatio: "4/3",
-                top: "2%",
-                left: "2%",
-                transform: "rotate(-6deg)",
-                zIndex: 1,
-              }}
-            >
-              <Image
-                src="/assets/tamansari.jpg"
-                alt="Tugu Yogyakarta aerial view"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
 
-            {/* Image 2 — middle right, tilted right */}
-            <div
-              className="absolute rounded-2xl overflow-hidden shadow-xl"
-              style={{
-                width: "58%",
-                aspectRatio: "16/10",
-                top: "22%",
-                right: "0%",
-                transform: "rotate(4deg)",
-                zIndex: 2,
-              }}
-            >
-              <Image
-                src="/assets/districts/gunungkidul.avif"
-                alt="Ramayana Ballet performance"
-                fill
-                className="object-cover"
-              />
-            </div>
+          <PhotoGallery />
 
-            {/* Image 3 — bottom left, tilted left (foreground) */}
-            <div
-              className="absolute rounded-2xl overflow-hidden shadow-2xl"
-              style={{
-                width: "62%",
-                aspectRatio: "4/3",
-                bottom: "2%",
-                left: "5%",
-                transform: "rotate(4deg)",
-                zIndex: 3,
-              }}
-            >
-              <Image
-                src="/assets/Malioboro-Yogyakarta.jpg"
-                alt="Malioboro Street atmosphere"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
         </section>
+
+        {/* Photo Gallery Section */}
 
 
         {/* Getting Around Section */}
@@ -231,6 +174,8 @@ export default function PlanYourVisit() {
           </div>
 
         </section>
+
+
       </ScrollReveal>
       <Footer />
 

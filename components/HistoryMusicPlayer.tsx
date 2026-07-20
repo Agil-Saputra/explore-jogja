@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { VolumeX, Music2 } from "lucide-react";
+import { Music2, Play } from "lucide-react";
 import { useLocale } from "@/components/LocaleContext";
 
 export default function HistoryMusicPlayer() {
@@ -67,7 +67,7 @@ export default function HistoryMusicPlayer() {
             <span className="w-1 bg-gray-800 rounded-full h-4/5 animate-music-bar-4"></span>
           </div>
         ) : (
-          <VolumeX size={24} className="text-gray-500" />
+          <Play size={24} className="text-gray-500" />
         )}
       </button>
     </div>

@@ -25,6 +25,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useLocale } from "@/components/LocaleContext";
+import { RollingGallery } from "@/components/ui/rolling-gallery";
 
 /* ─────────────────────────────── helpers ─────────────────────────────── */
 
@@ -799,7 +800,7 @@ export default function CreatePlanPage() {
           <>
             {/* ── Loading State ── */}
             {isGenerating && (
-              <div className="flex-1 flex items-center justify-center px-6 py-12">
+              <div className="flex flex-col items-center justify-center px-6 py-12 h-screen">
                 <div className="flex flex-col items-center gap-6 max-w-md text-center">
                   {/* Animated spinner */}
                   <div className="relative w-24 h-24">
@@ -831,6 +832,11 @@ export default function CreatePlanPage() {
                       {t(`createPlan.loadingMessages.${loadingMsgIndex}`)}
                     </p>
                   </div>
+                </div>
+
+                {/* Rolling image gallery shown while AI generates the plan */}
+                <div className="w-full mt-4">
+                  <RollingGallery autoplay={true} pauseOnHover={true} />
                 </div>
               </div>
             )}

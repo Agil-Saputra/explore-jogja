@@ -34,7 +34,7 @@ export default function DiscoverPage() {
             </h1>
 
             <div>
-              <div className="flex flex-col items-center justify-end mb-16 relative px-4 absolute -bottom-10 right-0">
+              <div className="flex flex-col items-center justify-end mb-16 relative px-4 absolute -bottom-10 right-">
                 <p className="font-caveat text-2xl max-w-lg text-center uppercase leading-snug font-semibold text-gray-800">
                   {t("discover.heroText")}
                 </p>
@@ -63,57 +63,68 @@ export default function DiscoverPage() {
                 </div>
               </div>
 
-              <div id="discover-categories" className="flex flex-wrap gap-3">
+              <div id="discover-categories" className="flex flex-wrap gap-3 lg:w-[90%]">
                 <Link
                   href="/discover/accommodation"
-                  className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
+                  className="group flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
-                  <Bed size={18} /> {t("discover.categories.accommodation")}
-                </Link>
-                <Link
-                  href="/discover/activities"
-                  className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
-                >
-                  <Navigation size={18} /> {t("discover.categories.activities")}
+                  <span className="transition-transform duration-300 group-hover:rotate-[15deg] group-hover:scale-125 inline-flex">
+                    <Bed size={18} />
+                  </span>
+                  {t("discover.categories.accommodation")}
                 </Link>
                 <Link
                   href="/discover/top-attractions"
-                  className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
+                  className="group flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
-                  <MapPin size={18} fill="black" />{" "}
+                  <span className="transition-transform duration-300 group-hover:rotate-[15deg] group-hover:scale-125 inline-flex">
+                    <MapPin size={18} />
+                  </span>
                   {t("discover.categories.topAttractions")}
                 </Link>
                 <Link
                   href="/events"
-                  className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
+                  className="group flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
-                  <Calendar size={18} /> {t("discover.categories.events")}
+                  <span className="transition-transform duration-300 group-hover:rotate-[15deg] group-hover:scale-125 inline-flex">
+                    <Calendar size={18} />
+                  </span>
+                  {t("discover.categories.events")}
                 </Link>
                 <Link
                   href="/discover/food-and-drink"
-                  className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
+                  className="group flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
-                  <Utensils size={18} fill="black" />{" "}
+                  <span className="transition-transform duration-300 group-hover:rotate-[15deg] group-hover:scale-125 inline-flex">
+                    <Utensils size={18} />
+                  </span>
                   {t("discover.categories.foodAndDrink")}
                 </Link>
                 <Link
                   href="/discover/trekking-and-hiking"
-                  className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
+                  className="group flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
-                  <Footprints size={18} />{" "}
+                  <span className="transition-transform duration-300 group-hover:rotate-[15deg] group-hover:scale-125 inline-flex">
+                    <Footprints size={18} />
+                  </span>
                   {t("discover.categories.trekkingAndHiking")}
                 </Link>
                 <Link
                   href="/discover/beaches"
-                  className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
+                  className="group flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
-                  <Waves size={18} /> {t("discover.categories.beaches")}
+                  <span className="transition-transform duration-300 group-hover:rotate-[15deg] group-hover:scale-125 inline-flex">
+                    <Waves size={18} />
+                  </span>
+                  {t("discover.categories.beaches")}
                 </Link>
                 <Link
                   href="/discover/aesthetic-cafes"
-                  className="flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
+                  className="group flex items-center gap-2 bg-[#EFEFEF] hover:bg-gray-200 rounded-lg px-4 py-2.5 transition-colors font-medium text-[15px]"
                 >
-                  <Bird size={18} fill="black" />{" "}
+                  <span className="transition-transform duration-300 group-hover:rotate-[15deg] group-hover:scale-125 inline-flex">
+                    <Bird size={18} />
+                  </span>
                   {t("discover.categories.aestheticCafes")}
                 </Link>
               </div>
@@ -127,7 +138,7 @@ export default function DiscoverPage() {
             <SlidingImageReveal className="w-full h-full rounded-[1.5rem] overflow-hidden rounded-xl ">
               <video
                 src="/assets/jogja-aerial-view.mp4"
-                className="md:min-h-[700px] object-cover cursor-none"
+                className="md:min-h-[700px] object-cover"
                 autoPlay
                 loop
                 muted

@@ -264,7 +264,19 @@
     "transportBecakDesc": "Becak tradisional adalah cara menarik untuk menjelajahi kota tua, terutama di sekitar Malioboro dan kawasan Kraton. Sepakati harga sebelum naik — perjalanan pendek biasanya Rp 20.000–40.000.",
     "transportMotorbikeTitle": "Sewa Motor",
     "transportMotorbikeDesc": "Menyewa motor memberi Anda kebebasan paling besar untuk menjelajahi sesuai keinginan. Sewa harian berkisar Rp 70.000–100.000. SIM internasional disarankan. Sempurna untuk jalan-jalan ke pantai dan candi.",
-    "busSchedule": "Jadwal bus"
+    "busSchedule": "Jadwal bus",
+    "bestTimeTitle": "Waktu Terbaik Berkunjung",
+    "bestTimeDesc": "Yogyakarta menyambut wisatawan sepanjang tahun, namun waktu kunjungan bisa sangat memengaruhi keseluruhan pengalaman Anda. Ini yang perlu Anda ketahui di setiap musim.",
+    "bestTimeDryTitle": "Musim Kemarau",
+    "bestTimeDryMonths": "Mei – Oktober",
+    "bestTimeDryDesc": "Waktu terbaik untuk berkunjung. Langit cerah, hujan minimal, dan kondisi sempurna untuk eksplorasi candi, trekking, dan jalan-jalan ke pantai. Siap-siap lebih ramai saat libur sekolah Juli–Agustus.",
+    "bestTimeWetTitle": "Musim Hujan",
+    "bestTimeWetMonths": "November – April",
+    "bestTimeWetDesc": "Alam yang hijau dan subur dengan wisatawan lebih sedikit. Hujan biasanya turun singkat di sore hari. Waktu tepat untuk menikmati acara budaya dan pengalaman indoor — jangan lupa bawa payung.",
+    "bestTimePeakTitle": "Festival Ramai",
+    "bestTimePeakMonths": "Maret, Juni & Desember",
+    "bestTimePeakDesc": "Saksikan festival Sekaten di dekat Keraton, Pekan Seni Jogja di bulan Juni, atau perayaan akhir tahun. Pesan akomodasi lebih awal — periode ini cepat penuh.",
+    "bestTimeTip": "💡 Tips: Kunjungi Jogja antara Mei hingga Juni untuk momen terbaik — cuaca kering tanpa keramaian puncak liburan Juli–Agustus."
   },
   "createPlan": {
     "monthNames": [

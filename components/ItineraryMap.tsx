@@ -118,7 +118,7 @@ async function fetchRouteGeometry(
 
   const coords = destinations
     .map((d) => `${d.lng},${d.lat}`)
-    .join(",");
+    .join(";");
 
   try {
     const res = await fetch(
@@ -191,7 +191,8 @@ export default function ItineraryMap({
     const map = mapRef.current;
     if (!map) return;
 
-    // Wait for map style to load
+    let cancelled = false;
+
     const updateMap = async () => {
       // Clear existing markers & popups
       markersRef.current.forEach((m) => m.remove());
@@ -199,7 +200,7 @@ export default function ItineraryMap({
       popupsRef.current.forEach((p) => p.remove());
       popupsRef.current = [];
 
-      // Remove existing route layer & source
+      // Remove existing route layers & source
       if (map.getLayer("route-line")) map.removeLayer("route-line");
       if (map.getLayer("route-line-border")) map.removeLayer("route-line-border");
       if (map.getSource("route")) map.removeSource("route");
@@ -245,28 +246,29 @@ export default function ItineraryMap({
         });
       }
 
-      // Fetch and draw route
-      const geometry = await fetchRouteGeometry(destinations, MAPBOX_TOKEN);
+      if (destinations.length < 2) return;
 
-      if (geometry && map.getSource("route") === undefined) {
+      // Helper: add route source + layers
+      const addRouteLayers = (
+        geometry: GeoJSON.LineString,
+        dashed = false
+      ) => {
+        // Safety — remove if somehow still present after the async gap
+        if (map.getLayer("route-line")) map.removeLayer("route-line");
+        if (map.getLayer("route-line-border")) map.removeLayer("route-line-border");
+        if (map.getSource("route")) map.removeSource("route");
+
         map.addSource("route", {
           type: "geojson",
-          data: {
-            type: "Feature",
-            properties: {},
-            geometry,
-          },
+          data: { type: "Feature", properties: {}, geometry },
         });
 
-        // Border (wider, darker line underneath)
+        // Border (wider, semi-transparent glow underneath)
         map.addLayer({
           id: "route-line-border",
           type: "line",
           source: "route",
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
+          layout: { "line-join": "round", "line-cap": "round" },
           paint: {
             "line-color": color,
             "line-width": 6,
@@ -275,74 +277,51 @@ export default function ItineraryMap({
         });
 
         // Main route line
-        map.addLayer({
-          id: "route-line",
-          type: "line",
-          source: "route",
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
-          paint: {
-            "line-color": color,
-            "line-width": 3,
-            "line-opacity": 0.85,
-          },
-        });
-      } else if (!geometry && destinations.length >= 2) {
-        // Fallback: draw straight lines if Directions API fails
-        const coordinates = destinations.map((d) => [d.lng, d.lat] as [number, number]);
-
-        map.addSource("route", {
-          type: "geojson",
-          data: {
-            type: "Feature",
-            properties: {},
-            geometry: {
-              type: "LineString",
-              coordinates,
-            },
-          },
-        });
-
-        map.addLayer({
-          id: "route-line-border",
-          type: "line",
-          source: "route",
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
-          paint: {
-            "line-color": color,
-            "line-width": 6,
-            "line-opacity": 0.25,
-          },
-        });
+        const mainPaint: mapboxgl.LinePaint = {
+          "line-color": color,
+          "line-width": 3,
+          "line-opacity": 0.85,
+        };
+        if (dashed) {
+          mainPaint["line-dasharray"] = [2, 2];
+        }
 
         map.addLayer({
           id: "route-line",
           type: "line",
           source: "route",
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
-          paint: {
-            "line-color": color,
-            "line-width": 3,
-            "line-opacity": 0.85,
-            "line-dasharray": [2, 2],
-          },
+          layout: { "line-join": "round", "line-cap": "round" },
+          paint: mainPaint,
         });
+      };
+
+      // Fetch real driving route from Mapbox Directions API
+      const geometry = await fetchRouteGeometry(destinations, MAPBOX_TOKEN);
+
+      // Bail out if this effect was superseded (day changed while we were fetching)
+      if (cancelled) return;
+
+      if (geometry) {
+        // Road-following route ✓
+        addRouteLayers(geometry, false);
+      } else {
+        // Fallback: straight lines between points (dashed to indicate approximation)
+        const coordinates = destinations.map(
+          (d) => [d.lng, d.lat] as [number, number]
+        );
+        addRouteLayers({ type: "LineString", coordinates }, true);
       }
     };
 
     if (map.isStyleLoaded()) {
       updateMap();
     } else {
-      map.on("load", updateMap);
+      map.once("load", updateMap);
     }
+
+    return () => {
+      cancelled = true;
+    };
   }, [destinations, activeDay, color]);
 
   /* ─── Fly to active destination ─── */

@@ -538,6 +538,7 @@ export default function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
           {/* Messages Area - scrollable */}
           <div
+            data-lenis-prevent
             className="flex-1 overflow-y-scroll scroll-smooth"
             style={{ overscrollBehavior: "contain" }}
           >

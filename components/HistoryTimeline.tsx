@@ -72,7 +72,7 @@ const timelineData = [
     year: "1950",
     id: "pembentukanDIY",
     images: [
-      "/assets/lambang-diy.jpg"
+      "/assets/history/1950.jpg"
     ]
   },
   {
@@ -87,24 +87,21 @@ const timelineData = [
     year: "2012",
     id: "uuKeistimewaan",
     images: [
-      "/assets/history/uu-keistimewaan.webp",
-      "/assets/kraton-modern.jpg"
+      "/assets/history/uu-keistimewaan.jpg"
     ]
   },
   {
     year: "2023",
     id: "warisanDunia",
     images: [
-      "/assets/sumbu-filosofi-jogja.jpg",
-      "/assets/unesco-heritage.jpg"
+      "/assets/history/unesco.webp"
     ]
   },
   {
     year: "2026",
     id: "hubKreatif",
     images: [
-      "/assets/coworking-space-2026.jpg",
-      "/assets/tech-community-jogja.jpg"
+      "/assets/history/remote-work.jpeg",
     ]
   }
 ];
@@ -183,7 +180,7 @@ export default function HistoryTimeline() {
       </div>
 
       {/* Timeline Checkpoints */}
-      <div className="relative z-10 w-full flex flex-col pointer-events-none max-md:gap-[20rem]">
+      <div className="relative z-10 w-full flex flex-col pointer-events-none max-md:gap-[13rem]">
         {timelineData.map((data, i) => {
           const isEven = i % 2 === 0;
 

@@ -264,7 +264,19 @@
     "transportBecakDesc": "The traditional becak is a charming way to explore the old city, especially around Malioboro and the Kraton area. Agree on a price before you hop in — short trips usually cost Rp 20,000–40,000.",
     "transportMotorbikeTitle": "By Motorbike Rental",
     "transportMotorbikeDesc": "Renting a motorbike gives you the most freedom to explore at your own pace. Daily rentals cost Rp 70,000–100,000. An international driving permit is recommended. Perfect for day trips to beaches and temples.",
-    "busSchedule": "Bus schedule"
+    "busSchedule": "Bus schedule",
+    "bestTimeTitle": "Best Time to Visit",
+    "bestTimeDesc": "Yogyakarta welcomes visitors year-round, but the timing of your trip can shape your entire experience. Here's what to expect in each season.",
+    "bestTimeDryTitle": "Dry Season",
+    "bestTimeDryMonths": "May – October",
+    "bestTimeDryDesc": "The best time to visit. Clear skies, minimal rain, and perfect conditions for outdoor temple exploration, trekking, and beach trips. Expect larger crowds during July–August school holidays.",
+    "bestTimeWetTitle": "Wet Season",
+    "bestTimeWetMonths": "November – April",
+    "bestTimeWetDesc": "Lush green landscapes and fewer tourists. Showers are typically short bursts in the afternoon. A great time for cultural events and indoor experiences — just pack an umbrella.",
+    "bestTimePeakTitle": "Peak Festivals",
+    "bestTimePeakMonths": "March, June & December",
+    "bestTimePeakDesc": "Catch the Sekaten festival near Keraton, Jogja Art Weeks in June, or the year-end countdown celebrations. Book accommodation early — these periods fill up fast.",
+    "bestTimeTip": "💡 Pro tip: Visit between May and June for the sweet spot — dry weather without the July–August peak holiday crowds."
   },
   "createPlan": {
     "monthNames": [

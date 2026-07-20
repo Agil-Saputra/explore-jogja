@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, EffectFade } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -10,37 +9,42 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import { useLocale } from "@/components/LocaleContext";
-
 const thingsToDoData = [
   {
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Makam_Raja_Mataram_Kotagede.jpg",
-    title: "Jogja Heritage Track & Kotagede Walk",
+    image: "/assets/jogjaheritage.jpeg",
+    title: "Jogja Heritage Track",
     description:
-      "Hop on the free electric Jogja Heritage Track bus along the philosophical axis linking Tugu Monument to the Kraton, then wander into Kotagede's old silver district on foot. Travelers who've done the walking-tour version rave about getting genuinely lost in the kampung's narrow alleys with a local guide who treats it more like showing a friend around than reciting a script...",
+      "Hop on the free electric Jogja Heritage Track bus along the philosophical axis linking Tugu Monument to the Kraton. The route traces the symbolic line the Sultan's ancestors laid out centuries ago, connecting sea, palace, and volcano in one straight cosmological line. Riders get a slow, open-air pass through some of the city's oldest quarters — colonial shopfronts, batik workshops, and quiet lanes near the palace walls — with a driver-guide who points out landmarks most visitors would otherwise walk straight past. It's a low-effort way to get your bearings on Yogyakarta's history before diving into the busier sights on foot.",
   },
   {
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Disaster_tourism_merapi.jpg",
+    image: "/assets/kotagede.webp",
+    title: "Kotagede Walk",
+    description:
+      "Wander into Kotagede's old silver district on foot. Travelers who've done the walking-tour version rave about getting genuinely lost in the kampung's narrow alleys with a local guide who treats it more like showing a friend around than reciting a script. Kotagede was once the capital of the Mataram Sultanate, and the walk winds past crumbling Dutch-era houses, hidden royal tombs, and courtyards where silver has been worked for generations. Expect stops for street snacks, chats with residents on their porches, and the occasional peek into a family workshop still hammering out heirloom jewelry the old way.",
+  },
+  {
+    image: "/assets/merapi-lava-tour.jpeg",
     title: "Merapi Lava Tour by Jeep",
     description:
-      "Climb into a vintage open-top Willys jeep and get rattled up the ash-grey slopes of an active volcano before sunrise. Reviewers consistently describe it as dusty, bumpy, and genuinely tiring on the body — and then say watching the sunrise from above the clouds at the crater's edge made every bruise worth it...",
+      "Climb into a vintage open-top Willys jeep and get rattled up the ash-grey slopes of an active volcano before sunrise. Reviewers consistently describe it as dusty, bumpy, and genuinely tiring on the body — and then say watching the sunrise from above the clouds at the crater's edge made every bruise worth it. The route passes buried ruins from the 2010 eruption, including a preserved cow skeleton and a house half-swallowed by lava, offering a sobering counterpoint to the views. Bring a scarf for the ash, a jacket for the pre-dawn chill, and a driver who probably knows every rut in the road by heart.",
   },
   {
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Pindul_Cave,_Indonesia.JPG",
+    image: "/assets/cave-tubing.jpg",
     title: "Cave Tubing at Goa Pindul",
     description:
-      "Float on an inner tube through a 300-metre limestone cave on the back of an underground river, guided by a local who literally paddles you along with his legs. People who've tried it talk about drifting past ancient stalactites in near-total darkness before the guide cuts the lights completely for a moment of silence...",
+      "Float on an inner tube through a 300-metre limestone cave on the back of an underground river, guided by a local who literally paddles you along with his legs. People who've tried it talk about drifting past ancient stalactites in near-total darkness before the guide cuts the lights completely for a moment of silence, letting the sound of dripping water and the current take over. The cave was reportedly once a hideout used by fugitives, and the mix of history, geology, and quiet drama makes it feel more like an expedition than a theme-park float. Sessions usually run just under an hour and end at a small waterfall where most people jump straight in.",
   },
   {
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Kotagede_silversmiths.jpg",
+    image: "/assets/perak-kotagede.avif",
     title: "Kotagede Silversmithing Workshop",
     description:
-      "Slip into the backstreets of Kotagede to sit with a family of silversmiths and hammer, shape, and polish your own ring or pendant from 925 silver. Visitors who've taken the short course describe it less as a demonstration and more as being handed the tools and guided through nearly every step yourself...",
+      "Slip into the backstreets of Kotagede to sit with a family of silversmiths and hammer, shape, and polish your own ring or pendant from 925 silver. Visitors who've taken the short course describe it less as a demonstration and more as being handed the tools and guided through nearly every step yourself, from melting and casting to the final polish. The craft has been passed down through generations here since the Mataram Sultanate era, and workshops are usually run out of the family's own home rather than a storefront. Most people leave with a rough but genuinely handmade piece — and a much better sense of why Kotagede silver has the reputation it does.",
   },
   {
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tebing_Breksi_in_the_afternoon.jpg",
+    image: "/assets/tebing-breksi.jpg",
     title: "Tebing Breksi Limestone Cliffs",
     description:
-      "Climb the carved terraces of a former volcanic-breccia quarry turned open-air amphitheater on Yogyakarta's eastern edge. What was once a mining site is now known among locals as one of the best free sunset spots around, with hand-cut stone reliefs and sweeping views over the Prambanan plain...",
+      "Climb the carved terraces of a former volcanic-breccia quarry turned open-air amphitheater on Yogyakarta's eastern edge. What was once a mining site is now known among locals as one of the best free sunset spots around, with hand-cut stone reliefs and sweeping views over the Prambanan plain. Quarrying stopped once geologists realized the rock had historic value, and since then the site's been reshaped into terraced viewpoints, small pavilions, and photo spots carved directly into the cliff face. It pairs well with a stop at nearby Candi Ijo or Prambanan temple, both a short drive away, making it an easy add-on to an eastern Yogyakarta day trip.",
   },
 ];
 export default function ThingsToDo() {
@@ -102,13 +106,10 @@ export default function ThingsToDo() {
             {thingsToDoData.map((item, idx) => (
               <SwiperSlide key={idx}>
                 <div className="relative w-full aspect-[16/8] md:aspect-[16/7] min-h-[400px] md:min-h-[500px]">
-                  <Image
+                  <img
                     src={item.image}
                     alt={item.title}
-                    fill
-                    sizes="100vw"
-                    className="object-cover"
-                    priority={idx === 0}
+                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                   />
                   {/* Subtle overlay for legibility at bottom */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
@@ -122,13 +123,10 @@ export default function ThingsToDo() {
             <h4 className="text-xl md:text-2xl font-bold mb-2 font-jakarta">
               {current.title}
             </h4>
-            <p className="text-gray-600 text-sm md:text-[15px] leading-relaxed mb-5 line-clamp-3">
+            <p className="text-gray-600 text-sm md:text-[15px] leading-relaxed mb-4">
               {current.description}
             </p>
             <div className="flex items-center justify-between">
-              <button className="bg-gray-900 hover:bg-black text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors">
-                {t("thingsToDo.viewDetails")}
-              </button>
               <div className="flex items-center gap-2">
                 <button
                   onClick={goPrev}

@@ -338,6 +338,26 @@ export async function getTrekkingBySlug(
   return all.find((p) => slugify(p.name) === slug) ?? null;
 }
 
+// ─── Top Attractions ──────────────────────────────────────────────────────────
+
+export async function getTopAttractions(): Promise<PlaceResult[]> {
+  const results = await textSearch(
+    "tempat wisata terbaik Yogyakarta top attractions",
+    50
+  );
+  const detailsList = await Promise.all(
+    results.map((r) => placeDetails(r.place_id))
+  );
+  return results.map((raw, i) => normaliseCafe(raw, detailsList[i]));
+}
+
+export async function getAttractionBySlug(
+  slug: string
+): Promise<PlaceResult | null> {
+  const all = await getTopAttractions();
+  return all.find((p) => slugify(p.name) === slug) ?? null;
+}
+
 // ─── Slugify (mirrors the one in DiscoverListingLayout) ──────────────────────
 
 export function slugify(name: string): string {

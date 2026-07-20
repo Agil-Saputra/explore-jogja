@@ -59,7 +59,7 @@ function normalize(places: RawPlace[]): StaticPlace[] {
       mainImage: ensureAbsoluteUrl(p["Main Image"] || p.MainImage || FALLBACK_IMAGE),
       categories: p.Categories || "",
       // Local data uses comma decimal separator ("4,5") — convert to dot for consistency
-      averageRating: (p["Average Rating"] || "N/A").replace(",", "."),
+      averageRating: String(p["Average Rating"] || "N/A").replace(",", "."),
       fullAddress: p.Fulladdress || "",
       phone: p.Phone || "",
       website: p.Website || "",

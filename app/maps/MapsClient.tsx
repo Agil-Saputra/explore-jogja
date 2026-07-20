@@ -39,7 +39,7 @@ const ICONS: Record<string, IconComponent> = {
   Cafe: Coffee,
   Restaurant: Utensils,
   Beach: Waves,
-  Wisata: Compass,
+  Attractions: Compass,
   Trekking: Compass,
 };
 
@@ -48,7 +48,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   Cafe: "#F59E0B",
   Restaurant: "#EF4444",
   Beach: "#0EA5E9",
-  Wisata: "#10B981",
+  Attractions: "#10B981",
   Trekking: "#10B981",
 };
 
@@ -58,7 +58,7 @@ const CATEGORY_PATH: Record<string, string> = {
   Restaurant: "/discover/food-and-drink",
   Beach: "/discover/beaches",
   Trekking: "/discover/trekking-and-hiking",
-  Wisata: "/discover/top-attractions",
+  Attractions: "/discover/top-attractions",
 };
 
 function slugify(name: string): string {
@@ -358,8 +358,8 @@ export default function MapsClient({ features }: MapsClientProps) {
             CATEGORY_COLORS.Restaurant,
             "Beach",
             CATEGORY_COLORS.Beach,
-            "Wisata",
-            CATEGORY_COLORS.Wisata,
+            "Attractions",
+            CATEGORY_COLORS.Attractions,
             "Trekking",
             CATEGORY_COLORS.Trekking,
             "#111111",

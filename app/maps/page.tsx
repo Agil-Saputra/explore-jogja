@@ -81,7 +81,7 @@ async function MapsFetcher() {
     ...buildFeatures(settled(beaches, staticBeaches), "Beach"),
     ...buildFeatures(settled(foodDrink, staticFoodAndDrink), "Restaurant"),
     ...buildFeatures(settled(trekking, staticTrekking), "Trekking"),
-    ...buildFeatures(settled(topAttractions, staticTopAttractions), "Wisata"),
+    ...buildFeatures(settled(topAttractions, staticTopAttractions), "Attractions"),
   ];
 
   return <MapsClient features={features} />;

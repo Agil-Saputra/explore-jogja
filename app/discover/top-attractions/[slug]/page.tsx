@@ -4,16 +4,16 @@ import PlaceDetailLayout, {
   type CategoryMeta,
 } from "@/components/PlaceDetailLayout";
 import {
-  getAccommodations,
+  getTopAttractions,
   slugify,
   type PlaceResult,
 } from "@/lib/googlePlaces";
 import PlaceDetailLayoutSkeleton from "@/components/PlaceDetailLayoutSkeleton";
-import staticAccommodations from "@/data/accomodation";
+import topAttractionsData from "@/data/topAttractions";
 
 /* ─── Static data mapper → PlaceResult ──────────────────────── */
 function mapStatic(
-  raw: (typeof staticAccommodations)[number]
+  raw: (typeof topAttractionsData)[number]
 ): PlaceResult {
   return {
     placeId: raw["Place Id"] ?? "",
@@ -23,7 +23,9 @@ function mapStatic(
     categories: raw.Categories ?? "",
     phone: raw.Phone ?? null,
     reviewCount: raw["Review Count"] ?? null,
-    averageRating: String(raw["Average Rating"]).replace(",", "."),
+    averageRating: raw["Average Rating"]
+      ? String(raw["Average Rating"]).replace(",", ".")
+      : "N/A",
     priceLevel: null,
     googleMapsUrl: raw["Google Maps URL"] ?? "",
     latitude: raw.Latitude,
@@ -35,7 +37,7 @@ function mapStatic(
       name: r.name,
       review: r.review,
     })),
-    description: raw.description ?? "",
+    description: raw.Name,
   };
 }
 
@@ -61,28 +63,32 @@ function toPlaceItem(p: PlaceResult): PlaceItem {
 
 /* ─── Category metadata ──────────────────────────────────────── */
 const category: CategoryMeta = {
-  backLabel: "All Accommodation",
-  backHref: "/discover/accommodation",
-  otherTitle: "Other Places to Stay",
+  backLabel: "All Top Attractions",
+  backHref: "/discover/top-attractions",
+  otherTitle: "Other Attractions",
   otherDescription:
-    "More great accommodations to explore in Yogyakarta — from boutique hotels to cozy guesthouses near the city\u2019s top attractions.",
-  ctaLabel: "Accommodation",
-  basePath: "/discover/accommodation",
-  singularLabel: "Accommodation",
-  reviewsHeading: "What Guests Say",
-  reviewsNoun: "accommodation",
+    "More iconic destinations across Yogyakarta — from ancient temples and royal palaces to natural wonders and cultural landmarks.",
+  ctaLabel: "Top Attractions",
+  basePath: "/discover/top-attractions",
+  singularLabel: "Attraction",
+  reviewsHeading: "What Visitors Say",
+  reviewsNoun: "attraction",
 };
 
 /* ─── Async data-fetching component ─────────────────────────── */
-async function AccommodationDetailFetcher({ params }: { params: Promise<{ slug: string }> }) {
+async function AttractionDetailFetcher({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
 
   let places: PlaceResult[];
   try {
-    places = await getAccommodations();
+    places = await getTopAttractions();
     if (!places || places.length === 0) throw new Error("Empty API response");
   } catch {
-    places = staticAccommodations.map(mapStatic);
+    places = topAttractionsData.map(mapStatic);
   }
 
   const allItems = places.map(toPlaceItem);
@@ -90,15 +96,15 @@ async function AccommodationDetailFetcher({ params }: { params: Promise<{ slug: 
   return <PlaceDetailLayout item={item} allItems={allItems} category={category} />;
 }
 
-/* ─── Page shell — renders immediately on navigation ─────────── */
-export default function AccommodationDetailPage({
+/* ─── Page shell ─────────────────────────────────────────────── */
+export default function AttractionDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   return (
     <Suspense fallback={<PlaceDetailLayoutSkeleton />}>
-      <AccommodationDetailFetcher params={params} />
+      <AttractionDetailFetcher params={params} />
     </Suspense>
   );
 }

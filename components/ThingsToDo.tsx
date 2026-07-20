@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, EffectFade } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -11,7 +12,7 @@ import "swiper/css/effect-fade";
 import { useLocale } from "@/components/LocaleContext";
 const thingsToDoData = [
   {
-    image: "/assets/jogjaheritage.jpeg",
+    image: "/assets/jogjaheritage.webp",
     title: "Jogja Heritage Track",
     description:
       "Hop on the free electric Jogja Heritage Track bus along the philosophical axis linking Tugu Monument to the Kraton. The route traces the symbolic line the Sultan's ancestors laid out centuries ago, connecting sea, palace, and volcano in one straight cosmological line. Riders get a slow, open-air pass through some of the city's oldest quarters — colonial shopfronts, batik workshops, and quiet lanes near the palace walls — with a driver-guide who points out landmarks most visitors would otherwise walk straight past. It's a low-effort way to get your bearings on Yogyakarta's history before diving into the busier sights on foot.",
@@ -106,10 +107,12 @@ export default function ThingsToDo() {
             {thingsToDoData.map((item, idx) => (
               <SwiperSlide key={idx}>
                 <div className="relative w-full aspect-[16/8] md:aspect-[16/7] min-h-[400px] md:min-h-[500px]">
-                  <img
+                  <Image
                     src={item.image}
                     alt={item.title}
-                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
+                    className="object-cover"
                   />
                   {/* Subtle overlay for legibility at bottom */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />

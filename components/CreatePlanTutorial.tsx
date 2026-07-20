@@ -10,7 +10,7 @@ import {
   Step,
   EventData,
 } from "react-joyride";
-import { RotateCcw } from "lucide-react";
+
 import { createTutorialTooltip } from "@/components/TutorialTooltip";
 
 const TOUR_STORAGE_KEY = "create-plan-tour-completed";
@@ -175,13 +175,7 @@ export default function CreatePlanTutorial({ onWizardStepChange }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // intentionally run once on mount
 
-  const restartTour = useCallback(() => {
-    setShouldRun(false);
-    setTourStep(0);
-    setShowRestartButton(false);
-    onWizardStepChange(1);
-    setTimeout(() => setShouldRun(true), 100);
-  }, [onWizardStepChange]);
+
 
   return (
     <>

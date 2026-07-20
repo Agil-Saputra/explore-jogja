@@ -416,7 +416,9 @@
       "cafe": "Kafe",
       "restaurant": "Restoran",
       "beach": "Pantai",
-      "trekking": "Trekking"
+      "trekking": "Trekking",
+      "attractions": "Top Attractions"
+      
     },
     "searchPlaceholder": "Cari tempat...",
     "findingYou": "Mencari lokasi Anda...",

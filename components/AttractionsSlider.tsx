@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLocale } from "@/components/LocaleContext";
 import { useHorizontalGalleryScroll } from "@/app/hooks/useHorizontalGalleryScroll";
@@ -69,12 +70,12 @@ export default function AttractionsSlider() {
               <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold font-jakarta text-gray-900">
                 {t("attractionsSlider.title")}
               </h2>
-              <a
+              <Link
                 href="/discover/top-attractions"
                 className="inline-flex items-center gap-1 border-2 border-gray-900 rounded-full px-4 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-900 hover:text-white transition-colors mb-1 whitespace-nowrap"
               >
                 {t("attractionsSlider.viewAll")}
-              </a>
+              </Link>
               <div className="flex flex-col items-center justify-end mb-16 px-4 absolute -bottom-8 -right-6 z-[90]">
                 <p className="font-caveat text-2xl text-center uppercase leading-snug font-semibold text-gray-800 max-w-[20ch]">
                   {t("attractionsSlider.decorativeText")}

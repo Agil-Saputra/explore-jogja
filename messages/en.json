@@ -416,7 +416,8 @@
       "cafe": "Cafe",
       "restaurant": "Restaurant",
       "beach": "Beach",
-      "trekking": "Trekking"
+      "trekking": "Trekking",
+      "attractions": "Top Attractions"
     },
     "searchPlaceholder": "Search places...",
     "findingYou": "Finding you...",

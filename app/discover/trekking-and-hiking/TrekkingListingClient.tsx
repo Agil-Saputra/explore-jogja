@@ -4,6 +4,7 @@ import { PlaceResult } from "@/lib/googlePlaces";
 import DiscoverListingLayout, {
   ListingItem,
 } from "@/app/components/DiscoverListingLayout";
+import trekkingFallback from "@/data/trekking";
 
 interface TrekkingListingClientProps {
   places: PlaceResult[];
@@ -12,17 +13,31 @@ interface TrekkingListingClientProps {
 export default function TrekkingListingClient({
   places,
 }: TrekkingListingClientProps) {
-  const items: ListingItem[] = places.map((place) => ({
-    id: place.placeId,
-    name: place.name,
-    street: place.street,
-    fullAddress: place.fullAddress,
-    categories: place.categories || null,
-    averageRating: place.averageRating,
-    reviewCount: place.reviewCount,
-    priceLevel: place.priceLevel,
-    mainImage: place.mainImage,
-  }));
+  const hasApiData = places && places.length > 0;
+
+  const items: ListingItem[] = hasApiData
+    ? places.map((place) => ({
+        id: place.placeId,
+        name: place.name,
+        street: place.street,
+        fullAddress: place.fullAddress,
+        categories: place.categories || null,
+        averageRating: place.averageRating,
+        reviewCount: place.reviewCount,
+        priceLevel: place.priceLevel,
+        mainImage: place.mainImage,
+      }))
+    : trekkingFallback.map((place) => ({
+        id: place["Place Id"],
+        name: place["Name"],
+        street: place["Street"] ?? null,
+        fullAddress: place["Fulladdress"] ?? null,
+        categories: place["Categories"] ?? null,
+        averageRating: place["Average Rating"] ?? null,
+        reviewCount: place["Review Count"] ?? null,
+        priceLevel: null,
+        mainImage: place["Main Image"] ?? null,
+      }));
 
   return (
     <DiscoverListingLayout

@@ -5,6 +5,35 @@ import PlaceDetailLayout, {
   type CategoryMeta,
 } from "@/components/PlaceDetailLayout";
 import PlaceDetailLayoutSkeleton from "@/components/PlaceDetailLayoutSkeleton";
+// cafes.js uses module.exports — resolved via CJS interop
+import staticCafes from "@/data/cafes";
+
+// ─── Static data mapper → CafePlace ──────────────────────────────────────────
+// Note: cafes.js uses MainImage / AdditionalImages (no spaces, unlike other files)
+function mapStatic(raw: (typeof staticCafes)[number]): CafePlace {
+  return {
+    placeId: raw["Place Id"] ?? "",
+    name: raw.Name,
+    fullAddress: raw.Fulladdress,
+    street: raw.Street,
+    categories: raw.Categories ?? "",
+    phone: raw.Phone ?? null,
+    reviewCount: raw["Review Count"] ?? null,
+    averageRating: String(raw["Average Rating"]).replace(",", "."),
+    priceLevel: null,
+    googleMapsUrl: raw["Google Maps URL"] ?? "",
+    latitude: raw.Latitude,
+    longitude: raw.Longitude,
+    website: raw.Website ?? null,
+    mainImage: raw.MainImage ?? "",
+    additionalImages: raw.AdditionalImages ?? [],
+    reviews: (raw["Top 5 Reviews"] ?? []).map((r) => ({
+      name: r.name,
+      review: r.review,
+    })),
+    description: raw.description ?? "",
+  };
+}
 
 // ─── Normaliser: CafePlace → PlaceItem ───────────────────────────────────────
 function toPlaceItem(c: CafePlace): PlaceItem {
@@ -43,7 +72,15 @@ const category: CategoryMeta = {
 // ─── Async data-fetching component ───────────────────────────────────────────
 async function CafeDetailFetcher({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const cafes = await getAestheticCafes();
+
+  let cafes: CafePlace[];
+  try {
+    cafes = await getAestheticCafes();
+    if (!cafes || cafes.length === 0) throw new Error("Empty API response");
+  } catch {
+    cafes = staticCafes.map(mapStatic);
+  }
+
   const allItems = cafes.map(toPlaceItem);
   const item = allItems.find((i) => slugify(i.name) === slug) ?? null;
   return <PlaceDetailLayout item={item} allItems={allItems} category={category} />;

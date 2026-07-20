@@ -103,12 +103,20 @@ export default function DiscoverListingLayout({
     [items]
   );
 
+  // Normalise categories: accepts string or string[] (runtime safety)
+  const normCategories = (raw: unknown): string | null => {
+    if (!raw) return null;
+    if (Array.isArray(raw)) return raw.join(", ");
+    return String(raw);
+  };
+
   // Collect unique categories
   const allCategories = useMemo(() => {
     const catSet = new Set<string>();
     items.forEach((item) => {
-      if (item.categories) {
-        item.categories.split(",").forEach((c) => catSet.add(c.trim()));
+      const cat = normCategories(item.categories);
+      if (cat) {
+        cat.split(",").forEach((c) => catSet.add(c.trim()));
       }
     });
     return ["All", ...Array.from(catSet).sort()];
@@ -120,14 +128,12 @@ export default function DiscoverListingLayout({
 
     // Category filter
     if (activeFilter !== "All") {
-      result = result.filter((item) =>
-        item.categories
-          ? item.categories
-              .split(",")
-              .map((c) => c.trim())
-              .includes(activeFilter)
-          : false,
-      );
+      result = result.filter((item) => {
+        const cat = normCategories(item.categories);
+        return cat
+          ? cat.split(",").map((c) => c.trim()).includes(activeFilter)
+          : false;
+      });
     }
 
     // Price level filter
@@ -362,9 +368,8 @@ export default function DiscoverListingLayout({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {visibleItems.map((item, index) => {
             const slug = slugify(item.name);
-            const tags = item.categories
-              ? item.categories.split(",").map((c) => c.trim())
-              : [];
+            const cat = normCategories(item.categories);
+            const tags = cat ? cat.split(",").map((c) => c.trim()) : [];
             const rating = item.averageRating
               ? item.averageRating.replace(",", ".")
               : null;

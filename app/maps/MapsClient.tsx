@@ -58,6 +58,7 @@ const CATEGORY_PATH: Record<string, string> = {
   Restaurant: "/discover/food-and-drink",
   Beach: "/discover/beaches",
   Trekking: "/discover/trekking-and-hiking",
+  Wisata: "/discover/top-attractions",
 };
 
 function slugify(name: string): string {
@@ -538,6 +539,7 @@ export default function MapsClient({ features }: MapsClientProps) {
     "Restaurant",
     "Beach",
     "Trekking",
+    "Attractions",
   ];
 
   return (

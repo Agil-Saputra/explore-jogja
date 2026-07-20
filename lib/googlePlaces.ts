@@ -74,6 +74,15 @@ export interface CafePlace {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+/**
+ * Ensure a URL is absolute. Google's APIs can return protocol-relative URLs
+ * (e.g. "//lh3.googleusercontent.com/...") which next/image rejects.
+ */
+function ensureAbsoluteUrl(url: string): string {
+  if (url.startsWith("//")) return `https:${url}`;
+  return url;
+}
+
 /** Build a Places photo URL from a photo_reference. */
 function photoUrl(ref: string, maxWidth = 1080): string {
   return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxWidth}&photo_reference=${ref}&key=${API_KEY}`;
@@ -193,8 +202,8 @@ function normaliseCafe(
     latitude: src.geometry.location.lat,
     longitude: src.geometry.location.lng,
     website: det?.website ?? null,
-    mainImage: mainRef ? photoUrl(mainRef) : "",
-    additionalImages: additionalRefs.map((ref) => photoUrl(ref)),
+    mainImage: mainRef ? ensureAbsoluteUrl(photoUrl(mainRef)) : "",
+    additionalImages: additionalRefs.map((ref) => ensureAbsoluteUrl(photoUrl(ref))),
     reviews: rawReviews.slice(0, 5).map((rv) => ({
       name: rv.author_name,
       review: rv.text,
@@ -237,7 +246,7 @@ export async function findPlacePhotos(
     const photos: { photo_reference: string }[] = candidate.photos ?? [];
     return photos
       .slice(0, maxPhotos)
-      .map((p) => photoUrl(p.photo_reference, 800));
+      .map((p) => ensureAbsoluteUrl(photoUrl(p.photo_reference, 800)));
   } catch {
     return [];
   }

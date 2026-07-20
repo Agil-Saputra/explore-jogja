@@ -9,8 +9,35 @@ import {
   type PlaceResult,
 } from "@/lib/googlePlaces";
 import PlaceDetailLayoutSkeleton from "@/components/PlaceDetailLayoutSkeleton";
+import staticRestaurants from "@/data/foodAndDrink";
 
-/* ─── Normaliser ─────────────────────────────────────────────── */
+/* ─── Static data mapper → PlaceResult ──────────────────────── */
+function mapStatic(raw: (typeof staticRestaurants)[number]): PlaceResult {
+  return {
+    placeId: raw["Place Id"] ?? "",
+    name: raw.Name,
+    fullAddress: raw.Fulladdress,
+    street: raw.Street,
+    categories: raw.Categories ?? "",
+    phone: raw.Phone ?? null,
+    reviewCount: raw["Review Count"] ?? null,
+    averageRating: String(raw["Average Rating"]).replace(",", "."),
+    priceLevel: null,
+    googleMapsUrl: raw["Google Maps URL"] ?? "",
+    latitude: raw.Latitude,
+    longitude: raw.Longitude,
+    website: raw.Website ?? null,
+    mainImage: raw["Main Image"] ?? "",
+    additionalImages: raw["Additional Images"] ?? [],
+    reviews: (raw["Top 5 Reviews"] ?? []).map((r) => ({
+      name: r.name,
+      review: r.review,
+    })),
+    description: raw.description ?? "",
+  };
+}
+
+/* ─── Normaliser: PlaceResult → PlaceItem ────────────────────── */
 function toPlaceItem(p: PlaceResult): PlaceItem {
   return {
     name: p.name,
@@ -47,7 +74,15 @@ const category: CategoryMeta = {
 /* ─── Async data-fetching component ─────────────────────────── */
 async function FoodDrinkDetailFetcher({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const places = await getFoodAndDrink();
+
+  let places: PlaceResult[];
+  try {
+    places = await getFoodAndDrink();
+    if (!places || places.length === 0) throw new Error("Empty API response");
+  } catch {
+    places = staticRestaurants.map(mapStatic);
+  }
+
   const allItems = places.map(toPlaceItem);
   const item = allItems.find((i) => slugify(i.name) === slug) ?? null;
   return <PlaceDetailLayout item={item} allItems={allItems} category={category} />;

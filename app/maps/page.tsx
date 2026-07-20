@@ -13,9 +13,19 @@ import {
   getBeaches,
   getFoodAndDrink,
   getTrekkingAndHiking,
+  getTopAttractions,
 } from "@/lib/googlePlaces";
+import {
+  staticCafes,
+  staticAccommodations,
+  staticBeaches,
+  staticFoodAndDrink,
+  staticTrekking,
+  staticTopAttractions,
+  type StaticPlace,
+} from "@/lib/staticData";
 import MapsClient, { MapFeature } from "./MapsClient";
-import MapsLoadingSkeleton from "./loading";  
+import MapsLoadingSkeleton from "./loading";
 
 
 const FALLBACK_IMAGE =
@@ -25,21 +35,23 @@ const FALLBACK_IMAGE =
 // Suspended by the <Suspense> boundary below; renders only after all fetches
 // resolve. The parent page shell is sent to the browser immediately.
 async function MapsFetcher() {
-  const [cafes, accommodations, beaches, foodDrink, trekking] =
+  const [cafes, accommodations, beaches, foodDrink, trekking, topAttractions] =
     await Promise.allSettled([
       getAestheticCafes(),
       getAccommodations(),
       getBeaches(),
       getFoodAndDrink(),
       getTrekkingAndHiking(),
+      getTopAttractions(),
     ]);
 
-  function settled<T>(result: PromiseSettledResult<T[]>): T[] {
-    return result.status === "fulfilled" ? result.value : [];
+  function settled(result: PromiseSettledResult<StaticPlace[]>, fallback: StaticPlace[]): StaticPlace[] {
+    const data = result.status === "fulfilled" ? result.value : [];
+    return data.length > 0 ? data : fallback;
   }
 
   const buildFeatures = (
-    places: Awaited<ReturnType<typeof getAestheticCafes>>,
+    places: StaticPlace[],
     featureType: string,
   ): MapFeature[] =>
     places
@@ -64,11 +76,12 @@ async function MapsFetcher() {
       }));
 
   const features: MapFeature[] = [
-    ...buildFeatures(settled(cafes), "Cafe"),
-    ...buildFeatures(settled(accommodations), "Accommodation"),
-    ...buildFeatures(settled(beaches), "Beach"),
-    ...buildFeatures(settled(foodDrink), "Restaurant"),
-    ...buildFeatures(settled(trekking), "Trekking"),
+    ...buildFeatures(settled(cafes, staticCafes), "Cafe"),
+    ...buildFeatures(settled(accommodations, staticAccommodations), "Accommodation"),
+    ...buildFeatures(settled(beaches, staticBeaches), "Beach"),
+    ...buildFeatures(settled(foodDrink, staticFoodAndDrink), "Restaurant"),
+    ...buildFeatures(settled(trekking, staticTrekking), "Trekking"),
+    ...buildFeatures(settled(topAttractions, staticTopAttractions), "Wisata"),
   ];
 
   return <MapsClient features={features} />;

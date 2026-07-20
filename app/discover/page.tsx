@@ -3,7 +3,6 @@ import React from "react";
 import Link from "next/link";
 import {
   Bed,
-  Navigation,
   MapPin,
   Calendar,
   Utensils,

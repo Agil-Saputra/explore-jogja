@@ -186,45 +186,6 @@ export default function CreatePlanTutorial({ onWizardStepChange }: Props) {
   return (
     <>
       {Tour}
-
-      {showRestartButton && (
-        <button
-          onClick={restartTour}
-          aria-label="Restart create plan tutorial"
-          title="Restart create plan tutorial"
-          style={{
-            position: "fixed",
-            bottom: 24,
-            left: 24,
-            zIndex: 9999,
-            width: 48,
-            height: 48,
-            borderRadius: 14,
-            background: "linear-gradient(135deg, #1a1a1a, #333)",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow:
-              "0 4px 20px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1)",
-            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-            color: "white",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.08)";
-            e.currentTarget.style.boxShadow =
-              "0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.15)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow =
-              "0 4px 20px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1)";
-          }}
-        >
-          <RotateCcw size={20} />
-        </button>
-      )}
     </>
   );
 }

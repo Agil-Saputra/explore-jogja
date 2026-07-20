@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, Clock } from "lucide-react";
+import { MapPin, Clock, Calendar } from "lucide-react";
 import { useLocale } from "@/components/LocaleContext";
 import type { ContentfulEvent } from "@/lib/contentful";
 
@@ -10,7 +10,8 @@ interface EventsClientProps {
 }
 
 // ── Date helpers ──────────────────────────────────────────────────────────────
-function parseEventDate(isoDate: string) {
+function parseEventDate(isoDate: string | null) {
+  if (!isoDate) return { day: "", monthYear: "", weekday: "" };
   const d = new Date(isoDate);
   const day = d.getUTCDate().toString();
   const monthYear = d.toLocaleDateString("en-US", {
@@ -55,6 +56,7 @@ export default function EventsClient({ events }: EventsClientProps) {
     <section className="px-8 flex flex-col gap-5 mb-32">
       {events.map((event) => {
         const { day, monthYear, weekday } = parseEventDate(event.startDate);
+        const { day: endDay, monthYear: endMonthYear } = parseEventDate(event.endDate ?? null);
         const time = formatTimeRange(event.startDate, event.endDate);
         return (
           <EventCard
@@ -63,6 +65,8 @@ export default function EventsClient({ events }: EventsClientProps) {
             day={day}
             monthYear={monthYear}
             weekday={weekday}
+            endDay={endDay}
+            endMonthYear={endMonthYear}
             title={event.title}
             location={event.location}
             time={time}
@@ -80,6 +84,8 @@ function EventCard({
   monthYear,
   weekday,
   title,
+  endDay,
+  endMonthYear,
   location,
   time,
 }: {
@@ -88,6 +94,8 @@ function EventCard({
   monthYear: string;
   weekday: string;
   title: string;
+  endDay: string;
+  endMonthYear: string;
   location: string;
   time: string;
 }) {
@@ -120,6 +128,12 @@ function EventCard({
             <div className="bg-white rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm border border-black/5">
               <Clock size={14} className="text-black" />
               <span className="text-[13px] font-semibold text-black">{time}</span>
+            </div>
+            <div className="bg-white rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm border border-black/5">
+              <Calendar size={14} className="text-black" />
+              <span className="text-[13px] font-semibold text-black">{day} {monthYear}</span>
+              -
+              <span className="text-[13px] font-semibold text-black">{endDay} {endMonthYear}</span>
             </div>
           </div>
         </div>
